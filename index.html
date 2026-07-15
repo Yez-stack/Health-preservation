@@ -7,6 +7,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>养生笺</title>
+  <meta name="app-version" content="v36-control-height" />
+  <meta name="app-version" content="v35-subpage-filter" />
+  <meta name="app-version" content="v34-home-indicator" />
   <meta name="app-version" content="v33-fullscreen-fix" />
 
   <meta name="application-name" content="养生笺" />
@@ -2936,6 +2939,229 @@ svg{display:block}
   @supports not (height:100dvh){
     :root{
       --app-height:100vh;
+    }
+  }
+</style>
+
+
+<style id="yangsheng-iphone-home-indicator-fix-v34">
+  :root{
+    --iphone-bottom-safe:env(safe-area-inset-bottom,0px);
+    --bottom-nav-content-height:68px;
+    --bottom-nav-height:calc(
+      var(--bottom-nav-content-height) + var(--iphone-bottom-safe)
+    );
+  }
+
+  .bottom-nav{
+    height:var(--bottom-nav-height)!important;
+    padding:4px 10px var(--iphone-bottom-safe)!important;
+    box-sizing:border-box!important;
+    align-items:center!important;
+  }
+
+  .bottom-nav button{
+    height:60px!important;
+    min-height:60px!important;
+    padding:4px 2px!important;
+    grid-template-rows:28px 19px!important;
+    align-content:center!important;
+    gap:3px!important;
+  }
+
+  .page{
+    padding-bottom:calc(var(--bottom-nav-height) + 8px)!important;
+  }
+
+  .fab{
+    bottom:calc(var(--bottom-nav-height) + 10px)!important;
+  }
+
+  @supports(padding:max(0px)){
+    .bottom-nav{
+      padding-bottom:max(6px,var(--iphone-bottom-safe))!important;
+    }
+
+    :root{
+      --bottom-nav-height:calc(
+        var(--bottom-nav-content-height)
+        + max(6px,var(--iphone-bottom-safe))
+      );
+    }
+  }
+
+  @media(max-width:370px){
+    .bottom-nav{
+      padding-left:7px!important;
+      padding-right:7px!important;
+    }
+
+    .bottom-nav button{
+      height:58px!important;
+      min-height:58px!important;
+    }
+  }
+
+  @media(min-width:800px){
+    :root{
+      --iphone-bottom-safe:0px;
+      --bottom-nav-height:78px;
+    }
+
+    .bottom-nav{
+      height:78px!important;
+      padding-bottom:6px!important;
+    }
+
+    .fab{
+      bottom:90px!important;
+    }
+  }
+</style>
+
+
+<style id="yangsheng-subpage-and-filter-fix-v35">
+  /* 二级页面应覆盖首页底部导航和悬浮新增按钮 */
+  .subpage{
+    z-index:70 !important;
+  }
+
+  /* 弹层继续位于二级页面之上 */
+  .sheet-backdrop,
+  .modal-backdrop{
+    z-index:90 !important;
+  }
+
+  /* 试用记录筛选标签与首页分类标签保持一致 */
+  #trialFilters.filter-tabs{
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:10px !important;
+    padding-bottom:15px !important;
+  }
+
+  #trialFilters.filter-tabs button{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:44px !important;
+    padding:0 12px !important;
+    border:1px solid #E7E7E0 !important;
+    border-radius:16px !important;
+    background:#F7F7F3 !important;
+    color:#777D75 !important;
+    box-shadow:none !important;
+    font-size:14px !important;
+    font-weight:400 !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+  }
+
+  #trialFilters.filter-tabs button.active{
+    color:#5F7F48 !important;
+    border-color:#D4E1C9 !important;
+    background:#EAF1E3 !important;
+    box-shadow:0 2px 8px rgba(83,111,64,.08) !important;
+    font-weight:650 !important;
+  }
+
+  @media(max-width:370px){
+    #trialFilters.filter-tabs{
+      gap:7px !important;
+    }
+
+    #trialFilters.filter-tabs button{
+      padding:0 7px !important;
+      font-size:13px !important;
+    }
+  }
+</style>
+
+
+<style id="yangsheng-control-height-unify-v36">
+  /* 首页搜索框：52px */
+  .search-wrap{
+    min-height:52px !important;
+    height:52px !important;
+    border-radius:18px !important;
+  }
+
+  .search-wrap input{
+    height:100% !important;
+    min-height:0 !important;
+  }
+
+  /* 首页分类标签：统一 44px */
+  #homeChips .chip,
+  #favoriteChips .chip{
+    min-height:44px !important;
+    height:44px !important;
+    padding:0 14px !important;
+    border-radius:16px !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    line-height:1 !important;
+    font-size:14px !important;
+    font-weight:400 !important;
+  }
+
+  #homeChips .chip.active,
+  #favoriteChips .chip.active{
+    font-weight:650 !important;
+  }
+
+  /* 试用结果筛选标签：与首页标签完全一致，44px */
+  #trialFilters.filter-tabs{
+    gap:10px !important;
+  }
+
+  #trialFilters.filter-tabs button{
+    min-height:44px !important;
+    height:44px !important;
+    padding:0 12px !important;
+    border-radius:16px !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    line-height:1 !important;
+    font-size:14px !important;
+    font-weight:400 !important;
+  }
+
+  #trialFilters.filter-tabs button.active{
+    font-weight:650 !important;
+  }
+
+  /* 按时间 / 按方法：整体 56px */
+  .trial-mode-tabs{
+    min-height:56px !important;
+    height:56px !important;
+    padding:4px !important;
+    border-radius:18px !important;
+    box-sizing:border-box !important;
+  }
+
+  .trial-mode-tabs button{
+    min-height:48px !important;
+    height:48px !important;
+    border-radius:15px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    line-height:1 !important;
+    font-size:15px !important;
+    font-weight:400 !important;
+  }
+
+  .trial-mode-tabs button.active{
+    font-weight:650 !important;
+  }
+
+  @media(max-width:370px){
+    #homeChips .chip,
+    #favoriteChips .chip,
+    #trialFilters.filter-tabs button{
+      font-size:13px !important;
     }
   }
 </style>
