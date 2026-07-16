@@ -7,6 +7,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>养生笺</title>
+  <meta name="app-version" content="v53-admin-auto-community" />
+  <meta name="app-version" content="v52-standalone-real-viewport" />
   <meta name="app-version" content="v51-stable-subpage" />
   <meta name="app-version" content="v49-ios-login-cloud-sync" />
 
@@ -4583,6 +4585,156 @@ svg{display:block}
   }
 </style>
 
+
+<style id="yangsheng-standalone-real-viewport-v52">
+  /*
+   * iPhone Safari / 添加到主屏幕后：
+   * 主页面不再使用 JS 计算的 --app-height，
+   * 直接使用 fixed + inset:0 覆盖系统真实视口。
+   */
+  @media (max-width:799px){
+    html{
+      width:100% !important;
+      height:100% !important;
+      min-height:100% !important;
+      max-height:100% !important;
+      margin:0 !important;
+      padding:0 !important;
+      overflow:hidden !important;
+      background:var(--bg) !important;
+    }
+
+    body{
+      position:fixed !important;
+      inset:0 !important;
+      width:100% !important;
+      height:auto !important;
+      min-height:0 !important;
+      max-height:none !important;
+      margin:0 !important;
+      padding:0 !important;
+      overflow:hidden !important;
+      background:var(--bg) !important;
+    }
+
+    .app{
+      position:fixed !important;
+      inset:0 !important;
+      top:0 !important;
+      right:0 !important;
+      bottom:0 !important;
+      left:0 !important;
+      width:100% !important;
+      height:auto !important;
+      min-height:0 !important;
+      max-height:none !important;
+      margin:0 !important;
+      padding:0 !important;
+      transform:none !important;
+      overflow:hidden !important;
+      border-radius:0 !important;
+      box-shadow:none !important;
+      background:var(--bg) !important;
+    }
+
+    .page{
+      position:absolute !important;
+      inset:0 !important;
+      width:100% !important;
+      height:auto !important;
+      min-height:0 !important;
+      max-height:none !important;
+      margin:0 !important;
+      padding-bottom:calc(var(--bottom-nav-height) + 8px) !important;
+      overflow-x:hidden !important;
+      overflow-y:auto !important;
+      overscroll-behavior-y:none !important;
+      -webkit-overflow-scrolling:touch !important;
+    }
+
+    .page:not(.active){
+      display:none !important;
+    }
+
+    .page.active{
+      display:block !important;
+    }
+
+    .bottom-nav{
+      position:absolute !important;
+      left:0 !important;
+      right:0 !important;
+      bottom:0 !important;
+      width:100% !important;
+      height:var(--bottom-nav-height) !important;
+      margin:0 !important;
+      transform:none !important;
+    }
+
+    .fab{
+      position:absolute !important;
+      right:18px !important;
+      bottom:calc(var(--bottom-nav-height) + 10px) !important;
+    }
+
+    .subpage{
+      position:absolute !important;
+      inset:0 !important;
+      width:100% !important;
+      height:auto !important;
+      min-height:0 !important;
+      max-height:none !important;
+    }
+
+    .sheet-backdrop,
+    .modal-backdrop{
+      position:fixed !important;
+      inset:0 !important;
+      width:100% !important;
+      height:auto !important;
+      min-height:0 !important;
+      max-height:none !important;
+    }
+
+    .sheet{
+      max-height:calc(
+        100% - var(--safe-top) - var(--keyboard-inset) - 8px
+      ) !important;
+    }
+  }
+
+  @media (display-mode:standalone){
+    html,
+    body,
+    .app{
+      position:fixed !important;
+      inset:0 !important;
+      width:100% !important;
+      height:auto !important;
+      min-height:0 !important;
+      max-height:none !important;
+      overflow:hidden !important;
+      background:var(--bg) !important;
+    }
+
+    .bottom-nav{
+      bottom:0 !important;
+    }
+  }
+</style>
+
+
+<style id="yangsheng-admin-community-v53">
+  .admin-community-note{
+    margin-top:9px;
+    padding-top:9px;
+    border-top:1px solid #E2E8DC;
+    color:#668052;
+    font-size:12px;
+    line-height:1.55;
+  }
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -4963,6 +5115,7 @@ svg{display:block}
   let db;
 
   const FIREBASE_ADMIN_UID = '0NRRtCunLwbGJAUGDrbOrEn5fjS2';
+  const FIREBASE_ADMIN_EMAIL = 'sandmyo@163.com';
   const firebaseConfig = {
     apiKey:'AIzaSyDaAy_j4_i3y5FI7cnNR8rK7hd0dn8bS2Q',
     authDomain:'health-preservation-notes.firebaseapp.com',
@@ -4999,8 +5152,10 @@ svg{display:block}
     return firebaseModules;
   }
 
-  function isAdmin(){
-    return state.authUser?.uid===FIREBASE_ADMIN_UID;
+  function isAdmin(user=state.authUser){
+    if(!user) return false;
+    const email=String(user.email||'').trim().toLowerCase();
+    return user.uid===FIREBASE_ADMIN_UID || email===FIREBASE_ADMIN_EMAIL;
   }
 
   function cloudStoreName(store){
@@ -5278,6 +5433,42 @@ svg{display:block}
     return recovered;
   }
 
+  async function ensureAdminMethodsPublished(user=state.authUser,options={}){
+    if(!user || !isAdmin(user)){
+      return {published:0,failed:0};
+    }
+
+    const methods=await getAll(STORE_METHODS);
+    let published=0;
+    let failed=0;
+
+    for(const method of methods){
+      /*
+       * 明确手动隐藏的社区内容保持隐藏；
+       * 没有社区版本或原本为公开状态的内容，统一保证发布。
+       */
+      if(method.communityStatus==='hidden') continue;
+
+      try{
+        await autoPublishAdminMethod(method,{user});
+        published++;
+      }catch(error){
+        failed++;
+        console.error('管理员历史内容补发失败',method?.id,error);
+      }
+    }
+
+    if(published){
+      await reloadData();
+    }
+
+    if(failed && !options.silent){
+      showToast(`有 ${failed} 条内容未能发布到社区`,null);
+    }
+
+    return {published,failed};
+  }
+
   async function resyncCurrentAccount(options={}){
     if(!state.authUser) return;
     const silent=Boolean(options.silent);
@@ -5287,10 +5478,14 @@ svg{display:block}
       setSyncStatus('syncing');
       await migrateLocalToCloud(state.authUser,{importLocal:true});
       await recoverAdminMethodsFromCommunity(state.authUser);
+      const adminPublishResult=await ensureAdminMethodsPublished(state.authUser,{silent:true});
       cloudSyncActive=true;
       await startUserCloudListeners(state.authUser);
       setSyncStatus('synced');
-      if(!silent) showToast('云端数据已重新同步',null);
+      if(!silent){
+        const failed=adminPublishResult?.failed||0;
+        showToast(failed?'云同步完成，部分社区内容发布失败':'云端与社区内容已重新同步',null);
+      }
     }catch(error){
       console.error('重新同步失败',error);
       setSyncStatus('error');
@@ -5383,6 +5578,7 @@ svg{display:block}
       const accountState=await prepareLocalAccount(user);
       await migrateLocalToCloud(user,{importLocal:accountState.importLocal});
       await recoverAdminMethodsFromCommunity(user);
+      await ensureAdminMethodsPublished(user,{silent:true});
       cloudSyncActive=true;
       await startUserCloudListeners(user);
       await loadNotificationSeenAt();
@@ -5431,7 +5627,7 @@ svg{display:block}
           <div class="account-user-box">
             <strong>已登录</strong>
             <span>${esc(state.authUser.email||state.authUser.uid)}</span>
-            <div class="sync-state"><i class="sync-dot"></i>${esc(document.getElementById('accountStatusText')?.textContent||'已同步')}</div>
+            <div class="sync-state"><i class="sync-dot"></i>${esc(document.getElementById('accountStatusText')?.textContent||'已同步')}</div>${isAdmin()?`<div class="admin-community-note">管理账号新增或编辑的方法会自动公开到社区。</div>`:''}
           </div>
           <p class="sheet-sub">同一个账号登录其他设备后，方法、分类、收藏、结果和备注会同步显示。</p>
           <button class="secondary-btn" id="resyncAccount">重新同步云端数据</button>
@@ -7193,62 +7389,105 @@ svg{display:block}
     });
   }
 
-  async function autoPublishAdminMethod(method){
-    if(!method || !state.authUser || !isAdmin()) return method;
-
-    try{
-      const {firestoreApi}=await loadFirebase();
-      const communityId=method.communityId||uid('community');
-      let createdAt=nowISO();
-
-      if(method.communityId){
-        const oldSnap=await firestoreApi.getDoc(
-          firestoreApi.doc(cloudDb,'communityMethods',communityId)
-        );
-        if(oldSnap.exists()) createdAt=oldSnap.data().createdAt||createdAt;
-      }
-
-      await firestoreApi.setDoc(
-        firestoreApi.doc(cloudDb,'communityMethods',communityId),
-        {
-          ownerUid:state.authUser.uid,
-          sourceMethodId:method.id,
-          title:method.title,
-          category:categoryName(method.categoryId),
-          content:method.content||'',
-          anonymous:true,
-          authorName:'',
-          status:'published',
-          createdAt,
-          updatedAt:nowISO()
-        }
-      );
-
-      method.communityId=communityId;
-      method.communityStatus='published';
-      method.communityAnonymous=true;
-      method.updatedAt=nowISO();
-      await put(STORE_METHODS,method);
-      const idx=state.methods.findIndex(m=>m.id===method.id);
-      if(idx>=0) state.methods[idx]=method;
-    }catch(error){
-      console.error('管理员内容自动同步社区失败',error);
+  async function autoPublishAdminMethod(method,options={}){
+    const user=options.user||state.authUser;
+    if(!method || !user || !isAdmin(user)){
+      return {ok:false,skipped:true,method};
     }
 
-    return method;
+    const {firestoreApi}=await loadFirebase();
+    const communityId=method.communityId||`admin_${method.id}`;
+    let createdAt=method.createdAt||nowISO();
+
+    if(method.communityId){
+      const oldSnap=await firestoreApi.getDoc(
+        firestoreApi.doc(cloudDb,'communityMethods',communityId)
+      );
+      if(oldSnap.exists()){
+        createdAt=oldSnap.data().createdAt||createdAt;
+      }
+    }
+
+    const updatedAt=nowISO();
+    const communityData={
+      ownerUid:user.uid,
+      sourceMethodId:method.id,
+      title:String(method.title||'').trim(),
+      category:categoryName(method.categoryId)||'其他',
+      content:String(method.content||''),
+      anonymous:true,
+      authorName:'',
+      status:'published',
+      createdAt,
+      updatedAt
+    };
+
+    if(!communityData.title){
+      throw new Error('community-title-empty');
+    }
+
+    await firestoreApi.setDoc(
+      firestoreApi.doc(cloudDb,'communityMethods',communityId),
+      communityData
+    );
+
+    method.communityId=communityId;
+    method.communityStatus='published';
+    method.communityAnonymous=true;
+    method.updatedAt=updatedAt;
+
+    applyingRemote=true;
+    try{
+      await localPut(STORE_METHODS,method);
+      await firestoreApi.setDoc(
+        firestoreApi.doc(cloudDb,'users',user.uid,'methods',method.id),
+        cleanCloudValue(STORE_METHODS,method)
+      );
+    }finally{
+      applyingRemote=false;
+    }
+
+    const idx=state.methods.findIndex(item=>item.id===method.id);
+    if(idx>=0) state.methods[idx]={...method};
+    else state.methods.push({...method});
+
+    const communityItem={
+      id:communityId,
+      ...communityData
+    };
+    const communityIndex=state.community.methods.findIndex(item=>item.id===communityId);
+    if(communityIndex>=0){
+      state.community.methods[communityIndex]=communityItem;
+    }else{
+      state.community.methods.unshift(communityItem);
+    }
+
+    if(state.homeScope==='community'){
+      renderCommunityHome();
+    }
+
+    return {ok:true,method,communityId};
   }
 
   async function saveMethod(e){
     if(e) e.preventDefault();
+
     const id=document.getElementById('methodId').value;
     const title=document.getElementById('methodTitle').value.trim();
     const content=document.getElementById('methodContent').value.trim();
     const categoryId=document.getElementById('methodCategory').value;
-    if(!title){ showToast('请填写标题',null); return; }
+
+    if(!title){
+      showToast('请填写标题',null);
+      return;
+    }
+
     const old=id?methodById(id):null;
     const item={
       id:id||uid('method'),
-      title,content,categoryId,
+      title,
+      content,
+      categoryId,
       images:[...state.formImages],
       favorite:old?.favorite||false,
       trialStatus:old?.trialStatus||null,
@@ -7259,17 +7498,36 @@ svg{display:block}
       communityStatus:old?.communityStatus||null,
       communityAnonymous:old?.communityAnonymous??true
     };
+
     await put(STORE_METHODS,item);
-    const idx=state.methods.findIndex(m=>m.id===item.id);
-    if(idx>=0) state.methods[idx]=item; else state.methods.push(item);
+
+    const idx=state.methods.findIndex(method=>method.id===item.id);
+    if(idx>=0) state.methods[idx]=item;
+    else state.methods.push(item);
+
+    let adminPublished=false;
+    let adminPublishFailed=false;
 
     if(state.authUser && isAdmin()){
-      await autoPublishAdminMethod(item);
+      try{
+        const result=await autoPublishAdminMethod(item);
+        adminPublished=Boolean(result?.ok);
+      }catch(error){
+        adminPublishFailed=true;
+        console.error('管理员内容自动发布失败',error);
+      }
     }
 
     closeSubById('sub-method-form');
     renderAll();
-    showToast(old?(isAdmin()?'已保存并同步到社区':'已保存修改'):(isAdmin()?'已添加并同步到社区':'已添加方法'),null);
+
+    if(adminPublishFailed){
+      showToast('已保存个人记录，但社区发布失败',null);
+    }else if(adminPublished){
+      showToast(old?'已保存并更新到社区':'已添加并发布到社区',null);
+    }else{
+      showToast(old?'已保存修改':'已添加方法',null);
+    }
   }
 
   async function toggleFavorite(id){
@@ -8077,6 +8335,60 @@ svg{display:block}
   });
   document.addEventListener('visibilitychange',function(){
     if(!document.hidden) normalizeSubpages();
+  });
+})();
+</script>
+
+
+<script id="yangsheng-standalone-layout-refresh-v52">
+(function(){
+  function refreshStandaloneLayout(){
+    var app=document.querySelector('.app');
+    if(app){
+      app.style.removeProperty('height');
+      app.style.removeProperty('min-height');
+      app.style.removeProperty('max-height');
+    }
+
+    document.documentElement.style.setProperty(
+      '--standalone-layout-tick',
+      String(Date.now())
+    );
+
+    if(typeof window.__ysjRefreshViewport==='function'){
+      window.__ysjRefreshViewport(true);
+    }
+  }
+
+  window.addEventListener('pageshow',function(){
+    requestAnimationFrame(refreshStandaloneLayout);
+    setTimeout(refreshStandaloneLayout,120);
+  });
+
+  window.addEventListener('orientationchange',function(){
+    setTimeout(refreshStandaloneLayout,120);
+    setTimeout(refreshStandaloneLayout,420);
+  });
+
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden) setTimeout(refreshStandaloneLayout,80);
+  });
+
+  document.addEventListener('DOMContentLoaded',function(){
+    refreshStandaloneLayout();
+
+    var backdrop=document.getElementById('sheetBackdrop');
+    if(backdrop){
+      new MutationObserver(function(){
+        if(!backdrop.classList.contains('show')){
+          setTimeout(refreshStandaloneLayout,120);
+          setTimeout(refreshStandaloneLayout,320);
+        }
+      }).observe(backdrop,{
+        attributes:true,
+        attributeFilter:['class']
+      });
+    }
   });
 })();
 </script>
