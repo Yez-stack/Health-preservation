@@ -7,20 +7,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>养生笺</title>
-  <meta name="app-version" content="v48-detail-favorite-layout" />
-  <meta name="app-version" content="v47-comment-image-plus" />
-  <meta name="app-version" content="v46-result-toast-removed" />
-  <meta name="app-version" content="v45-comment-spacing" />
-  <meta name="app-version" content="v44-replies-notifications" />
-  <meta name="app-version" content="v43-community-detail-refined" />
-  <meta name="app-version" content="v40-floating-comment" />
-  <meta name="app-version" content="v39-account-center" />
-  <meta name="app-version" content="v38-toast-account-align" />
-  <meta name="app-version" content="v37-firebase-community" />
-  <meta name="app-version" content="v36-control-height" />
-  <meta name="app-version" content="v35-subpage-filter" />
-  <meta name="app-version" content="v34-home-indicator" />
-  <meta name="app-version" content="v33-fullscreen-fix" />
+  <meta name="app-version" content="v50-single-subpage" />
+  <meta name="app-version" content="v49-ios-login-cloud-sync" />
 
   <meta name="application-name" content="养生笺" />
   <meta name="apple-mobile-web-app-title" content="养生笺" />
@@ -2621,90 +2609,96 @@ svg{display:block}
 </style>
 
 
-<script id="yangsheng-viewport-height-fix-v33">
+<script id="yangsheng-viewport-keyboard-fix-v49">
 (function(){
-  function isStandalone(){
-    return window.matchMedia('(display-mode: standalone)').matches
-      || window.navigator.standalone === true;
+  var root=document.documentElement;
+  var stableHeight=0;
+  var keyboardOpen=false;
+  var refreshTimer=0;
+
+  function px(value){ return Math.max(0,Math.round(Number(value)||0))+'px'; }
+  function editable(el){
+    return !!el && (el.matches?.('input,textarea,select,[contenteditable="true"]'));
   }
-
-  function getScreenHeight(){
-    var portrait = window.matchMedia('(orientation: portrait)').matches;
-    var screenWidth = Number(window.screen && window.screen.width) || 0;
-    var screenHeight = Number(window.screen && window.screen.height) || 0;
-
-    if(!screenWidth || !screenHeight) return 0;
-
-    return portrait
-      ? Math.max(screenWidth, screenHeight)
-      : Math.min(screenWidth, screenHeight);
-  }
-
-  function syncViewportHeight(){
-    var innerHeight = Number(window.innerHeight) || 0;
-    var clientHeight = Number(document.documentElement.clientHeight) || 0;
-    var viewport = window.visualViewport;
-    var visualHeight = viewport
-      ? Number(viewport.height || 0) + Number(viewport.offsetTop || 0)
-      : 0;
-
-    var height;
-
-    if(isStandalone()){
-      /*
-       * iPhone 主屏幕 Web App 中 visualViewport.height 会扣掉
-       * 顶部状态栏和底部安全区，不能直接作为整个 App 高度。
-       */
-      height = Math.max(
-        getScreenHeight(),
-        innerHeight,
-        clientHeight,
-        visualHeight
-      );
-    }else{
-      /* 普通 Safari 只使用当前真正可见的页面高度 */
-      height = Math.max(
-        innerHeight,
-        clientHeight,
-        visualHeight
-      );
-    }
-
-    if(height > 0){
-      document.documentElement.style.setProperty(
-        '--app-height',
-        Math.round(height) + 'px'
-      );
-    }
-  }
-
-  syncViewportHeight();
-
-  window.addEventListener('resize', syncViewportHeight, {passive:true});
-
-  window.addEventListener('orientationchange', function(){
-    setTimeout(syncViewportHeight, 80);
-    setTimeout(syncViewportHeight, 300);
-  }, {passive:true});
-
-  if(window.visualViewport){
-    window.visualViewport.addEventListener(
-      'resize',
-      syncViewportHeight,
-      {passive:true}
+  function currentBaseHeight(){
+    return Math.max(
+      Number(window.innerHeight)||0,
+      Number(document.documentElement.clientHeight)||0,
+      Number(document.body?.clientHeight)||0
     );
   }
+  function updateViewport(forceStable){
+    var vv=window.visualViewport;
+    var visibleHeight=vv ? Number(vv.height)||0 : currentBaseHeight();
+    var offsetTop=vv ? Number(vv.offsetTop)||0 : 0;
+    var base=currentBaseHeight();
+    var active=editable(document.activeElement);
 
-  document.addEventListener('visibilitychange', function(){
-    if(!document.hidden){
-      setTimeout(syncViewportHeight, 60);
-      setTimeout(syncViewportHeight, 260);
+    if(!stableHeight) stableHeight=base||visibleHeight||window.screen?.height||800;
+
+    var possibleInset=Math.max(0,stableHeight-(visibleHeight+offsetTop));
+    keyboardOpen=active && possibleInset>110;
+
+    if(forceStable || !keyboardOpen){
+      if(base>0) stableHeight=base;
+      possibleInset=0;
+    }
+
+    var keyboardInset=keyboardOpen ? Math.max(0,stableHeight-(visibleHeight+offsetTop)) : 0;
+    root.style.setProperty('--app-height',px(stableHeight));
+    root.style.setProperty('--visual-height',px(visibleHeight||stableHeight));
+    root.style.setProperty('--keyboard-inset',px(keyboardInset));
+    root.style.setProperty('--visual-offset-top',px(offsetTop));
+    root.style.setProperty('--toast-offset',keyboardOpen?px(keyboardInset):'var(--bottom-nav-height)');
+    document.body?.classList.toggle('keyboard-open',keyboardOpen);
+  }
+
+  function schedule(forceStable,delay){
+    clearTimeout(refreshTimer);
+    refreshTimer=setTimeout(function(){updateViewport(!!forceStable);},delay||0);
+  }
+
+  window.__ysjRefreshViewport=function(forceStable){
+    updateViewport(!!forceStable);
+    schedule(!!forceStable,80);
+    schedule(!!forceStable,260);
+  };
+
+  document.addEventListener('focusin',function(e){
+    if(editable(e.target)) schedule(false,40);
+  },true);
+  document.addEventListener('focusout',function(){ schedule(true,180); },true);
+  window.addEventListener('resize',function(){schedule(false,30);},{passive:true});
+  window.addEventListener('orientationchange',function(){
+    schedule(true,120);
+    schedule(true,420);
+  },{passive:true});
+  window.addEventListener('pageshow',function(){schedule(true,40);},{passive:true});
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden) schedule(true,60);
+  });
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',function(){schedule(false,20);},{passive:true});
+    window.visualViewport.addEventListener('scroll',function(){schedule(false,20);},{passive:true});
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    updateViewport(true);
+    var backdrop=document.getElementById('sheetBackdrop');
+    if(backdrop){
+      new MutationObserver(function(){
+        var shown=backdrop.classList.contains('show');
+        document.body.classList.toggle('sheet-open',shown);
+        if(!shown){
+          if(editable(document.activeElement)) document.activeElement.blur();
+          schedule(true,100);
+          schedule(true,320);
+        }else{
+          schedule(false,20);
+        }
+      }).observe(backdrop,{attributes:true,attributeFilter:['class']});
     }
   });
-
-  window.addEventListener('pageshow', function(){
-    setTimeout(syncViewportHeight, 30);
-  }, {passive:true});
 })();
 </script>
 
@@ -4352,6 +4346,239 @@ svg{display:block}
   }
 </style>
 
+
+<style id="yangsheng-ios-login-layout-fix-v49">
+  :root{
+    --visual-height:var(--app-height);
+    --keyboard-inset:0px;
+    --visual-offset-top:0px;
+    --toast-offset:var(--bottom-nav-height);
+  }
+
+  html,
+  body{
+    width:100%!important;
+    height:var(--app-height)!important;
+    min-height:var(--app-height)!important;
+    max-height:var(--app-height)!important;
+    overflow:hidden!important;
+    margin:0!important;
+    padding:0!important;
+    background:var(--bg)!important;
+  }
+
+  body{
+    position:fixed!important;
+    inset:0!important;
+  }
+
+  .app{
+    position:fixed!important;
+    top:0!important;
+    bottom:auto!important;
+    left:50%!important;
+    right:auto!important;
+    width:min(100%,480px)!important;
+    height:var(--app-height)!important;
+    min-height:var(--app-height)!important;
+    max-height:var(--app-height)!important;
+    margin:0!important;
+    transform:translateX(-50%)!important;
+    overflow:hidden!important;
+  }
+
+  .page,
+  .subpage{
+    height:var(--app-height)!important;
+    min-height:0!important;
+    max-height:var(--app-height)!important;
+  }
+
+  .bottom-nav{
+    position:absolute!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    width:100%!important;
+    transform:none!important;
+  }
+
+  .sheet-backdrop,
+  .modal-backdrop{
+    position:fixed!important;
+    inset:0!important;
+    width:100%!important;
+    height:var(--app-height)!important;
+    min-height:var(--app-height)!important;
+    max-height:var(--app-height)!important;
+  }
+
+  .sheet{
+    position:fixed!important;
+    left:50%!important;
+    right:auto!important;
+    bottom:var(--keyboard-inset)!important;
+    width:min(100%,480px)!important;
+    max-width:100%!important;
+    max-height:calc(var(--visual-height) - var(--safe-top) - 8px)!important;
+    transform:translateX(-50%)!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    padding:
+      12px
+      max(18px,var(--safe-right))
+      calc(18px + env(safe-area-inset-bottom,0px))
+      max(18px,var(--safe-left))!important;
+    box-sizing:border-box!important;
+  }
+
+  body.keyboard-open .sheet{
+    padding-bottom:18px!important;
+  }
+
+  body.sheet-open .page,
+  body.sheet-open .subpage,
+  body.sheet-open .bottom-nav,
+  body.sheet-open .fab{
+    pointer-events:none!important;
+  }
+
+  .toast{
+    position:fixed!important;
+    z-index:180!important;
+    left:50%!important;
+    right:auto!important;
+    bottom:calc(var(--toast-offset) + 12px)!important;
+    width:auto!important;
+    min-width:min(250px,calc(100vw - 32px))!important;
+    max-width:min(420px,calc(100vw - 32px))!important;
+    min-height:52px!important;
+    padding:10px 16px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    box-sizing:border-box!important;
+    transform:translate(-50%,18px)!important;
+    text-align:center!important;
+  }
+
+  .toast.show{
+    transform:translate(-50%,0)!important;
+  }
+
+  #toastText{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+    text-align:center!important;
+    line-height:1.5!important;
+    white-space:normal!important;
+    overflow-wrap:anywhere!important;
+  }
+
+  .toast.has-action{
+    padding-left:64px!important;
+    padding-right:64px!important;
+  }
+
+  .toast.has-action #toastText{
+    padding:0!important;
+    text-align:center!important;
+  }
+
+  #toastAction{
+    position:absolute!important;
+    top:50%!important;
+    right:10px!important;
+    left:auto!important;
+    margin:0!important;
+    transform:translateY(-50%)!important;
+  }
+
+  @media(display-mode:standalone){
+    html,body,.app,.page,.subpage{
+      height:var(--app-height)!important;
+      min-height:var(--app-height)!important;
+      max-height:var(--app-height)!important;
+    }
+  }
+</style>
+
+
+<style id="yangsheng-subpage-single-screen-fix-v50">
+  /*
+   * 二级页面固定在 App 容器内部。
+   * 避免 position:fixed 与 iPhone 动态视口组合后横向偏移，
+   * 从而同时露出“我的”和“备份与恢复”两个页面。
+   */
+  .app{
+    isolation:isolate !important;
+  }
+
+  .subpage{
+    position:absolute !important;
+    inset:0 !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    left:0 !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:100% !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    transform:translate3d(100%,0,0) !important;
+    z-index:70 !important;
+  }
+
+  .subpage.open{
+    visibility:visible !important;
+    opacity:1 !important;
+    pointer-events:auto !important;
+  }
+
+  /*
+   * 非滑动状态必须严格归零。
+   * 即使之前的左滑手势留下了 --swipe-back-x，也不会再次造成半屏显示。
+   */
+  .subpage.open:not(.swiping-back){
+    --swipe-back-x:0px !important;
+    transform:translate3d(0,0,0) !important;
+  }
+
+  .subpage.open.swiping-back{
+    transform:translate3d(var(--swipe-back-x,0px),0,0) !important;
+    transition:none !important;
+  }
+
+  body.subpage-open .bottom-nav,
+  body.subpage-open .fab{
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+
+  body.subpage-open .page{
+    pointer-events:none !important;
+  }
+
+  @media(min-width:800px){
+    .subpage{
+      border-radius:inherit !important;
+    }
+  }
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -4874,22 +5101,63 @@ svg{display:block}
     return String(item?.updatedAt||item?.createdAt||'');
   }
 
-  async function mergeLocalCollectionToCloud(store,items,user){
+  async function mergeLocalCollectionToCloud(store,items,user,options={}){
     const {firestoreApi}=await loadFirebase();
     const collectionName=cloudStoreName(store);
     const ref=firestoreApi.collection(cloudDb,'users',user.uid,collectionName);
     const remoteSnap=await firestoreApi.getDocs(ref);
-    const remote=new Map(remoteSnap.docs.map(d=>[d.id,d.data()]));
+    const remoteItems=remoteSnap.docs.map(d=>({id:d.id,...d.data()}));
+    const remoteMap=new Map(remoteItems.map(item=>[item.id,item]));
+    const localMap=new Map((items||[]).map(item=>[item.id,item]));
+    const importLocal=Boolean(options.importLocal);
 
-    for(const item of items){
-      const existing=remote.get(item.id);
-      if(!existing || cloudDateValue(item)>=cloudDateValue(existing)){
-        await firestoreApi.setDoc(
-          firestoreApi.doc(cloudDb,'users',user.uid,collectionName,item.id),
-          cleanCloudValue(store,item)
-        );
+    applyingRemote=true;
+    try{
+      for(const remote of remoteItems){
+        const local=localMap.get(remote.id);
+        if(!local){
+          if(store===STORE_METHODS) remote.images=[];
+          await localPut(store,remote);
+          continue;
+        }
+
+        if(store===STORE_CATEGORIES){
+          await localPut(store,{...remote});
+          continue;
+        }
+
+        const localTime=cloudDateValue(local);
+        const remoteTime=cloudDateValue(remote);
+        if(localTime && remoteTime && localTime>remoteTime){
+          await firestoreApi.setDoc(
+            firestoreApi.doc(cloudDb,'users',user.uid,collectionName,local.id),
+            cleanCloudValue(store,local)
+          );
+        }else{
+          const merged={...remote};
+          if(store===STORE_METHODS){
+            merged.images=Array.isArray(local.images)?local.images:[];
+          }
+          await localPut(store,merged);
+        }
       }
+
+      for(const local of (items||[])){
+        if(remoteMap.has(local.id)) continue;
+        if(importLocal){
+          await firestoreApi.setDoc(
+            firestoreApi.doc(cloudDb,'users',user.uid,collectionName,local.id),
+            cleanCloudValue(store,local)
+          );
+        }else{
+          await localDelete(store,local.id);
+        }
+      }
+    }finally{
+      applyingRemote=false;
     }
+
+    return {remoteCount:remoteItems.length};
   }
 
   async function seedDefaultCategoriesLocal(){
@@ -4908,22 +5176,33 @@ svg{display:block}
 
     if(currentOwner!=='guest' && currentOwner!==user.uid){
       applyingRemote=true;
-      await localClear(STORE_METHODS);
-      await localClear(STORE_NOTES);
-      await localClear(STORE_CATEGORIES);
-      await seedDefaultCategoriesLocal();
-      applyingRemote=false;
+      try{
+        await localClear(STORE_METHODS);
+        await localClear(STORE_NOTES);
+        await localClear(STORE_CATEGORIES);
+        await seedDefaultCategoriesLocal();
+      }finally{
+        applyingRemote=false;
+      }
       await reloadData();
     }
 
-    localStorage.setItem(ownerKey,user.uid);
+    return {
+      previousOwner:currentOwner,
+      importLocal:currentOwner==='guest'
+    };
   }
 
-  async function migrateLocalToCloud(user){
+  async function migrateLocalToCloud(user,options={}){
     setSyncStatus('syncing');
-    await mergeLocalCollectionToCloud(STORE_CATEGORIES,state.categories,user);
-    await mergeLocalCollectionToCloud(STORE_METHODS,state.methods,user);
-    await mergeLocalCollectionToCloud(STORE_NOTES,state.notes,user);
+    const importLocal=Boolean(options.importLocal);
+
+    await mergeLocalCollectionToCloud(STORE_CATEGORIES,await getAll(STORE_CATEGORIES),user,{importLocal});
+    await mergeLocalCollectionToCloud(STORE_METHODS,await getAll(STORE_METHODS),user,{importLocal});
+    await mergeLocalCollectionToCloud(STORE_NOTES,await getAll(STORE_NOTES),user,{importLocal});
+
+    localStorage.setItem('ysj-local-owner-v1',user.uid);
+    await reloadData();
 
     const {firestoreApi}=await loadFirebase();
     await firestoreApi.setDoc(
@@ -4931,10 +5210,88 @@ svg{display:block}
       {
         email:user.email||'',
         lastLoginAt:nowISO(),
-        migrationVersion:1
+        migrationVersion:2
       },
       {merge:true}
     );
+  }
+
+  async function recoverAdminMethodsFromCommunity(user){
+    if(!user || user.uid!==FIREBASE_ADMIN_UID) return 0;
+
+    const {firestoreApi}=await loadFirebase();
+    const queryRef=firestoreApi.query(
+      firestoreApi.collection(cloudDb,'communityMethods'),
+      firestoreApi.where('ownerUid','==',user.uid),
+      firestoreApi.limit(200)
+    );
+    const snap=await firestoreApi.getDocs(queryRef);
+    if(snap.empty) return 0;
+
+    const existing=await getAll(STORE_METHODS);
+    const knownIds=new Set(existing.map(item=>item.id));
+    const knownCommunityIds=new Set(existing.map(item=>item.communityId).filter(Boolean));
+    let recovered=0;
+
+    applyingRemote=true;
+    try{
+      for(const docSnap of snap.docs){
+        const data=docSnap.data();
+        const methodId=data.sourceMethodId||`method-${docSnap.id}`;
+        if(knownIds.has(methodId)||knownCommunityIds.has(docSnap.id)) continue;
+
+        const category=state.categories.find(c=>c.name===data.category);
+        const item={
+          id:methodId,
+          title:data.title||'未命名方法',
+          content:data.content||'',
+          categoryId:category?.id||'cat-other',
+          images:[],
+          favorite:false,
+          trialStatus:null,
+          createdAt:data.createdAt||nowISO(),
+          updatedAt:data.updatedAt||data.createdAt||nowISO(),
+          lastTriedAt:null,
+          communityId:docSnap.id,
+          communityStatus:data.status||'published',
+          communityAnonymous:data.anonymous!==false
+        };
+
+        await localPut(STORE_METHODS,item);
+        await firestoreApi.setDoc(
+          firestoreApi.doc(cloudDb,'users',user.uid,'methods',item.id),
+          cleanCloudValue(STORE_METHODS,item)
+        );
+        knownIds.add(item.id);
+        knownCommunityIds.add(docSnap.id);
+        recovered++;
+      }
+    }finally{
+      applyingRemote=false;
+    }
+
+    if(recovered) await reloadData();
+    return recovered;
+  }
+
+  async function resyncCurrentAccount(options={}){
+    if(!state.authUser) return;
+    const silent=Boolean(options.silent);
+    try{
+      stopUserCloudListeners();
+      cloudSyncActive=false;
+      setSyncStatus('syncing');
+      await migrateLocalToCloud(state.authUser,{importLocal:true});
+      await recoverAdminMethodsFromCommunity(state.authUser);
+      cloudSyncActive=true;
+      await startUserCloudListeners(state.authUser);
+      setSyncStatus('synced');
+      if(!silent) showToast('云端数据已重新同步',null);
+    }catch(error){
+      console.error('重新同步失败',error);
+      setSyncStatus('error');
+      if(!silent) showToast('重新同步失败，请检查网络',null);
+    }
   }
 
   function scheduleCloudReload(){
@@ -4954,9 +5311,7 @@ svg{display:block}
       const localById=new Map(localItems.map(x=>[x.id,x]));
 
       for(const local of localItems){
-        if(!remoteIds.has(local.id)){
-          await localDelete(store,local.id);
-        }
+        if(!remoteIds.has(local.id)) await localDelete(store,local.id);
       }
 
       for(const remote of remoteDocs){
@@ -5015,22 +5370,27 @@ svg{display:block}
       setSyncStatus('local');
       renderNotificationStatus();
       renderNotifications();
+      window.__ysjRefreshViewport?.(true);
       return;
     }
 
     try{
       setSyncStatus('connecting');
-      await prepareLocalAccount(user);
-      await migrateLocalToCloud(user);
+      const accountState=await prepareLocalAccount(user);
+      await migrateLocalToCloud(user,{importLocal:accountState.importLocal});
+      await recoverAdminMethodsFromCommunity(user);
       cloudSyncActive=true;
       await startUserCloudListeners(user);
       await loadNotificationSeenAt();
       setSyncStatus('synced');
       refreshNotifications({silent:true});
+      renderAll();
+      window.__ysjRefreshViewport?.(true);
     }catch(error){
       console.error('Firebase 初始化失败',error);
       setSyncStatus('error');
       showToast('云同步连接失败，本地记录仍可使用',null);
+      window.__ysjRefreshViewport?.(true);
     }
   }
 
@@ -5070,6 +5430,7 @@ svg{display:block}
             <div class="sync-state"><i class="sync-dot"></i>${esc(document.getElementById('accountStatusText')?.textContent||'已同步')}</div>
           </div>
           <p class="sheet-sub">同一个账号登录其他设备后，方法、分类、收藏、结果和备注会同步显示。</p>
+          <button class="secondary-btn" id="resyncAccount">重新同步云端数据</button>
           <button class="secondary-btn" id="logoutAccount">退出登录</button>
           <button class="secondary-btn" id="cancelSheet">关闭</button>
         </div>`;
@@ -5079,7 +5440,7 @@ svg{display:block}
         <h3>登录养生笺</h3>
         <div class="sheet-sub">登录后同步个人文字记录，并可发布、评价和评论社区方法。</div>
         <div class="account-card">
-          <input id="accountEmail" type="email" autocomplete="email" placeholder="邮箱">
+          <input id="accountEmail" type="email" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="邮箱">
           <input id="accountPassword" type="password" autocomplete="current-password" placeholder="密码（至少 6 位）">
           <div class="account-actions">
             <button class="primary-btn" id="loginAccount">登录</button>
@@ -5091,6 +5452,7 @@ svg{display:block}
     }
 
     document.getElementById('sheetBackdrop').classList.add('show');
+    window.__ysjRefreshViewport?.(false);
   }
 
   async function loginAccount(mode){
@@ -5101,18 +5463,32 @@ svg{display:block}
       return;
     }
 
+    const buttons=[
+      document.getElementById('loginAccount'),
+      document.getElementById('registerAccount')
+    ].filter(Boolean);
+    buttons.forEach(button=>button.disabled=true);
+
+    if(document.activeElement?.matches?.('input,textarea,select')){
+      document.activeElement.blur();
+    }
+    window.__ysjRefreshViewport?.(true);
+
     try{
       const {authApi}=await loadFirebase();
       if(mode==='register'){
         await authApi.createUserWithEmailAndPassword(cloudAuth,email,password);
+        closeSheet();
         showToast('注册成功，正在同步',null);
       }else{
         await authApi.signInWithEmailAndPassword(cloudAuth,email,password);
+        closeSheet();
         showToast('登录成功，正在同步',null);
       }
-      closeSheet();
     }catch(error){
+      buttons.forEach(button=>button.disabled=false);
       showToast(authErrorText(error),null);
+      window.__ysjRefreshViewport?.(true);
     }
   }
 
@@ -6608,16 +6984,37 @@ svg{display:block}
   const subpageHistory=[];
   let subpageOpenSeq=0;
 
+  function syncSubpageOpenState(){
+    const hasOpen=Boolean(document.querySelector('.subpage.open'));
+    document.body.classList.toggle('subpage-open',hasOpen);
+  }
+
   function openSub(id){
     const sub=document.getElementById(id);
     if(!sub) return;
 
+    /*
+     * 每次打开前清掉上一次左滑返回留下的位移，
+     * 保证二级页面始终从完整覆盖状态开始。
+     */
+    sub.classList.remove('swiping-back');
+    sub.style.removeProperty('--swipe-back-x');
+
     sub.classList.add('open');
     sub.dataset.openSeq=String(++subpageOpenSeq);
+    sub.style.zIndex=String(70+subpageOpenSeq);
 
     const oldIndex=subpageHistory.indexOf(id);
     if(oldIndex>=0) subpageHistory.splice(oldIndex,1);
     subpageHistory.push(id);
+
+    syncSubpageOpenState();
+
+    requestAnimationFrame(()=>{
+      sub.scrollTop=0;
+      const scrollRegion=sub.querySelector(':scope > .content, :scope > .form, :scope > .detail-wrap');
+      if(scrollRegion) scrollRegion.scrollTop=0;
+    });
   }
 
   function closeSubById(id){
@@ -6626,9 +7023,12 @@ svg{display:block}
 
     sub.classList.remove('open','swiping-back');
     sub.style.removeProperty('--swipe-back-x');
+    sub.style.removeProperty('z-index');
 
     const index=subpageHistory.lastIndexOf(id);
     if(index>=0) subpageHistory.splice(index,1);
+
+    syncSubpageOpenState();
   }
 
   function closeSub(el){
@@ -7040,8 +7440,12 @@ svg{display:block}
   }
 
   function closeSheet(){
+    if(document.activeElement?.matches?.('input,textarea,select,[contenteditable="true"]')){
+      document.activeElement.blur();
+    }
     document.getElementById('sheetBackdrop').classList.remove('show');
     state.community.commentImage=null;
+    window.__ysjRefreshViewport?.(true);
   }
 
   function renderDetail(id){
@@ -7339,14 +7743,21 @@ svg{display:block}
 
   function showToast(text,undoFn){
     clearTimeout(state.toastTimer);
-    document.getElementById('toastText').textContent=text;
-    const action=document.getElementById('toastAction');
-    action.classList.toggle('hidden',!undoFn);
-    state.undo=undoFn||null;
     const toast=document.getElementById('toast');
+    const textEl=document.getElementById('toastText');
+    const action=document.getElementById('toastAction');
+
+    textEl.textContent=text;
+    action.classList.toggle('hidden',!undoFn);
     toast.classList.toggle('has-action',Boolean(undoFn));
+    state.undo=undoFn||null;
     toast.classList.add('show');
-    state.toastTimer=setTimeout(()=>{toast.classList.remove('show');state.undo=null;},4000);
+
+    state.toastTimer=setTimeout(()=>{
+      toast.classList.remove('show','has-action');
+      action.classList.add('hidden');
+      state.undo=null;
+    },4000);
   }
 
   function openCategoryModal(mode='add',cat=null){
@@ -7517,6 +7928,7 @@ svg{display:block}
       if(e.target.closest('#loginAccount')){await loginAccount('login');return;}
       if(e.target.closest('#registerAccount')){await loginAccount('register');return;}
       if(e.target.closest('#resetAccountPassword')){await resetAccountPassword();return;}
+      if(e.target.closest('#resyncAccount')){await resyncCurrentAccount();return;}
       if(e.target.closest('#logoutAccount')){await logoutAccount();return;}
 
       const publishCommunityButton=e.target.closest('[data-publish-community],[data-update-community]');
@@ -7662,5 +8074,29 @@ svg{display:block}
   });
 })();
 </script>
+
+<script id="yangsheng-subpage-state-cleanup-v50">
+(function(){
+  function cleanupInterruptedSwipe(){
+    document.querySelectorAll('.subpage.swiping-back').forEach(function(sub){
+      sub.classList.remove('swiping-back');
+      sub.style.removeProperty('--swipe-back-x');
+    });
+
+    if(typeof syncSubpageOpenState==='function'){
+      syncSubpageOpenState();
+    }
+  }
+
+  window.addEventListener('pageshow',cleanupInterruptedSwipe);
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden) cleanupInterruptedSwipe();
+  });
+  window.addEventListener('orientationchange',function(){
+    setTimeout(cleanupInterruptedSwipe,80);
+  });
+})();
+</script>
+
 </body>
 </html>
