@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>养生笺</title>
-  <meta name="app-version" content="v50-single-subpage" />
+  <meta name="app-version" content="v51-stable-subpage" />
   <meta name="app-version" content="v49-ios-login-cloud-sync" />
 
   <meta name="application-name" content="养生笺" />
@@ -4509,11 +4509,10 @@ svg{display:block}
 </style>
 
 
-<style id="yangsheng-subpage-single-screen-fix-v50">
+<style id="yangsheng-subpage-stable-overlay-v51">
   /*
-   * 二级页面固定在 App 容器内部。
-   * 避免 position:fixed 与 iPhone 动态视口组合后横向偏移，
-   * 从而同时露出“我的”和“备份与恢复”两个页面。
+   * 二级页面采用显示/隐藏切换，不再依赖横向 transform。
+   * 关闭时完全不参与渲染，打开时严格覆盖 App 的完整宽高。
    */
   .app{
     isolation:isolate !important;
@@ -4527,49 +4526,54 @@ svg{display:block}
     bottom:0 !important;
     left:0 !important;
     width:100% !important;
-    min-width:0 !important;
-    max-width:none !important;
+    min-width:100% !important;
+    max-width:100% !important;
     height:100% !important;
     min-height:0 !important;
     max-height:100% !important;
     margin:0 !important;
-    box-sizing:border-box !important;
+    padding:0 !important;
+    display:none !important;
+    flex-direction:column !important;
     overflow:hidden !important;
-    visibility:hidden !important;
-    opacity:0 !important;
-    pointer-events:none !important;
-    transform:translate3d(100%,0,0) !important;
+    box-sizing:border-box !important;
+    transform:none !important;
+    transition:none !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    pointer-events:auto !important;
+    background:var(--bg) !important;
     z-index:70 !important;
   }
 
   .subpage.open{
-    visibility:visible !important;
-    opacity:1 !important;
-    pointer-events:auto !important;
-  }
-
-  /*
-   * 非滑动状态必须严格归零。
-   * 即使之前的左滑手势留下了 --swipe-back-x，也不会再次造成半屏显示。
-   */
-  .subpage.open:not(.swiping-back){
-    --swipe-back-x:0px !important;
-    transform:translate3d(0,0,0) !important;
+    display:flex !important;
+    transform:none !important;
   }
 
   .subpage.open.swiping-back{
-    transform:translate3d(var(--swipe-back-x,0px),0,0) !important;
-    transition:none !important;
+    transform:none !important;
   }
 
+  body.subpage-open .page,
   body.subpage-open .bottom-nav,
   body.subpage-open .fab{
     visibility:hidden !important;
     pointer-events:none !important;
   }
 
-  body.subpage-open .page{
-    pointer-events:none !important;
+  .subpage > .sub-topbar{
+    width:100% !important;
+    flex:0 0 auto !important;
+  }
+
+  .subpage > .content,
+  .subpage > .form,
+  .subpage > .detail-wrap{
+    width:100% !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    box-sizing:border-box !important;
   }
 
   @media(min-width:800px){
@@ -6993,12 +6997,9 @@ svg{display:block}
     const sub=document.getElementById(id);
     if(!sub) return;
 
-    /*
-     * 每次打开前清掉上一次左滑返回留下的位移，
-     * 保证二级页面始终从完整覆盖状态开始。
-     */
     sub.classList.remove('swiping-back');
     sub.style.removeProperty('--swipe-back-x');
+    sub.style.removeProperty('transform');
 
     sub.classList.add('open');
     sub.dataset.openSeq=String(++subpageOpenSeq);
@@ -7011,9 +7012,8 @@ svg{display:block}
     syncSubpageOpenState();
 
     requestAnimationFrame(()=>{
-      sub.scrollTop=0;
-      const scrollRegion=sub.querySelector(':scope > .content, :scope > .form, :scope > .detail-wrap');
-      if(scrollRegion) scrollRegion.scrollTop=0;
+      const region=sub.querySelector(':scope > .content, :scope > .form, :scope > .detail-wrap');
+      if(region) region.scrollTop=0;
     });
   }
 
@@ -7023,6 +7023,7 @@ svg{display:block}
 
     sub.classList.remove('open','swiping-back');
     sub.style.removeProperty('--swipe-back-x');
+    sub.style.removeProperty('transform');
     sub.style.removeProperty('z-index');
 
     const index=subpageHistory.lastIndexOf(id);
@@ -7111,8 +7112,7 @@ svg{display:block}
         startX:touch.clientX,
         startY:touch.clientY,
         dx:0,
-        dy:0,
-        active:false
+        dy:0
       };
     },{passive:true});
 
@@ -7123,45 +7123,27 @@ svg{display:block}
       swipe.dx=Math.max(0,touch.clientX-swipe.startX);
       swipe.dy=touch.clientY-swipe.startY;
 
-      if(!swipe.active){
-        if(swipe.dx<10) return;
-        if(swipe.dx<=Math.abs(swipe.dy)*1.15){
-          swipe=null;
-          return;
-        }
-        swipe.active=true;
-        swipe.sub.classList.add('swiping-back');
+      if(swipe.dx>16 && swipe.dx>Math.abs(swipe.dy)*1.15){
+        e.preventDefault();
       }
-
-      e.preventDefault();
-      const distance=Math.min(swipe.dx,window.innerWidth*.72);
-      swipe.sub.style.setProperty('--swipe-back-x',`${distance}px`);
     },{passive:false});
 
     const finishSwipe=()=>{
       if(!swipe) return;
-
       const current=swipe;
       swipe=null;
 
-      if(!current.active){
-        current.sub.style.removeProperty('--swipe-back-x');
-        return;
-      }
-
-      current.sub.classList.remove('swiping-back');
-      const shouldClose=current.dx>72 && current.dx>Math.abs(current.dy)*1.2;
+      const shouldClose=
+        current.dx>72 &&
+        current.dx>Math.abs(current.dy)*1.2;
 
       if(shouldClose){
-        requestAnimationFrame(()=>closeSubById(current.sub.id));
-      }else{
-        current.sub.style.setProperty('--swipe-back-x','0px');
-        setTimeout(()=>current.sub.style.removeProperty('--swipe-back-x'),220);
+        closeSubById(current.sub.id);
       }
     };
 
     document.addEventListener('touchend',finishSwipe,{passive:true});
-    document.addEventListener('touchcancel',finishSwipe,{passive:true});
+    document.addEventListener('touchcancel',()=>{swipe=null;},{passive:true});
   }
 
   function openMethodForm(method=null){
@@ -8075,12 +8057,13 @@ svg{display:block}
 })();
 </script>
 
-<script id="yangsheng-subpage-state-cleanup-v50">
+<script id="yangsheng-subpage-cleanup-v51">
 (function(){
-  function cleanupInterruptedSwipe(){
-    document.querySelectorAll('.subpage.swiping-back').forEach(function(sub){
+  function normalizeSubpages(){
+    document.querySelectorAll('.subpage').forEach(function(sub){
       sub.classList.remove('swiping-back');
       sub.style.removeProperty('--swipe-back-x');
+      sub.style.removeProperty('transform');
     });
 
     if(typeof syncSubpageOpenState==='function'){
@@ -8088,12 +8071,12 @@ svg{display:block}
     }
   }
 
-  window.addEventListener('pageshow',cleanupInterruptedSwipe);
-  document.addEventListener('visibilitychange',function(){
-    if(!document.hidden) cleanupInterruptedSwipe();
-  });
+  window.addEventListener('pageshow',normalizeSubpages);
   window.addEventListener('orientationchange',function(){
-    setTimeout(cleanupInterruptedSwipe,80);
+    setTimeout(normalizeSubpages,80);
+  });
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden) normalizeSubpages();
   });
 })();
 </script>
