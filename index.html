@@ -7,6 +7,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>养生笺</title>
+  <meta name="app-version" content="v48-detail-favorite-layout" />
+  <meta name="app-version" content="v47-comment-image-plus" />
+  <meta name="app-version" content="v46-result-toast-removed" />
+  <meta name="app-version" content="v45-comment-spacing" />
+  <meta name="app-version" content="v44-replies-notifications" />
+  <meta name="app-version" content="v43-community-detail-refined" />
+  <meta name="app-version" content="v40-floating-comment" />
+  <meta name="app-version" content="v39-account-center" />
+  <meta name="app-version" content="v38-toast-account-align" />
+  <meta name="app-version" content="v37-firebase-community" />
   <meta name="app-version" content="v36-control-height" />
   <meta name="app-version" content="v35-subpage-filter" />
   <meta name="app-version" content="v34-home-indicator" />
@@ -908,7 +918,7 @@ svg{display:block}
   border:2px solid transparent;border-radius:10px;object-fit:cover;
 }
 .detail-thumb.active{border-color:var(--green)}
-.detail-body{padding:18px}
+.detail-body{padding:16px}
 .detail-head{
   display:grid;
   grid-template-columns:minmax(0,1fr) 42px;
@@ -3166,6 +3176,1182 @@ svg{display:block}
   }
 </style>
 
+
+<style id="yangsheng-firebase-community-v37">
+  .home-scope-tabs{
+    height:52px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4px;
+    margin-bottom:12px;
+    padding:4px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:#F2F1EC;
+  }
+  .home-scope-tabs button{
+    min-width:0;
+    border:0;
+    border-radius:15px;
+    background:transparent;
+    color:#7A8078;
+    font-size:15px;
+    font-weight:400;
+  }
+  .home-scope-tabs button.active{
+    color:#405C38;
+    background:#FFF;
+    font-weight:650;
+    box-shadow:0 2px 10px rgba(64,77,58,.07);
+  }
+  .community-intro{
+    margin:4px 0 14px;
+    padding:11px 13px;
+    border:1px solid #E1E8DA;
+    border-radius:15px;
+    background:#F5F8F1;
+    color:#737A70;
+    font-size:12px;
+    line-height:1.6;
+  }
+  .community-list{
+    display:grid;
+    gap:12px;
+  }
+  .community-card{
+    width:100%;
+    padding:16px;
+    border:1px solid #E4E5DE;
+    border-radius:20px;
+    background:#FFF;
+    text-align:left;
+    box-shadow:0 7px 22px rgba(61,73,55,.045);
+  }
+  .community-card-top,
+  .community-card-foot,
+  .community-stat-row,
+  .community-panel-head,
+  .community-comment-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .community-badge{
+    display:inline-flex;
+    align-items:center;
+    min-height:27px;
+    padding:0 10px;
+    border-radius:999px;
+    background:#EDF4E7;
+    color:#63834E;
+    font-size:12px;
+  }
+  .community-author{
+    color:#999E98;
+    font-size:12px;
+  }
+  .community-card h3{
+    margin:13px 0 7px;
+    color:#273629;
+    font-size:18px;
+    line-height:1.42;
+  }
+  .community-card p{
+    display:-webkit-box;
+    overflow:hidden;
+    margin:0 0 14px;
+    color:#747A73;
+    font-size:14px;
+    line-height:1.65;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+  }
+  .community-card-foot{
+    padding-top:12px;
+    border-top:1px solid #F0F0EB;
+    color:#7C827A;
+    font-size:12px;
+  }
+  .community-rate{
+    color:#5E7F48;
+    font-weight:650;
+  }
+  .community-panel{
+    margin-top:18px;
+    padding:16px;
+    border:1px solid #DDE6D5;
+    border-radius:18px;
+    background:#FAFCF8;
+  }
+  .community-panel h3{
+    margin:0;
+    color:#2D3C2E;
+    font-size:16px;
+  }
+  .community-panel p{
+    margin:8px 0 13px;
+    color:#7A8178;
+    font-size:13px;
+    line-height:1.65;
+  }
+  .community-panel-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+  .community-panel-actions.one{
+    grid-template-columns:1fr;
+  }
+  .community-panel-actions button{
+    min-height:42px;
+    border-radius:14px;
+    font-size:14px;
+  }
+  .community-publish-btn{
+    border:0;
+    background:#6F9A4E;
+    color:#FFF;
+    font-weight:650;
+  }
+  .community-soft-btn{
+    border:1px solid #D9E4D0;
+    background:#FFF;
+    color:#5F7C4C;
+  }
+  .community-detail-section{
+    margin-top:16px;
+    padding:16px;
+    border:1px solid #E2E5DD;
+    border-radius:19px;
+    background:#FFF;
+  }
+  .community-detail-section:first-child{
+    margin-top:0;
+  }
+  .community-detail-title{
+    margin:11px 0 12px;
+    color:#253426;
+    font-family:"Songti SC","STSong",serif;
+    font-size:25px;
+    line-height:1.45;
+  }
+  .community-detail-content{
+    color:#596158;
+    font-size:15px;
+    line-height:1.85;
+    white-space:pre-wrap;
+  }
+  .community-stat-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    margin-top:13px;
+  }
+  .community-stat-item{
+    padding:12px 6px;
+    border-radius:15px;
+    background:#F7F7F3;
+    text-align:center;
+  }
+  .community-stat-item strong{
+    display:block;
+    margin-bottom:4px;
+    color:#344034;
+    font-size:18px;
+  }
+  .community-stat-item span{
+    color:#80867E;
+    font-size:12px;
+  }
+  .community-vote-options{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    margin-top:13px;
+  }
+  .community-vote-options button{
+    min-height:72px;
+    padding:8px 4px;
+    border:1px solid #E3E3DD;
+    border-radius:16px;
+    background:#FFF;
+    color:#697067;
+    font-size:13px;
+    font-weight:600;
+  }
+  .community-vote-options button span{
+    display:block;
+    margin-bottom:4px;
+    font-size:22px;
+  }
+  .community-vote-options button.selected{
+    border-color:#C9DBBB;
+    background:#EDF4E7;
+    color:#5E8047;
+    font-weight:650;
+  }
+  .community-comment-list{
+    display:grid;
+    gap:8px;
+    margin-top:12px;
+  }
+  .community-comment{
+    padding:12px 14px;
+    border-radius:15px;
+    background:#F8F8F5;
+  }
+  .community-comment-head{
+    margin-bottom:5px;
+    color:#969B95;
+    font-size:11px;
+  }
+  .community-comment p{
+    margin:0;
+    color:#555D55;
+    font-size:14px;
+    line-height:1.58;
+    white-space:pre-wrap;
+  }
+  .community-comment-tools button{
+    border:0;
+    background:transparent;
+    color:#8A9088;
+    font-size:12px;
+  }
+  .community-comment-form{
+    display:grid;
+    gap:9px;
+    margin-top:13px;
+  }
+  .community-comment-form textarea{
+    min-height:88px;
+    padding:12px;
+    border:1px solid #E0E2DB;
+    border-radius:15px;
+    background:#FAFAF7;
+    color:#394339;
+    font:inherit;
+    resize:none;
+  }
+  .community-comment-form button{
+    min-height:42px;
+    border:0;
+    border-radius:14px;
+    background:#6F984F;
+    color:#FFF;
+    font-weight:650;
+  }
+  .community-empty{
+    min-height:42vh;
+    display:grid;
+    place-items:center;
+    padding:28px;
+    color:#858B83;
+    text-align:center;
+    line-height:1.7;
+  }
+  .community-disclaimer{
+    margin-top:12px;
+    color:#9A9E98;
+    font-size:11px;
+    line-height:1.6;
+  }
+  .cloud-account-icon svg{
+    fill:none;
+  }
+  #accountStatusText{
+    color:#8B9189;
+    font-size:12px;
+    white-space:nowrap;
+  }
+  .account-card{
+    display:grid;
+    gap:11px;
+  }
+  .account-card input{
+    width:100%;
+    min-height:46px;
+    padding:0 13px;
+    border:1px solid #DFE2DA;
+    border-radius:14px;
+    background:#FAFAF7;
+    color:#303A31;
+    font-size:15px;
+    box-sizing:border-box;
+  }
+  .account-card .account-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+  .account-user-box{
+    padding:14px;
+    border-radius:16px;
+    background:#F5F8F1;
+  }
+  .account-user-box strong{
+    display:block;
+    color:#354235;
+    font-size:15px;
+  }
+  .account-user-box span{
+    display:block;
+    margin-top:5px;
+    color:#858B83;
+    font-size:12px;
+    word-break:break-all;
+  }
+  .sync-state{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:10px;
+    color:#668052;
+    font-size:12px;
+  }
+  .sync-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#7EA25E;
+  }
+  .publish-check{
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    margin:12px 0;
+    color:#687068;
+    font-size:13px;
+    line-height:1.55;
+  }
+  .publish-check input{
+    width:18px;
+    height:18px;
+    margin-top:1px;
+  }
+  @media(max-width:370px){
+    .home-scope-tabs button{font-size:14px}
+    .community-stat-grid,
+    .community-vote-options{gap:6px}
+    .community-panel-actions{grid-template-columns:1fr}
+  }
+</style>
+
+
+<style id="yangsheng-toast-and-account-align-v38">
+  /* 账号与云同步：左右文字保持同一水平中线 */
+  #openAccount{
+    align-items:center !important;
+  }
+
+  #openAccount .menu-left,
+  #openAccount .menu-tail{
+    height:24px !important;
+    min-height:24px !important;
+    align-items:center !important;
+  }
+
+  #openAccount .menu-left > span:last-child,
+  #accountStatusText{
+    display:inline-flex !important;
+    align-items:center !important;
+    height:24px !important;
+    min-height:24px !important;
+    margin:0 !important;
+    padding:0 !important;
+    line-height:24px !important;
+    vertical-align:middle !important;
+  }
+
+  #openAccount .menu-tail{
+    align-self:center !important;
+    justify-self:end !important;
+  }
+
+  #openAccount .menu-arrow{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    height:24px !important;
+    line-height:20px !important;
+  }
+
+  /* 所有 Toast 提示文字居中 */
+  .toast{
+    position:fixed !important;
+    left:50% !important;
+    transform:translate(-50%,18px) !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    box-sizing:border-box !important;
+    padding:12px 16px !important;
+  }
+
+  .toast.show{
+    transform:translate(-50%,0) !important;
+  }
+
+  #toastText{
+    display:block !important;
+    width:100% !important;
+    margin:0 !important;
+    text-align:center !important;
+    line-height:1.55 !important;
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+  }
+
+  .toast.has-action #toastText{
+    padding:0 58px !important;
+    box-sizing:border-box !important;
+  }
+
+  #toastAction{
+    position:absolute !important;
+    right:10px !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+  }
+</style>
+
+
+<style id="yangsheng-account-status-true-center-v39">
+  /* 右侧同步状态整体严格垂直居中 */
+  #openAccount{
+    position:relative !important;
+    padding-right:112px !important;
+  }
+
+  #openAccount .menu-tail{
+    position:absolute !important;
+    top:50% !important;
+    right:16px !important;
+    width:auto !important;
+    height:auto !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:10px !important;
+    transform:translateY(-50%) !important;
+    line-height:1 !important;
+  }
+
+  #accountStatusText{
+    display:block !important;
+    height:auto !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    line-height:1 !important;
+  }
+
+  #openAccount .menu-arrow{
+    display:block !important;
+    height:auto !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 0 1px 0 !important;
+    line-height:1 !important;
+  }
+
+  #openAccount .menu-left{
+    padding-right:0 !important;
+  }
+</style>
+
+
+<style id="yangsheng-community-comment-ui-v40">
+  #sub-community-detail .detail-wrap{
+    padding-bottom:110px !important;
+  }
+
+  .community-top-action{
+    justify-self:end !important;
+    min-width:52px !important;
+    padding:0 2px !important;
+    color:#7C857A !important;
+    font-size:14px !important;
+    font-weight:400 !important;
+    text-align:right !important;
+  }
+
+  .community-top-action:empty{
+    pointer-events:none !important;
+  }
+
+  .community-comment-fab{
+    position:absolute !important;
+    right:max(18px,var(--safe-right)) !important;
+    bottom:calc(18px + var(--safe-bottom)) !important;
+    z-index:72 !important;
+    min-width:82px !important;
+    height:48px !important;
+    padding:0 18px !important;
+    display:none !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:0 !important;
+    border:0 !important;
+    border-radius:999px !important;
+    background:#6F994F !important;
+    color:#FFF !important;
+    box-shadow:0 12px 28px rgba(79,111,57,.24) !important;
+    font-size:14px !important;
+    font-weight:650 !important;
+  }
+
+  #sub-community-detail.open .community-comment-fab{
+    display:inline-flex !important;
+  }
+
+  .community-comment-fab[hidden]{
+    display:none !important;
+  }
+
+
+  .community-comment{
+    overflow:hidden !important;
+  }
+
+  .community-comment-image{
+    display:block !important;
+    width:100% !important;
+    max-height:260px !important;
+    margin-top:10px !important;
+    border-radius:13px !important;
+    object-fit:cover !important;
+    background:#EEEFEA !important;
+  }
+
+  .comment-sheet-card{
+    display:grid !important;
+    gap:12px !important;
+  }
+
+  .comment-sheet-card textarea{
+    width:100% !important;
+    min-height:118px !important;
+    padding:13px 14px !important;
+    box-sizing:border-box !important;
+    border:1px solid #DFE2DA !important;
+    border-radius:16px !important;
+    background:#FAFAF7 !important;
+    color:#354035 !important;
+    font:inherit !important;
+    line-height:1.65 !important;
+    resize:none !important;
+  }
+
+  .comment-image-picker{
+    position:relative !important;
+    width:116px !important;
+    height:116px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+    border:1px dashed #D9DFD3 !important;
+    border-radius:18px !important;
+    background:#F8FAF5 !important;
+    overflow:hidden !important;
+    cursor:pointer !important;
+    flex-shrink:0 !important;
+  }
+
+  .comment-image-picker input{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    opacity:0 !important;
+    cursor:pointer !important;
+    z-index:3 !important;
+  }
+
+  .comment-image-add{
+    display:block !important;
+    color:#6C8E44 !important;
+    font-size:44px !important;
+    line-height:1 !important;
+    margin-bottom:6px !important;
+  }
+
+  .comment-image-copy{
+    width:100% !important;
+    height:100% !important;
+    padding:10px 8px !important;
+    box-sizing:border-box !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    gap:3px !important;
+  }
+
+  .comment-image-copy strong{
+    margin:0 !important;
+    color:#4D594D !important;
+    font-size:14px !important;
+    font-weight:700 !important;
+    line-height:1.35 !important;
+  }
+
+  .comment-image-copy span{
+    color:#92978F !important;
+    font-size:11px !important;
+    line-height:1.35 !important;
+  }
+
+  .comment-image-preview{
+    position:absolute !important;
+    inset:0 !important;
+    display:none !important;
+    overflow:hidden !important;
+    border-radius:18px !important;
+    background:#F1F2ED !important;
+    z-index:1 !important;
+  }
+
+  .comment-image-preview.show{
+    display:block !important;
+  }
+
+  .comment-image-preview img{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+  }
+
+  .comment-image-preview button{
+    position:absolute !important;
+    top:8px !important;
+    right:8px !important;
+    width:28px !important;
+    height:28px !important;
+    border:0 !important;
+    border-radius:50% !important;
+    background:rgba(30,35,30,.72) !important;
+    color:#FFF !important;
+    font-size:18px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    cursor:pointer !important;
+    z-index:5 !important;
+    padding:0 !important;
+  }
+  .comment-image-picker.has-image .comment-image-copy{
+    opacity:0 !important;
+    pointer-events:none !important;
+  }
+
+  .comment-image-picker.has-image input{
+    z-index:2 !important;
+  }
+
+  .comment-image-picker.has-image .comment-image-preview{
+    display:block !important;
+  }
+
+  .comment-image-picker.has-image .comment-image-add{
+    display:none !important;
+  }
+
+
+  .comment-sheet-note{
+    margin:-2px 2px 0 !important;
+    color:#9A9E98 !important;
+    font-size:11px !important;
+    line-height:1.55 !important;
+  }
+
+  .comment-sheet-submit{
+    min-height:46px !important;
+    border:0 !important;
+    border-radius:15px !important;
+    background:#6F994F !important;
+    color:#FFF !important;
+    font-size:15px !important;
+    font-weight:650 !important;
+  }
+</style>
+
+
+<style id="yangsheng-account-card-layout-v41">
+  /*
+   * “账号与云同步”与其他菜单卡片采用同一套网格布局，
+   * 不再使用绝对定位或固定 24px 高度。
+   */
+  #openAccount{
+    position:static !important;
+    padding:0 16px !important;
+    grid-template-columns:minmax(0,1fr) auto !important;
+    align-items:center !important;
+  }
+
+  #openAccount .menu-left{
+    width:100% !important;
+    height:auto !important;
+    min-height:48px !important;
+    padding:0 !important;
+    display:grid !important;
+    grid-template-columns:48px minmax(0,1fr) !important;
+    align-items:center !important;
+    gap:15px !important;
+  }
+
+  #openAccount .menu-left > span:last-child{
+    width:100% !important;
+    height:auto !important;
+    min-height:48px !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    line-height:1.4 !important;
+  }
+
+  #openAccount .menu-tail{
+    position:static !important;
+    top:auto !important;
+    right:auto !important;
+    width:auto !important;
+    height:48px !important;
+    min-height:48px !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    align-self:center !important;
+    justify-self:end !important;
+    gap:10px !important;
+    transform:none !important;
+    line-height:normal !important;
+  }
+
+  #accountStatusText{
+    width:auto !important;
+    height:48px !important;
+    min-height:48px !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    line-height:1.4 !important;
+  }
+
+  #openAccount .menu-arrow{
+    width:auto !important;
+    height:48px !important;
+    min-height:48px !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    line-height:1 !important;
+  }
+</style>
+
+
+<style id="yangsheng-replies-notifications-v44">
+  .notification-menu-icon svg{
+    fill:none !important;
+  }
+
+  .notification-menu-tail{
+    position:relative !important;
+  }
+
+  #notificationStatusText{
+    color:#8B9189;
+    font-size:12px;
+    white-space:nowrap;
+  }
+
+  .notification-unread-dot,
+  .nav-unread-dot{
+    display:none;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#D96F68;
+    box-shadow:0 0 0 3px #FFF;
+  }
+
+  .notification-unread-dot.show{
+    display:block;
+  }
+
+  .me-nav-button{
+    position:relative;
+  }
+
+  .nav-unread-dot{
+    position:absolute;
+    top:8px;
+    left:calc(50% + 17px);
+    z-index:3;
+  }
+
+  .nav-unread-dot.show{
+    display:block;
+  }
+
+  .notification-content{
+    padding-top:16px !important;
+    padding-bottom:calc(28px + var(--safe-bottom)) !important;
+  }
+
+  .notification-list{
+    display:grid;
+    gap:10px;
+  }
+
+  .notification-card{
+    width:100%;
+    padding:14px 15px;
+    display:grid;
+    grid-template-columns:10px minmax(0,1fr) auto;
+    align-items:start;
+    gap:10px;
+    border:1px solid #E5E6DF;
+    border-radius:17px;
+    background:#FFF;
+    text-align:left;
+  }
+
+  .notification-card.unread{
+    background:#F8FBF5;
+    border-color:#DCE7D3;
+  }
+
+  .notification-card-dot{
+    width:7px;
+    height:7px;
+    margin-top:7px;
+    border-radius:50%;
+    background:transparent;
+  }
+
+  .notification-card.unread .notification-card-dot{
+    background:#719851;
+  }
+
+  .notification-card-copy strong{
+    display:block;
+    margin-bottom:5px;
+    color:#344034;
+    font-size:14px;
+    line-height:1.45;
+  }
+
+  .notification-card-copy p{
+    display:-webkit-box;
+    overflow:hidden;
+    margin:0;
+    color:#747B73;
+    font-size:13px;
+    line-height:1.55;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+  }
+
+  .notification-card-time{
+    color:#A0A49E;
+    font-size:11px;
+    white-space:nowrap;
+  }
+
+  .notification-empty{
+    min-height:52vh;
+    display:grid;
+    place-items:center;
+    color:#8D938B;
+    text-align:center;
+    line-height:1.7;
+  }
+
+  #markAllNotificationsRead{
+    color:#74806F;
+    font-size:13px;
+  }
+
+  #markAllNotificationsRead[hidden]{
+    visibility:hidden !important;
+    display:block !important;
+  }
+
+  .community-comment-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:8px;
+  }
+
+  .community-comment-reply-button{
+    min-height:26px;
+    padding:0;
+    border:0;
+    background:transparent;
+    color:#6B8360;
+    font-size:12px;
+  }
+
+  .community-reply-count{
+    color:#9A9E98;
+    font-size:11px;
+  }
+
+  .community-reply-list{
+    display:grid;
+    gap:7px;
+    margin-top:9px;
+    padding-left:12px;
+    border-left:2px solid #E4E9DF;
+  }
+
+  .community-reply{
+    padding:9px 10px;
+    border-radius:12px;
+    background:#FFF;
+  }
+
+  .community-reply-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:4px;
+    color:#969B95;
+    font-size:10px;
+  }
+
+  .community-reply p{
+    margin:0;
+    color:#596159;
+    font-size:13px;
+    line-height:1.55;
+    white-space:pre-wrap;
+  }
+
+  .community-reply-tools button{
+    padding:0;
+    border:0;
+    background:transparent;
+    color:#8D938B;
+    font-size:11px;
+  }
+
+  .reply-sheet-card{
+    display:grid;
+    gap:11px;
+  }
+
+  .reply-sheet-target{
+    padding:10px 12px;
+    border-radius:13px;
+    background:#F4F7F1;
+    color:#6C746A;
+    font-size:12px;
+    line-height:1.5;
+  }
+
+  .reply-sheet-card textarea{
+    width:100%;
+    min-height:112px;
+    padding:13px 14px;
+    box-sizing:border-box;
+    border:1px solid #DFE2DA;
+    border-radius:16px;
+    background:#FAFAF7;
+    color:#354035;
+    font:inherit;
+    line-height:1.65;
+    resize:none;
+  }
+
+  .reply-sheet-submit{
+    min-height:46px;
+    border:0;
+    border-radius:15px;
+    background:#6F994F;
+    color:#FFF;
+    font-size:15px;
+    font-weight:650;
+  }
+</style>
+
+
+<style id="yangsheng-comment-spacing-compact-v45">
+  .community-comment-list{
+    gap:6px !important;
+    margin-top:10px !important;
+  }
+
+  .community-comment{
+    padding:9px 11px !important;
+    border-radius:14px !important;
+  }
+
+  .community-comment-head{
+    margin-bottom:2px !important;
+    line-height:1.35 !important;
+  }
+
+  .community-comment p{
+    line-height:1.45 !important;
+  }
+
+  .community-comment-image{
+    margin-top:7px !important;
+  }
+
+  .community-comment-footer{
+    min-height:22px !important;
+    margin-top:4px !important;
+    gap:8px !important;
+  }
+
+  .community-comment-reply-button{
+    min-height:22px !important;
+    line-height:22px !important;
+  }
+
+  .community-reply-list{
+    gap:4px !important;
+    margin-top:5px !important;
+    padding-left:8px !important;
+  }
+
+  .community-reply{
+    padding:7px 9px !important;
+    border-radius:11px !important;
+  }
+
+  .community-reply-head{
+    margin-bottom:2px !important;
+    line-height:1.3 !important;
+  }
+
+  .community-reply p{
+    line-height:1.42 !important;
+  }
+</style>
+
+
+<style id="yangsheng-toast-spacing-v46">
+  .toast{
+    padding:10px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:10px !important;
+    text-align:left !important;
+  }
+
+  #toastText{
+    width:auto !important;
+    min-width:0 !important;
+    flex:1 1 auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    text-align:left !important;
+    line-height:1.55 !important;
+  }
+
+  .toast.has-action #toastText{
+    padding:0 !important;
+  }
+
+  #toastAction{
+    position:static !important;
+    top:auto !important;
+    right:auto !important;
+    flex:0 0 auto !important;
+    margin:0 0 0 auto !important;
+    transform:none !important;
+  }
+</style>
+
+
+<style id="yangsheng-comment-image-plus-v47">
+  .comment-image-copy{
+    gap:7px !important;
+    padding:8px !important;
+  }
+
+  .comment-image-add{
+    display:block !important;
+    margin:0 !important;
+    color:#668748 !important;
+    font-size:60px !important;
+    font-weight:300 !important;
+    line-height:.72 !important;
+  }
+
+  .comment-image-copy strong{
+    color:#4D594D !important;
+    font-size:15px !important;
+    font-weight:650 !important;
+    line-height:1.2 !important;
+  }
+
+  .comment-image-picker.has-image .comment-image-add{
+    display:none !important;
+  }
+</style>
+
+
+<style id="yangsheng-detail-favorite-layout-v48">
+  /* 收藏按钮与分类同一行，标题独占下一行 */
+  .detail-head{
+    display:block !important;
+  }
+
+  .detail-meta-row{
+    width:100% !important;
+    min-height:44px !important;
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:space-between !important;
+    gap:12px !important;
+  }
+
+  .detail-meta-row .detail-category{
+    margin:0 !important;
+    align-self:center !important;
+  }
+
+  .detail-meta-row .fav-btn{
+    margin:0 !important;
+    flex:0 0 44px !important;
+  }
+
+  .detail-head h2{
+    width:100% !important;
+    margin:10px 0 0 !important;
+    overflow:visible !important;
+    text-overflow:clip !important;
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+    word-break:break-word !important;
+    font-size:24px !important;
+    line-height:1.45 !important;
+  }
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -3175,6 +4361,11 @@ svg{display:block}
 
     </header>
     <main class="content">
+
+      <div class="home-scope-tabs" id="homeScopeTabs">
+        <button class="active" data-home-scope="mine">我的记录</button>
+        <button data-home-scope="community">社区发现</button>
+      </div>
       <div class="search-wrap">
         <span class="search-ico" aria-hidden="true">
           <svg viewBox="0 0 24 24">
@@ -3240,6 +4431,33 @@ svg{display:block}
       </button>
     </div>
 
+    <div class="me-section-label">账号与同步</div>
+    <div class="menu-card grouped-menu-card">
+      <button class="menu-item" id="openNotifications">
+        <span class="menu-left">
+          <span class="menu-icon notification-menu-icon">
+            <svg viewBox="0 0 24 24"><path d="M6.5 9.5a5.5 5.5 0 0 1 11 0v3.7l1.7 2.5H4.8l1.7-2.5Z"/><path d="M9.5 18a2.7 2.7 0 0 0 5 0"/></svg>
+          </span>
+          <span>消息通知</span>
+        </span>
+        <span class="menu-tail notification-menu-tail">
+          <span id="notificationStatusText">暂无新消息</span>
+          <i id="notificationUnreadDot" class="notification-unread-dot"></i>
+          <span class="menu-arrow">›</span>
+        </span>
+      </button>
+
+      <button class="menu-item" id="openAccount">
+        <span class="menu-left">
+          <span class="menu-icon cloud-account-icon">
+            <svg viewBox="0 0 24 24"><path d="M7.5 18.5h10a4 4 0 0 0 .6-8A6.2 6.2 0 0 0 6.3 9a4.8 4.8 0 0 0 1.2 9.5Z"/><path d="M12 11v5"/><path d="m9.8 13.2 2.2-2.2 2.2 2.2"/></svg>
+          </span>
+          <span>账号与云同步</span>
+        </span>
+        <span class="menu-tail"><span id="accountStatusText">未登录</span><span class="menu-arrow">›</span></span>
+      </button>
+    </div>
+
     <div class="me-section-label">数据与设置</div>
     <div class="menu-card grouped-menu-card">
       <button class="menu-item" id="openBackup">
@@ -3281,7 +4499,8 @@ svg{display:block}
       </span>
       <span>试用记录</span>
     </button>
-    <button data-tab="me">
+    <button data-tab="me" class="me-nav-button">
+      <i id="meNavUnreadDot" class="nav-unread-dot"></i>
       <span class="nav-ico" aria-hidden="true">
         <svg viewBox="0 0 24 24">
           <circle cx="12" cy="8" r="3.3"></circle>
@@ -3342,6 +4561,31 @@ svg{display:block}
       </button><h2>方法详情</h2><button id="editFromDetail">编辑</button>
     </header>
     <div id="detailContent" class="detail-wrap"></div>
+  </section>
+
+
+  <section id="sub-community-detail" class="subpage">
+    <header class="sub-topbar">
+      <button data-close-sub aria-label="返回" class="back-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m15 5-7 7 7 7"></path>
+        </svg>
+      </button><h2>社区方法</h2><button id="communityDetailAction" class="community-top-action"></button>
+    </header>
+    <div id="communityDetailContent" class="detail-wrap"></div>
+    <button id="communityCommentFab" class="community-comment-fab" type="button" aria-label="发表评论">评论</button>
+  </section>
+
+
+  <section id="sub-notifications" class="subpage">
+    <header class="sub-topbar">
+      <button data-close-sub aria-label="返回" class="back-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m15 5-7 7 7 7"></path>
+        </svg>
+      </button><h2>消息通知</h2><button id="markAllNotificationsRead">全部已读</button>
+    </header>
+    <main id="notificationContent" class="content notification-content"></main>
   </section>
 
   <section id="sub-favorites" class="subpage">
@@ -3408,7 +4652,7 @@ svg{display:block}
       </div>
       <div class="backup-box">
         <h3>本地存储说明</h3>
-        <p style="margin-bottom:0">当前版本使用浏览器本地数据库。清理浏览器数据、卸载浏览器或更换设备前，请先导出备份。</p>
+        <p style="margin-bottom:0">登录后，文字数据会同步到个人云端；本地数据库仍作为离线缓存。未登录时请定期导出备份。</p>
       </div>
     </main>
   </section>
@@ -3462,10 +4706,462 @@ svg{display:block}
     detailMethodId:null,
     undo:null,
     toastTimer:null,
-    pendingImport:null
+    pendingImport:null,
+    authUser:null,
+    syncStatus:'local',
+    homeScope:'mine',
+    community:{
+      methods:[],
+      stats:{},
+      search:'',
+      category:'all',
+      detailId:null,
+      detailVotes:[],
+      detailComments:[],
+      commentImage:null,
+      loading:true
+    },
+    notifications:{
+      items:[],
+      seenAt:'',
+      loading:false,
+      refreshedAt:0
+    }
   };
 
   let db;
+
+  const FIREBASE_ADMIN_UID = '0NRRtCunLwbGJAUGDrbOrEn5fjS2';
+  const firebaseConfig = {
+    apiKey:'AIzaSyDaAy_j4_i3y5FI7cnNR8rK7hd0dn8bS2Q',
+    authDomain:'health-preservation-notes.firebaseapp.com',
+    projectId:'health-preservation-notes',
+    storageBucket:'health-preservation-notes.firebasestorage.app',
+    messagingSenderId:'158863632828',
+    appId:'1:158863632828:web:1eed2b2e2d2f8c1a34e3b9',
+    measurementId:'G-5WS9Z5H5TW'
+  };
+
+  let firebaseModules=null;
+  let cloudAuth=null;
+  let cloudDb=null;
+  let cloudSyncActive=false;
+  let applyingRemote=false;
+  let cloudUnsubs=[];
+  let communityUnsub=null;
+  let cloudReloadTimer=null;
+
+  async function loadFirebase(){
+    if(firebaseModules) return firebaseModules;
+
+    const version='12.16.0';
+    const [appApi,authApi,firestoreApi]=await Promise.all([
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-app.js`),
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-auth.js`),
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-firestore.js`)
+    ]);
+
+    const app=appApi.initializeApp(firebaseConfig);
+    cloudAuth=authApi.getAuth(app);
+    cloudDb=firestoreApi.getFirestore(app);
+    firebaseModules={appApi,authApi,firestoreApi};
+    return firebaseModules;
+  }
+
+  function isAdmin(){
+    return state.authUser?.uid===FIREBASE_ADMIN_UID;
+  }
+
+  function cloudStoreName(store){
+    return ({
+      [STORE_METHODS]:'methods',
+      [STORE_NOTES]:'notes',
+      [STORE_CATEGORIES]:'categories'
+    })[store]||null;
+  }
+
+  function cleanCloudValue(store,value){
+    const copy=JSON.parse(JSON.stringify(value));
+    if(store===STORE_METHODS){
+      delete copy.images;
+    }
+    return copy;
+  }
+
+  function localPut(store,value){
+    return new Promise((resolve,reject)=>{
+      const req=txStore(store,'readwrite').put(value);
+      req.onsuccess=()=>resolve(value);
+      req.onerror=()=>reject(req.error);
+    });
+  }
+
+  function localDelete(store,key){
+    return new Promise((resolve,reject)=>{
+      const req=txStore(store,'readwrite').delete(key);
+      req.onsuccess=()=>resolve();
+      req.onerror=()=>reject(req.error);
+    });
+  }
+
+  function localClear(store){
+    return new Promise((resolve,reject)=>{
+      const req=txStore(store,'readwrite').clear();
+      req.onsuccess=()=>resolve();
+      req.onerror=()=>reject(req.error);
+    });
+  }
+
+  async function queueCloudPut(store,value){
+    if(!cloudSyncActive || applyingRemote || !state.authUser) return;
+    const collectionName=cloudStoreName(store);
+    if(!collectionName) return;
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      await firestoreApi.setDoc(
+        firestoreApi.doc(cloudDb,'users',state.authUser.uid,collectionName,value.id),
+        cleanCloudValue(store,value)
+      );
+      setSyncStatus('synced');
+    }catch(error){
+      console.error('云端保存失败',error);
+      setSyncStatus('error');
+    }
+  }
+
+  async function queueCloudDelete(store,key){
+    if(!cloudSyncActive || applyingRemote || !state.authUser) return;
+    const collectionName=cloudStoreName(store);
+    if(!collectionName) return;
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      await firestoreApi.deleteDoc(
+        firestoreApi.doc(cloudDb,'users',state.authUser.uid,collectionName,key)
+      );
+      setSyncStatus('synced');
+    }catch(error){
+      console.error('云端删除失败',error);
+      setSyncStatus('error');
+    }
+  }
+
+  function setSyncStatus(status){
+    state.syncStatus=status;
+    renderAccountStatus();
+  }
+
+  function renderAccountStatus(){
+    const el=document.getElementById('accountStatusText');
+    if(!el) return;
+
+    if(!state.authUser){
+      el.textContent='未登录';
+      return;
+    }
+
+    const labels={
+      connecting:'连接中',
+      syncing:'同步中',
+      synced:'已同步',
+      error:'同步异常'
+    };
+    el.textContent=labels[state.syncStatus]||'已登录';
+  }
+
+  function cloudDateValue(item){
+    return String(item?.updatedAt||item?.createdAt||'');
+  }
+
+  async function mergeLocalCollectionToCloud(store,items,user){
+    const {firestoreApi}=await loadFirebase();
+    const collectionName=cloudStoreName(store);
+    const ref=firestoreApi.collection(cloudDb,'users',user.uid,collectionName);
+    const remoteSnap=await firestoreApi.getDocs(ref);
+    const remote=new Map(remoteSnap.docs.map(d=>[d.id,d.data()]));
+
+    for(const item of items){
+      const existing=remote.get(item.id);
+      if(!existing || cloudDateValue(item)>=cloudDateValue(existing)){
+        await firestoreApi.setDoc(
+          firestoreApi.doc(cloudDb,'users',user.uid,collectionName,item.id),
+          cleanCloudValue(store,item)
+        );
+      }
+    }
+  }
+
+  async function seedDefaultCategoriesLocal(){
+    for(let i=0;i<defaultCategories.length;i++){
+      await localPut(STORE_CATEGORIES,{
+        ...defaultCategories[i],
+        order:i,
+        createdAt:nowISO()
+      });
+    }
+  }
+
+  async function prepareLocalAccount(user){
+    const ownerKey='ysj-local-owner-v1';
+    const currentOwner=localStorage.getItem(ownerKey)||'guest';
+
+    if(currentOwner!=='guest' && currentOwner!==user.uid){
+      applyingRemote=true;
+      await localClear(STORE_METHODS);
+      await localClear(STORE_NOTES);
+      await localClear(STORE_CATEGORIES);
+      await seedDefaultCategoriesLocal();
+      applyingRemote=false;
+      await reloadData();
+    }
+
+    localStorage.setItem(ownerKey,user.uid);
+  }
+
+  async function migrateLocalToCloud(user){
+    setSyncStatus('syncing');
+    await mergeLocalCollectionToCloud(STORE_CATEGORIES,state.categories,user);
+    await mergeLocalCollectionToCloud(STORE_METHODS,state.methods,user);
+    await mergeLocalCollectionToCloud(STORE_NOTES,state.notes,user);
+
+    const {firestoreApi}=await loadFirebase();
+    await firestoreApi.setDoc(
+      firestoreApi.doc(cloudDb,'users',user.uid),
+      {
+        email:user.email||'',
+        lastLoginAt:nowISO(),
+        migrationVersion:1
+      },
+      {merge:true}
+    );
+  }
+
+  function scheduleCloudReload(){
+    clearTimeout(cloudReloadTimer);
+    cloudReloadTimer=setTimeout(async()=>{
+      await reloadData();
+      setSyncStatus('synced');
+    },90);
+  }
+
+  async function applyRemoteCollection(store,snapshot){
+    applyingRemote=true;
+    try{
+      const remoteDocs=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+      const remoteIds=new Set(remoteDocs.map(x=>x.id));
+      const localItems=await getAll(store);
+      const localById=new Map(localItems.map(x=>[x.id,x]));
+
+      for(const local of localItems){
+        if(!remoteIds.has(local.id)){
+          await localDelete(store,local.id);
+        }
+      }
+
+      for(const remote of remoteDocs){
+        if(store===STORE_METHODS){
+          const existing=localById.get(remote.id);
+          remote.images=Array.isArray(existing?.images)?existing.images:[];
+        }
+        await localPut(store,remote);
+      }
+    }finally{
+      applyingRemote=false;
+    }
+    scheduleCloudReload();
+  }
+
+  function stopUserCloudListeners(){
+    for(const unsub of cloudUnsubs){
+      try{unsub();}catch(_){}
+    }
+    cloudUnsubs=[];
+  }
+
+  async function startUserCloudListeners(user){
+    const {firestoreApi}=await loadFirebase();
+    stopUserCloudListeners();
+
+    for(const [store,collectionName] of [
+      [STORE_METHODS,'methods'],
+      [STORE_NOTES,'notes'],
+      [STORE_CATEGORIES,'categories']
+    ]){
+      const ref=firestoreApi.collection(cloudDb,'users',user.uid,collectionName);
+      const unsub=firestoreApi.onSnapshot(
+        ref,
+        snap=>applyRemoteCollection(store,snap).catch(console.error),
+        error=>{
+          console.error('云同步监听失败',error);
+          setSyncStatus('error');
+        }
+      );
+      cloudUnsubs.push(unsub);
+    }
+  }
+
+  async function handleAuthState(user){
+    stopUserCloudListeners();
+    cloudSyncActive=false;
+    state.authUser=user||null;
+    renderAccountStatus();
+    renderMe();
+
+    if(!user){
+      state.notifications.items=[];
+      state.notifications.seenAt='';
+      state.notifications.loading=false;
+      setSyncStatus('local');
+      renderNotificationStatus();
+      renderNotifications();
+      return;
+    }
+
+    try{
+      setSyncStatus('connecting');
+      await prepareLocalAccount(user);
+      await migrateLocalToCloud(user);
+      cloudSyncActive=true;
+      await startUserCloudListeners(user);
+      await loadNotificationSeenAt();
+      setSyncStatus('synced');
+      refreshNotifications({silent:true});
+    }catch(error){
+      console.error('Firebase 初始化失败',error);
+      setSyncStatus('error');
+      showToast('云同步连接失败，本地记录仍可使用',null);
+    }
+  }
+
+  async function initFirebaseBridge(){
+    try{
+      const {authApi}=await loadFirebase();
+      startCommunityListener();
+      authApi.onAuthStateChanged(cloudAuth,handleAuthState);
+    }catch(error){
+      console.error('Firebase SDK 加载失败',error);
+      setSyncStatus('error');
+    }
+  }
+
+  function authErrorText(error){
+    const code=error?.code||'';
+    if(code.includes('invalid-credential')||code.includes('wrong-password')) return '邮箱或密码不正确';
+    if(code.includes('email-already-in-use')) return '这个邮箱已经注册';
+    if(code.includes('weak-password')) return '密码至少需要 6 位';
+    if(code.includes('invalid-email')) return '邮箱格式不正确';
+    if(code.includes('too-many-requests')) return '操作过于频繁，请稍后再试';
+    if(code.includes('network-request-failed')) return '网络连接失败';
+    return '操作失败，请稍后重试';
+  }
+
+  function openAccountSheet(){
+    const sheet=document.getElementById('dynamicSheet');
+
+    if(state.authUser){
+      sheet.innerHTML=`
+        <div class="sheet-handle"></div>
+        <h3>账号与云同步</h3>
+        <div class="account-card">
+          <div class="account-user-box">
+            <strong>已登录</strong>
+            <span>${esc(state.authUser.email||state.authUser.uid)}</span>
+            <div class="sync-state"><i class="sync-dot"></i>${esc(document.getElementById('accountStatusText')?.textContent||'已同步')}</div>
+          </div>
+          <p class="sheet-sub">同一个账号登录其他设备后，方法、分类、收藏、结果和备注会同步显示。</p>
+          <button class="secondary-btn" id="logoutAccount">退出登录</button>
+          <button class="secondary-btn" id="cancelSheet">关闭</button>
+        </div>`;
+    }else{
+      sheet.innerHTML=`
+        <div class="sheet-handle"></div>
+        <h3>登录养生笺</h3>
+        <div class="sheet-sub">登录后同步个人文字记录，并可发布、评价和评论社区方法。</div>
+        <div class="account-card">
+          <input id="accountEmail" type="email" autocomplete="email" placeholder="邮箱">
+          <input id="accountPassword" type="password" autocomplete="current-password" placeholder="密码（至少 6 位）">
+          <div class="account-actions">
+            <button class="primary-btn" id="loginAccount">登录</button>
+            <button class="secondary-btn" id="registerAccount">注册</button>
+          </div>
+          <button class="secondary-btn" id="resetAccountPassword">忘记密码</button>
+          <button class="secondary-btn" id="cancelSheet">取消</button>
+        </div>`;
+    }
+
+    document.getElementById('sheetBackdrop').classList.add('show');
+  }
+
+  async function loginAccount(mode){
+    const email=document.getElementById('accountEmail')?.value.trim();
+    const password=document.getElementById('accountPassword')?.value||'';
+    if(!email || !password){
+      showToast('请填写邮箱和密码',null);
+      return;
+    }
+
+    try{
+      const {authApi}=await loadFirebase();
+      if(mode==='register'){
+        await authApi.createUserWithEmailAndPassword(cloudAuth,email,password);
+        showToast('注册成功，正在同步',null);
+      }else{
+        await authApi.signInWithEmailAndPassword(cloudAuth,email,password);
+        showToast('登录成功，正在同步',null);
+      }
+      closeSheet();
+    }catch(error){
+      showToast(authErrorText(error),null);
+    }
+  }
+
+  async function resetAccountPassword(){
+    const email=document.getElementById('accountEmail')?.value.trim();
+    if(!email){
+      showToast('请先填写邮箱',null);
+      return;
+    }
+    try{
+      const {authApi}=await loadFirebase();
+      await authApi.sendPasswordResetEmail(cloudAuth,email);
+      showToast('重置邮件已发送',null);
+    }catch(error){
+      showToast(authErrorText(error),null);
+    }
+  }
+
+  async function logoutAccount(){
+    try{
+      const {authApi}=await loadFirebase();
+      cloudSyncActive=false;
+      stopUserCloudListeners();
+      await authApi.signOut(cloudAuth);
+
+      applyingRemote=true;
+      await localClear(STORE_METHODS);
+      await localClear(STORE_NOTES);
+      await localClear(STORE_CATEGORIES);
+      await seedDefaultCategoriesLocal();
+      applyingRemote=false;
+
+      localStorage.setItem('ysj-local-owner-v1','guest');
+      await reloadData();
+      closeSheet();
+      showToast('已退出，云端数据仍安全保留',null);
+    }catch(error){
+      console.error(error);
+      showToast('退出失败，请稍后重试',null);
+    }
+  }
+
+  function requireLogin(){
+    if(state.authUser) return true;
+    openAccountSheet();
+    showToast('登录后才能使用社区互动',null);
+    return false;
+  }
+
 
   function uid(prefix='id'){
     return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -3518,25 +5214,21 @@ svg{display:block}
     });
   }
   function put(store,value){
-    return new Promise((resolve,reject)=>{
-      const req = txStore(store,'readwrite').put(value);
-      req.onsuccess=()=>resolve(value);
-      req.onerror=()=>reject(req.error);
+    return localPut(store,value).then(result=>{
+      queueCloudPut(store,value);
+      return result;
     });
   }
+
   function del(store,key){
-    return new Promise((resolve,reject)=>{
-      const req = txStore(store,'readwrite').delete(key);
-      req.onsuccess=()=>resolve();
-      req.onerror=()=>reject(req.error);
+    return localDelete(store,key).then(result=>{
+      queueCloudDelete(store,key);
+      return result;
     });
   }
+
   function clearStore(store){
-    return new Promise((resolve,reject)=>{
-      const req = txStore(store,'readwrite').clear();
-      req.onsuccess=()=>resolve();
-      req.onerror=()=>reject(req.error);
-    });
+    return localClear(store);
   }
 
   async function bootstrap(){
@@ -3567,6 +5259,8 @@ svg{display:block}
     bindScrollBoundaryGuards();
     bindSwipeBack();
     renderAll();
+    renderNotifications();
+    initFirebaseBridge();
     const fab = document.getElementById('addFab');
     if(fab) fab.style.display = 'grid';
     if(new URLSearchParams(location.search).get('screen') === 'add'){
@@ -3595,6 +5289,8 @@ svg{display:block}
     renderMe();
     renderFavorites();
     renderCategories();
+    renderAccountStatus();
+    renderNotificationStatus();
     updateBackupStatus();
   }
 
@@ -3725,34 +5421,1020 @@ svg{display:block}
       </article>`;
   }
 
+
+  function communityCategoryNames(){
+    return [...new Set(
+      state.community.methods
+        .map(m=>String(m.category||'其他').trim())
+        .filter(Boolean)
+    )];
+  }
+
+  function renderCommunityChips(){
+    const box=document.getElementById('homeChips');
+    const categories=communityCategoryNames();
+    box.innerHTML=
+      `<button class="chip ${state.community.category==='all'?'active':''}" data-community-cat="all">全部</button>`+
+      categories.map(name=>`
+        <button class="chip ${state.community.category===name?'active':''}" data-community-cat="${esc(name)}">${esc(name)}</button>
+      `).join('');
+  }
+
+  function communityStatsFor(id){
+    return state.community.stats[id]||{
+      total:0,
+      effective:0,
+      neutral:0,
+      unsuitable:0,
+      rate:0
+    };
+  }
+
+  function communityCardHTML(method){
+    const stats=communityStatsFor(method.id);
+    const author=method.anonymous?'匿名分享':(method.authorName||'社区用户');
+
+    return `
+      <button class="community-card" type="button" data-open-community="${method.id}">
+        <div class="community-card-top">
+          <span class="community-badge">${esc(method.category||'其他')}</span>
+          <span class="community-author">${esc(author)}</span>
+        </div>
+        <h3>${esc(method.title)}</h3>
+        ${method.content?`<p>${esc(method.content)}</p>`:''}
+        <div class="community-card-foot">
+          <span>${stats.total} 人体验过</span>
+          <span class="community-rate">${stats.total?`有效率 ${stats.rate}%`:'等待验证'}</span>
+        </div>
+      </button>`;
+  }
+
+  function renderCommunityHome(){
+    document.getElementById('homeSearch').placeholder='搜索社区方法';
+    renderCommunityChips();
+    const box=document.getElementById('homeContent');
+
+    if(state.community.loading){
+      box.innerHTML=`<div class="community-empty">正在加载社区内容…</div>`;
+      return;
+    }
+
+    const keyword=state.home.search.trim().toLowerCase();
+    let methods=[...state.community.methods];
+
+    if(state.community.category!=='all'){
+      methods=methods.filter(m=>(m.category||'其他')===state.community.category);
+    }
+    if(keyword){
+      methods=methods.filter(m=>
+        `${m.title||''} ${m.content||''} ${m.category||''}`.toLowerCase().includes(keyword)
+      );
+    }
+
+    if(!methods.length){
+      box.innerHTML=`
+        <div class="community-empty">
+          <div>
+            <div class="empty-ink">邻</div>
+            <h3>${keyword?'没有找到相关社区内容':'社区还没有公开方法'}</h3>
+            <p>${state.authUser?'可以从自己的方法详情中发布第一条。':'登录后可以把自己的方法分享给大家。'}</p>
+          </div>
+        </div>`;
+      return;
+    }
+
+    box.innerHTML=`
+      <div class="community-intro">社区内容来自用户的个人经验，仅供参考，不替代诊断和医疗建议。</div>
+      <div class="community-list">${methods.map(communityCardHTML).join('')}</div>`;
+  }
+
+  async function loadCommunityStats(methodId){
+    try{
+      const {firestoreApi}=await loadFirebase();
+      const snap=await firestoreApi.getDocs(
+        firestoreApi.collection(cloudDb,'communityMethods',methodId,'votes')
+      );
+      const counts={total:0,effective:0,neutral:0,unsuitable:0,rate:0};
+      snap.forEach(docSnap=>{
+        const result=docSnap.data()?.result;
+        if(result in counts && result!=='total' && result!=='rate'){
+          counts[result]++;
+          counts.total++;
+        }
+      });
+      counts.rate=counts.total?Math.round(counts.effective/counts.total*100):0;
+      state.community.stats[methodId]=counts;
+      if(state.homeScope==='community') renderCommunityHome();
+      return counts;
+    }catch(error){
+      console.error('读取社区统计失败',error);
+      return communityStatsFor(methodId);
+    }
+  }
+
+  async function refreshVisibleCommunityStats(){
+    const methods=state.community.methods.slice(0,30);
+    await Promise.all(methods.map(m=>loadCommunityStats(m.id)));
+  }
+
+  async function startCommunityListener(){
+    const {firestoreApi}=await loadFirebase();
+    if(communityUnsub) communityUnsub();
+
+    const q=firestoreApi.query(
+      firestoreApi.collection(cloudDb,'communityMethods'),
+      firestoreApi.where('status','==','published'),
+      firestoreApi.limit(100)
+    );
+
+    communityUnsub=firestoreApi.onSnapshot(
+      q,
+      snapshot=>{
+        state.community.methods=snapshot.docs
+          .map(d=>({id:d.id,...d.data()}))
+          .sort((a,b)=>String(b.updatedAt||b.createdAt||'').localeCompare(String(a.updatedAt||a.createdAt||'')));
+        state.community.loading=false;
+        if(state.homeScope==='community') renderCommunityHome();
+        refreshVisibleCommunityStats();
+      },
+      error=>{
+        console.error('读取社区失败',error);
+        state.community.loading=false;
+        if(state.homeScope==='community'){
+          document.getElementById('homeContent').innerHTML=
+            `<div class="community-empty">社区暂时无法连接，请稍后再试。</div>`;
+        }
+      }
+    );
+  }
+
+  function switchHomeScope(scope){
+    state.homeScope=scope==='community'?'community':'mine';
+    document.querySelectorAll('[data-home-scope]').forEach(button=>{
+      button.classList.toggle('active',button.dataset.homeScope===state.homeScope);
+    });
+
+    const fab=document.getElementById('addFab');
+    if(fab){
+      fab.style.display=state.homeScope==='mine'?'grid':'none';
+    }
+
+    document.getElementById('homeSearch').placeholder=
+      state.homeScope==='mine'?'搜索标题、内容或分类':'搜索社区方法';
+
+    renderHome();
+  }
+
+  function communityPanelHTML(method){
+    if(!method.communityId){
+      return `
+        <section class="community-panel">
+          <div class="community-panel-head">
+            <h3>分享到社区</h3>
+            <span class="community-badge">可选</span>
+          </div>
+          <p>发布时会复制一份公开版本，个人原记录仍然只属于你。</p>
+          <div class="community-panel-actions one">
+            <button class="community-publish-btn" data-publish-community="${method.id}">发布到社区</button>
+          </div>
+        </section>`;
+    }
+
+    if(method.communityStatus==='hidden'){
+      return `
+        <section class="community-panel">
+          <div class="community-panel-head">
+            <h3>社区版本已隐藏</h3>
+            <span class="community-badge">仅自己可见</span>
+          </div>
+          <p>个人记录仍然保留。重新发布后，社区用户可以再次看到。</p>
+          <div class="community-panel-actions">
+            <button class="community-publish-btn" data-republish-community="${method.id}">重新发布</button>
+            <button class="community-soft-btn" data-update-community="${method.id}">更新内容</button>
+          </div>
+        </section>`;
+    }
+
+    return `
+      <section class="community-panel">
+        <div class="community-panel-head">
+          <h3>已发布到社区</h3>
+          <span class="community-badge">公开中</span>
+        </div>
+        <p>社区版本和个人记录互相独立，隐藏社区版本不会删除个人内容。</p>
+        <div class="community-panel-actions">
+          <button class="community-soft-btn" data-update-community="${method.id}">更新社区内容</button>
+          <button class="community-soft-btn" data-hide-community="${method.id}">社区隐藏</button>
+        </div>
+      </section>`;
+  }
+
+  function openPublishCommunitySheet(methodId){
+    if(!requireLogin()) return;
+    const method=methodById(methodId);
+    if(!method) return;
+
+    const sheet=document.getElementById('dynamicSheet');
+    sheet.dataset.methodId=methodId;
+    sheet.innerHTML=`
+      <div class="sheet-handle"></div>
+      <h3>${method.communityId?'更新社区内容':'发布到社区'}</h3>
+      <div class="sheet-sub">将复制标题、分类和内容。个人原记录不会公开，也不会被删除。</div>
+      <label class="publish-check">
+        <input id="communityAnonymous" type="checkbox" checked>
+        <span>匿名发布，不展示邮箱信息</span>
+      </label>
+      <label class="publish-check">
+        <input id="communityConsent" type="checkbox">
+        <span>我确认这是个人经验分享，不替代医疗建议，也不作治疗或治愈承诺。</span>
+      </label>
+      <div style="display:grid;gap:9px">
+        <button class="primary-btn" id="confirmPublishCommunity">确认发布</button>
+        <button class="secondary-btn" id="cancelSheet">取消</button>
+      </div>`;
+    document.getElementById('sheetBackdrop').classList.add('show');
+  }
+
+  async function publishCommunityMethod(methodId,status='published'){
+    if(!requireLogin()) return;
+    const method=methodById(methodId);
+    if(!method) return;
+
+    const consent=document.getElementById('communityConsent');
+    if(consent && !consent.checked){
+      showToast('请先确认社区发布说明',null);
+      return;
+    }
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      const communityId=method.communityId||uid('community');
+      let createdAt=nowISO();
+
+      if(method.communityId){
+        const oldSnap=await firestoreApi.getDoc(
+          firestoreApi.doc(cloudDb,'communityMethods',communityId)
+        );
+        if(oldSnap.exists()) createdAt=oldSnap.data().createdAt||createdAt;
+      }
+
+      const anonymous=document.getElementById('communityAnonymous')?.checked ?? true;
+      await firestoreApi.setDoc(
+        firestoreApi.doc(cloudDb,'communityMethods',communityId),
+        {
+          ownerUid:state.authUser.uid,
+          sourceMethodId:method.id,
+          title:method.title,
+          category:categoryName(method.categoryId),
+          content:method.content||'',
+          anonymous,
+          authorName:anonymous?'':String(state.authUser.email||'社区用户').split('@')[0],
+          status,
+          createdAt,
+          updatedAt:nowISO()
+        }
+      );
+
+      method.communityId=communityId;
+      method.communityStatus=status;
+      method.communityAnonymous=anonymous;
+      method.updatedAt=nowISO();
+      await put(STORE_METHODS,method);
+
+      closeSheet();
+      renderAll();
+      renderDetail(method.id);
+      showToast(status==='published'?'已发布到社区':'社区内容已更新',null);
+    }catch(error){
+      console.error(error);
+      showToast('发布失败，请检查网络后重试',null);
+    }
+  }
+
+  async function setCommunityVisibility(methodId,status){
+    if(!requireLogin()) return;
+    const method=methodById(methodId);
+    if(!method?.communityId) return;
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      await firestoreApi.setDoc(
+        firestoreApi.doc(cloudDb,'communityMethods',method.communityId),
+        {status,updatedAt:nowISO()},
+        {merge:true}
+      );
+      method.communityStatus=status;
+      method.updatedAt=nowISO();
+      await put(STORE_METHODS,method);
+      renderAll();
+      renderDetail(method.id);
+      showToast(status==='hidden'?'社区版本已隐藏':'已重新发布',null);
+    }catch(error){
+      console.error(error);
+      showToast('操作失败，请稍后重试',null);
+    }
+  }
+
+
+  function notificationSeenStorageKey(){
+    return state.authUser ? `ysj-notification-seen-${state.authUser.uid}` : 'ysj-notification-seen-guest';
+  }
+
+  async function loadNotificationSeenAt(){
+    if(!state.authUser){
+      state.notifications.seenAt='';
+      return;
+    }
+
+    const localSeen=localStorage.getItem(notificationSeenStorageKey())||'';
+    state.notifications.seenAt=localSeen;
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      const snap=await firestoreApi.getDoc(
+        firestoreApi.doc(cloudDb,'users',state.authUser.uid,'settings','notifications')
+      );
+      const cloudSeen=snap.exists()?String(snap.data()?.seenAt||''):'';
+      if(cloudSeen>state.notifications.seenAt){
+        state.notifications.seenAt=cloudSeen;
+        localStorage.setItem(notificationSeenStorageKey(),cloudSeen);
+      }
+    }catch(error){
+      console.warn('读取消息已读状态失败',error);
+    }
+  }
+
+  async function saveNotificationSeenAt(value){
+    if(!state.authUser) return;
+    state.notifications.seenAt=value;
+    localStorage.setItem(notificationSeenStorageKey(),value);
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      await firestoreApi.setDoc(
+        firestoreApi.doc(cloudDb,'users',state.authUser.uid,'settings','notifications'),
+        {seenAt:value,updatedAt:nowISO()},
+        {merge:true}
+      );
+    }catch(error){
+      console.warn('保存消息已读状态失败',error);
+    }
+  }
+
+  function notificationUnreadItems(){
+    const seen=state.notifications.seenAt||'';
+    return state.notifications.items.filter(item=>String(item.createdAt||'')>seen);
+  }
+
+  function renderNotificationStatus(){
+    const count=notificationUnreadItems().length;
+    const text=document.getElementById('notificationStatusText');
+    const dot=document.getElementById('notificationUnreadDot');
+    const navDot=document.getElementById('meNavUnreadDot');
+
+    if(text){
+      if(!state.authUser) text.textContent='登录后查看';
+      else if(state.notifications.loading) text.textContent='正在刷新';
+      else text.textContent=count?`${count} 条未读`:'暂无新消息';
+    }
+    if(dot) dot.classList.toggle('show',count>0);
+    if(navDot) navDot.classList.toggle('show',count>0);
+  }
+
+  async function refreshNotifications(options={}){
+    if(!state.authUser){
+      state.notifications.items=[];
+      state.notifications.loading=false;
+      renderNotificationStatus();
+      renderNotifications();
+      return;
+    }
+
+    const silent=Boolean(options.silent);
+    state.notifications.loading=true;
+    renderNotificationStatus();
+    if(!silent) renderNotifications();
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      let methods=[...state.community.methods];
+
+      if(!methods.length){
+        const methodSnap=await firestoreApi.getDocs(
+          firestoreApi.query(
+            firestoreApi.collection(cloudDb,'communityMethods'),
+            firestoreApi.where('status','==','published'),
+            firestoreApi.limit(100)
+          )
+        );
+        methods=methodSnap.docs.map(docSnap=>({id:docSnap.id,...docSnap.data()}));
+      }
+
+      const messageGroups=await Promise.all(methods.map(async method=>{
+        try{
+          const snap=await firestoreApi.getDocs(
+            firestoreApi.collection(cloudDb,'communityMethods',method.id,'comments')
+          );
+          return snap.docs.map(docSnap=>({
+            id:docSnap.id,
+            methodId:method.id,
+            methodTitle:method.title||'社区方法',
+            methodOwnerUid:method.ownerUid||'',
+            ...docSnap.data()
+          }));
+        }catch(error){
+          console.warn('读取社区消息失败',method.id,error);
+          return [];
+        }
+      }));
+
+      const uid=state.authUser.uid;
+      const items=[];
+
+      for(const comment of messageGroups.flat()){
+        if(!comment.authorUid || comment.authorUid===uid) continue;
+        const isReply=Boolean(comment.parentCommentId);
+        const replyToMe=isReply && comment.parentAuthorUid===uid;
+        const activityOnMyMethod=comment.methodOwnerUid===uid;
+
+        if(!replyToMe && !activityOnMyMethod) continue;
+
+        items.push({
+          id:`${comment.methodId}:${comment.id}`,
+          methodId:comment.methodId,
+          commentId:comment.id,
+          type:replyToMe?'reply':(isReply?'methodReply':'comment'),
+          title:replyToMe
+            ? `${comment.authorName||'社区用户'} 回复了你的评论`
+            : `${comment.authorName||'社区用户'} ${isReply?'回复了社区评论':'评论了你的方法'}`,
+          preview:comment.content||'',
+          methodTitle:comment.methodTitle||'社区方法',
+          createdAt:comment.createdAt||comment.updatedAt||''
+        });
+      }
+
+      state.notifications.items=items
+        .filter(item=>item.createdAt)
+        .sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));
+      state.notifications.refreshedAt=Date.now();
+    }catch(error){
+      console.error('刷新消息失败',error);
+      if(!silent) showToast('消息刷新失败，请稍后重试',null);
+    }finally{
+      state.notifications.loading=false;
+      renderNotificationStatus();
+      renderNotifications();
+    }
+  }
+
+  function notificationTypeLabel(type){
+    if(type==='reply') return '回复';
+    if(type==='methodReply') return '社区互动';
+    return '评论';
+  }
+
+  function renderNotifications(){
+    const box=document.getElementById('notificationContent');
+    if(!box) return;
+
+    const markButton=document.getElementById('markAllNotificationsRead');
+    const unread=notificationUnreadItems();
+    if(markButton) markButton.hidden=!unread.length;
+
+    if(!state.authUser){
+      box.innerHTML=`<div class="notification-empty"><div><h3>登录后查看消息</h3><p>有人评论你的方法或回复你的评论时，会显示在这里。</p></div></div>`;
+      return;
+    }
+
+    if(state.notifications.loading && !state.notifications.items.length){
+      box.innerHTML=`<div class="notification-empty">正在刷新消息…</div>`;
+      return;
+    }
+
+    if(!state.notifications.items.length){
+      box.innerHTML=`<div class="notification-empty"><div><div class="empty-ink">信</div><h3>还没有新消息</h3><p>有人评论你的社区方法或回复你的评论后，会显示在这里。</p></div></div>`;
+      return;
+    }
+
+    const seen=state.notifications.seenAt||'';
+    box.innerHTML=`<div class="notification-list">${state.notifications.items.map(item=>{
+      const unread=String(item.createdAt||'')>seen;
+      return `<button class="notification-card ${unread?'unread':''}" data-open-notification="${item.id}">
+        <i class="notification-card-dot"></i>
+        <span class="notification-card-copy">
+          <strong>${esc(item.title)}</strong>
+          <p>${esc(item.preview||item.methodTitle)}</p>
+        </span>
+        <span class="notification-card-time">${fmtDate(item.createdAt)}</span>
+      </button>`;
+    }).join('')}</div>`;
+  }
+
+  async function openNotifications(){
+    if(!state.authUser){
+      openAccountSheet();
+      showToast('登录后才能查看消息',null);
+      return;
+    }
+    openSub('sub-notifications');
+    renderNotifications();
+    await refreshNotifications();
+  }
+
+  async function markAllNotificationsRead(){
+    if(!state.authUser) return;
+    await saveNotificationSeenAt(nowISO());
+    renderNotificationStatus();
+    renderNotifications();
+    showToast('消息已全部标记为已读',null);
+  }
+
+  async function openNotificationItem(id){
+    const item=state.notifications.items.find(message=>message.id===id);
+    if(!item) return;
+    await saveNotificationSeenAt(nowISO());
+    renderNotificationStatus();
+    renderNotifications();
+    closeSubById('sub-notifications');
+    await openCommunityDetail(item.methodId);
+  }
+
+  function topLevelCommunityComments(){
+    return state.community.detailComments.filter(comment=>!comment.parentCommentId);
+  }
+
+  function communityRepliesFor(commentId){
+    return state.community.detailComments
+      .filter(comment=>comment.parentCommentId===commentId)
+      .sort((a,b)=>String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
+  }
+
+  function openCommunityReplySheet(commentId){
+    if(!requireLogin()) return;
+    const comment=state.community.detailComments.find(item=>item.id===commentId);
+    if(!comment) return;
+
+    const sheet=document.getElementById('dynamicSheet');
+    sheet.dataset.commentId=commentId;
+    sheet.innerHTML=`
+      <div class="sheet-handle"></div>
+      <h3>回复评论</h3>
+      <div class="reply-sheet-card">
+        <div class="reply-sheet-target">回复 ${esc(comment.authorName||'社区用户')}：${esc((comment.content||'').slice(0,80))}</div>
+        <textarea id="communityReplyText" maxlength="500" placeholder="写下你的回复…"></textarea>
+        <button class="reply-sheet-submit" id="submitCommunityReply">发布回复</button>
+        <button class="secondary-btn" id="cancelSheet">取消</button>
+      </div>`;
+    document.getElementById('sheetBackdrop').classList.add('show');
+  }
+
+  async function submitCommunityReply(){
+    if(!requireLogin()) return;
+    const methodId=state.community.detailId;
+    const commentId=document.getElementById('dynamicSheet').dataset.commentId;
+    const parent=state.community.detailComments.find(item=>item.id===commentId);
+    const content=document.getElementById('communityReplyText')?.value.trim();
+    if(!parent || !content){
+      showToast('请填写回复内容',null);
+      return;
+    }
+
+    const button=document.getElementById('submitCommunityReply');
+    if(button){button.disabled=true;button.textContent='正在发布…';}
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      const replyId=uid('reply');
+      await firestoreApi.setDoc(
+        firestoreApi.doc(cloudDb,'communityMethods',methodId,'comments',replyId),
+        {
+          authorUid:state.authUser.uid,
+          authorName:`用户${state.authUser.uid.slice(-4)}`,
+          content,
+          imageData:'',
+          result:'none',
+          parentCommentId:parent.id,
+          parentAuthorUid:parent.authorUid,
+          replyToName:parent.authorName||'社区用户',
+          createdAt:nowISO(),
+          updatedAt:nowISO()
+        }
+      );
+      closeSheet();
+      const method=await fetchCommunityDetail(methodId);
+      renderCommunityDetail(method);
+      showToast('回复已发布',null);
+    }catch(error){
+      console.error(error);
+      if(button){button.disabled=false;button.textContent='发布回复';}
+      showToast('回复发布失败，请稍后重试',null);
+    }
+  }
+
+  async function fetchCommunityDetail(methodId){
+    const {firestoreApi}=await loadFirebase();
+    let method=state.community.methods.find(m=>m.id===methodId);
+
+    if(!method){
+      const methodSnap=await firestoreApi.getDoc(
+        firestoreApi.doc(cloudDb,'communityMethods',methodId)
+      );
+      if(!methodSnap.exists()) throw new Error('not-found');
+      method={id:methodSnap.id,...methodSnap.data()};
+    }
+
+    const [votesSnap,commentsSnap]=await Promise.all([
+      firestoreApi.getDocs(firestoreApi.collection(cloudDb,'communityMethods',methodId,'votes')),
+      firestoreApi.getDocs(firestoreApi.collection(cloudDb,'communityMethods',methodId,'comments'))
+    ]);
+
+    state.community.detailId=methodId;
+    state.community.detailVotes=votesSnap.docs.map(d=>({id:d.id,...d.data()}));
+    state.community.detailComments=commentsSnap.docs
+      .map(d=>({id:d.id,...d.data()}))
+      .sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+
+    return method;
+  }
+
+  function communityDetailStats(){
+    const counts={total:0,effective:0,neutral:0,unsuitable:0,rate:0};
+    for(const vote of state.community.detailVotes){
+      if(['effective','neutral','unsuitable'].includes(vote.result)){
+        counts[vote.result]++;
+        counts.total++;
+      }
+    }
+    counts.rate=counts.total?Math.round(counts.effective/counts.total*100):0;
+    return counts;
+  }
+
+  async function openCommunityDetail(methodId){
+    try{
+      document.getElementById('communityDetailContent').innerHTML=
+        `<div class="community-empty">正在读取社区方法…</div>`;
+      const topAction=document.getElementById('communityDetailAction');
+      const commentFab=document.getElementById('communityCommentFab');
+      if(topAction){topAction.textContent='';topAction.hidden=true;topAction.dataset.methodId='';}
+      if(commentFab) commentFab.hidden=true;
+      openSub('sub-community-detail');
+      const method=await fetchCommunityDetail(methodId);
+      renderCommunityDetail(method);
+    }catch(error){
+      console.error(error);
+      document.getElementById('communityDetailContent').innerHTML=
+        `<div class="community-empty">这条社区内容不存在或已经隐藏。</div>`;
+    }
+  }
+
+  function renderCommunityDetail(method){
+    const box=document.getElementById('communityDetailContent');
+    const stats=communityDetailStats();
+    const myVote=state.authUser
+      ? state.community.detailVotes.find(v=>v.id===state.authUser.uid)?.result||null
+      : null;
+    const author=method.anonymous?'匿名分享':(method.authorName||'社区用户');
+    const canManage=isAdmin() || state.authUser?.uid===method.ownerUid;
+    const topAction=document.getElementById('communityDetailAction');
+    const commentFab=document.getElementById('communityCommentFab');
+    const topComments=topLevelCommunityComments();
+
+    if(topAction){
+      topAction.textContent=canManage?'隐藏':'';
+      topAction.dataset.methodId=canManage?method.id:'';
+      topAction.hidden=!canManage;
+    }
+    if(commentFab) commentFab.hidden=false;
+
+    box.innerHTML=`
+      <div class="detail-body">
+        <section class="community-detail-section">
+          <div class="community-card-top">
+            <span class="community-badge">${esc(method.category||'其他')}</span>
+            <span class="community-author">${esc(author)}</span>
+          </div>
+          <h1 class="community-detail-title">${esc(method.title)}</h1>
+          ${method.content?`<div class="community-detail-content">${esc(method.content)}</div>`:''}
+          <div class="community-disclaimer">本内容来自用户个人经验，仅供参考，不替代医生诊断或医疗建议。</div>
+        </section>
+
+        <section class="community-detail-section">
+          <div class="community-stat-row">
+            <strong>大家用过后的结果</strong>
+            <span class="community-rate">${stats.total?`有效率 ${stats.rate}%`:'等待验证'}</span>
+          </div>
+          <div class="community-stat-grid">
+            <div class="community-stat-item"><strong>${stats.effective}</strong><span>有效</span></div>
+            <div class="community-stat-item"><strong>${stats.neutral}</strong><span>没感觉</span></div>
+            <div class="community-stat-item"><strong>${stats.unsuitable}</strong><span>不适合</span></div>
+          </div>
+          <div class="community-vote-options">
+            ${['effective','neutral','unsuitable'].map(result=>`
+              <button data-community-vote="${result}" class="${myVote===result?'selected':''}">
+                <span>${statusMeta[result].emoji}</span>${statusMeta[result].label}
+              </button>`).join('')}
+          </div>
+          <div class="community-disclaimer">${state.authUser?'再次点击当前结果可以取消；每个账号只保留一个结果。':'登录后可以留下你的使用结果。'}</div>
+        </section>
+
+        <section class="community-detail-section">
+          <div class="community-comment-head">
+            <strong style="color:#344034;font-size:16px">使用评论</strong>
+            <span>${topComments.length} 条</span>
+          </div>
+          <div class="community-comment-list">
+            ${topComments.length
+              ?topComments.map(comment=>{
+                const replies=communityRepliesFor(comment.id);
+                return `<article class="community-comment">
+                  <div class="community-comment-head">
+                    <span>${esc(comment.authorName||'匿名用户')} · ${fmtDate(comment.createdAt)}</span>
+                    ${(state.authUser?.uid===comment.authorUid||isAdmin())?`
+                      <span class="community-comment-tools">
+                        <button data-delete-community-comment="${comment.id}">删除</button>
+                      </span>`:''}
+                  </div>
+                  <p>${esc(comment.content)}</p>
+                  ${comment.imageData?`<img class="community-comment-image" src="${esc(comment.imageData)}" alt="用户评论图片" loading="lazy">`:''}
+                  <div class="community-comment-footer">
+                    <button class="community-comment-reply-button" data-reply-community-comment="${comment.id}">回复</button>
+                    ${replies.length?`<span class="community-reply-count">${replies.length} 条回复</span>`:''}
+                  </div>
+                  ${replies.length?`<div class="community-reply-list">${replies.map(reply=>`
+                    <article class="community-reply">
+                      <div class="community-reply-head">
+                        <span>${esc(reply.authorName||'社区用户')} · ${fmtDate(reply.createdAt)}</span>
+                        ${(state.authUser?.uid===reply.authorUid||isAdmin())?`<span class="community-reply-tools"><button data-delete-community-comment="${reply.id}">删除</button></span>`:''}
+                      </div>
+                      <p>${esc(reply.content)}</p>
+                    </article>`).join('')}</div>`:''}
+                </article>`;
+              }).join('')
+              :`<div style="color:#999E98;font-size:13px;line-height:1.7">还没有评论，点击右下角“评论”留下第一条真实体验。</div>`}
+          </div>
+        </section>
+      </div>`;
+  }
+
+  async function voteCommunity(result){
+    if(!requireLogin()) return;
+    const methodId=state.community.detailId;
+    if(!methodId) return;
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      const ref=firestoreApi.doc(
+        cloudDb,'communityMethods',methodId,'votes',state.authUser.uid
+      );
+      const current=state.community.detailVotes.find(v=>v.id===state.authUser.uid);
+
+      if(current?.result===result){
+        await firestoreApi.deleteDoc(ref);
+      }else{
+        await firestoreApi.setDoc(ref,{
+          userUid:state.authUser.uid,
+          result,
+          updatedAt:nowISO()
+        });
+      }
+
+      const method=await fetchCommunityDetail(methodId);
+      await loadCommunityStats(methodId);
+      renderCommunityDetail(method);
+    }catch(error){
+      console.error(error);
+      showToast('结果保存失败，请稍后重试',null);
+    }
+  }
+
+
+  function estimateDataUrlBytes(dataUrl){
+    if(!dataUrl) return 0;
+    const base64=String(dataUrl).split(',')[1]||'';
+    return Math.ceil(base64.length*0.75);
+  }
+
+  async function compressCommentImage(file){
+    if(!file || !String(file.type||'').startsWith('image/')){
+      throw new Error('invalid-image');
+    }
+
+    let maxSide=900;
+    let quality=.78;
+    let dataUrl='';
+
+    for(let attempt=0;attempt<6;attempt++){
+      dataUrl=await compressImage(file,maxSide,quality);
+      if(estimateDataUrlBytes(dataUrl)<=320*1024) return dataUrl;
+      maxSide=Math.max(520,Math.round(maxSide*.82));
+      quality=Math.max(.5,quality-.08);
+    }
+
+    if(estimateDataUrlBytes(dataUrl)>420*1024){
+      throw new Error('image-too-large');
+    }
+    return dataUrl;
+  }
+
+  function openCommunityCommentSheet(){
+    if(!requireLogin()) return;
+
+    state.community.commentImage=null;
+    const sheet=document.getElementById('dynamicSheet');
+    sheet.innerHTML=`
+      <div class="sheet-handle"></div>
+      <h3>发布评论</h3>
+      <div class="sheet-sub">分享真实使用感受，也可以附带一张图片。</div>
+      <div class="comment-sheet-card">
+        <textarea id="communityCommentText" maxlength="500" placeholder="说说实际感受、注意事项或不适反应…"></textarea>
+
+        <label class="comment-image-picker" id="commentImagePicker">
+          <input id="communityCommentImageInput" type="file" accept="image/*">
+          <span class="comment-image-copy">
+            <span class="comment-image-add">＋</span>
+            <strong>添加图片</strong>
+          </span>
+          <span class="comment-image-preview" id="communityCommentImagePreview">
+            <img id="communityCommentImagePreviewImg" alt="评论图片预览">
+            <button type="button" id="removeCommunityCommentImage" aria-label="移除图片">×</button>
+          </span>
+        </label>
+
+        <div class="comment-sheet-note">社区内容仅供经验交流，不替代医疗建议。</div>
+        <button class="comment-sheet-submit" id="submitCommunityComment">发布评论</button>
+        <button class="secondary-btn" id="cancelSheet">取消</button>
+      </div>`;
+
+    document.getElementById('sheetBackdrop').classList.add('show');
+
+    const picker=document.getElementById('commentImagePicker');
+    const preview=document.getElementById('communityCommentImagePreview');
+    const previewImg=document.getElementById('communityCommentImagePreviewImg');
+    if(picker) picker.classList.remove('has-image');
+    if(preview) preview.classList.remove('show');
+    if(previewImg) previewImg.removeAttribute('src');
+
+    const input=document.getElementById('communityCommentImageInput');
+    input.addEventListener('change',async event=>{
+      const file=event.target.files?.[0];
+      event.target.value='';
+      if(!file) return;
+
+      try{
+        showToast('正在处理图片',null);
+        state.community.commentImage=await compressCommentImage(file);
+        const preview=document.getElementById('communityCommentImagePreview');
+        const image=document.getElementById('communityCommentImagePreviewImg');
+        if(preview && image){
+          image.src=state.community.commentImage;
+          preview.classList.add('show');
+          const pickerEl=document.getElementById('commentImagePicker');
+          if(pickerEl) pickerEl.classList.add('has-image');
+        }
+        showToast('图片已添加',null);
+      }catch(error){
+        console.error(error);
+        state.community.commentImage=null;
+        showToast(error?.message==='image-too-large'?'图片过大，请换一张':'图片处理失败',null);
+      }
+    });
+  }
+
+  function removeCommunityCommentImage(){
+    state.community.commentImage=null;
+    const preview=document.getElementById('communityCommentImagePreview');
+    const image=document.getElementById('communityCommentImagePreviewImg');
+    const picker=document.getElementById('commentImagePicker');
+    if(preview) preview.classList.remove('show');
+    if(image) image.removeAttribute('src');
+    if(picker) picker.classList.remove('has-image');
+  }
+
+  async function submitCommunityComment(){
+    if(!requireLogin()) return;
+    const methodId=state.community.detailId;
+    const content=document.getElementById('communityCommentText')?.value.trim();
+    if(!content){
+      showToast('请填写评论内容',null);
+      return;
+    }
+
+    const submitButton=document.getElementById('submitCommunityComment');
+    if(submitButton){
+      submitButton.disabled=true;
+      submitButton.textContent='正在发布…';
+    }
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      const commentId=uid('comment');
+      const myVote=state.community.detailVotes.find(v=>v.id===state.authUser.uid)?.result||'none';
+      await firestoreApi.setDoc(
+        firestoreApi.doc(cloudDb,'communityMethods',methodId,'comments',commentId),
+        {
+          authorUid:state.authUser.uid,
+          authorName:`用户${state.authUser.uid.slice(-4)}`,
+          content,
+          imageData:state.community.commentImage||'',
+          result:myVote,
+          createdAt:nowISO(),
+          updatedAt:nowISO()
+        }
+      );
+
+      state.community.commentImage=null;
+      closeSheet();
+      const method=await fetchCommunityDetail(methodId);
+      renderCommunityDetail(method);
+      showToast('评论已发布',null);
+    }catch(error){
+      console.error(error);
+      if(submitButton){
+        submitButton.disabled=false;
+        submitButton.textContent='发布评论';
+      }
+      showToast('评论发布失败，请稍后重试',null);
+    }
+  }
+
+  async function deleteCommunityComment(commentId){
+    if(!state.authUser || !state.community.detailId) return;
+    try{
+      const {firestoreApi}=await loadFirebase();
+      const target=state.community.detailComments.find(item=>item.id===commentId);
+      const ids=[commentId];
+      /* 只有管理员可以连同其他用户的回复一起清理；普通用户只删除自己的这一条。 */
+      if(isAdmin() && target && !target.parentCommentId){
+        state.community.detailComments
+          .filter(item=>item.parentCommentId===commentId)
+          .forEach(item=>ids.push(item.id));
+      }
+      await Promise.all(ids.map(id=>firestoreApi.deleteDoc(
+        firestoreApi.doc(cloudDb,'communityMethods',state.community.detailId,'comments',id)
+      )));
+      const method=await fetchCommunityDetail(state.community.detailId);
+      renderCommunityDetail(method);
+      showToast('评论已删除',null);
+    }catch(error){
+      console.error(error);
+      showToast('删除失败，请稍后重试',null);
+    }
+  }
+
+  async function manageHideCommunity(methodId){
+    if(!state.authUser) return;
+    try{
+      const {firestoreApi}=await loadFirebase();
+      await firestoreApi.setDoc(
+        firestoreApi.doc(cloudDb,'communityMethods',methodId),
+        {status:'hidden',updatedAt:nowISO()},
+        {merge:true}
+      );
+
+      const personal=state.methods.find(m=>m.communityId===methodId);
+      if(personal){
+        personal.communityStatus='hidden';
+        personal.updatedAt=nowISO();
+        await put(STORE_METHODS,personal);
+      }
+
+      closeSubById('sub-community-detail');
+      showToast('社区内容已隐藏',null);
+    }catch(error){
+      console.error(error);
+      showToast('隐藏失败，请稍后重试',null);
+    }
+  }
+
+
   function renderHome(){
-    state.home.mode = 'all';
+    document.querySelectorAll('[data-home-scope]').forEach(button=>{
+      button.classList.toggle('active',button.dataset.homeScope===state.homeScope);
+    });
+
+    if(state.homeScope==='community'){
+      renderCommunityHome();
+      return;
+    }
+
+    document.getElementById('homeSearch').placeholder='搜索标题、内容或分类';
+    state.home.mode='all';
     document.querySelectorAll('[data-home-mode]').forEach(b=>b.classList.toggle('active',b.dataset.homeMode===state.home.mode));
-    state.home.view = 'list';
+    state.home.view='list';
     renderChips('homeChips',state.home.category,true);
-    const methods = getFilteredMethods('home');
-    const box = document.getElementById('homeContent');
+    const methods=getFilteredMethods('home');
+    const box=document.getElementById('homeContent');
 
     if(!state.methods.length){
-      box.innerHTML = `<div class="empty"><div><div class="empty-ink">笺</div><h3>还没有养生方法</h3><p>看到值得尝试的内容，就把它记在这里。</p><button class="primary-btn" data-empty-add>记录第一个方法</button></div></div>`;
+      box.innerHTML=`<div class="empty"><div><div class="empty-ink">笺</div><h3>还没有养生方法</h3><p>看到值得尝试的内容，就把它记在这里。</p><button class="primary-btn" data-empty-add>记录第一个方法</button></div></div>`;
       return;
     }
     if(!methods.length){
-      box.innerHTML = `<div class="empty"><div><div class="empty-ink">寻</div><h3>没有找到相关内容</h3><p>换个关键词或分类试试。</p></div></div>`;
+      box.innerHTML=`<div class="empty"><div><div class="empty-ink">寻</div><h3>没有找到相关内容</h3><p>换个关键词或分类试试。</p></div></div>`;
       return;
     }
-    if(state.home.mode==='all'){
-      box.innerHTML = `<div class="${state.home.view==='masonry'?'masonry':'list-grid'}">${methods.map(m=>cardHTML(m,state.home.view)).join('')}</div>`;
-    } else {
-      const groups = sortedCategories().map(c=>({c,items:methods.filter(m=>m.categoryId===c.id)})).filter(g=>g.items.length);
-      box.innerHTML = groups.map(g=>`
-        <section>
-          <div class="section-title"><h2>${esc(g.c.name)}</h2><button data-view-category="${g.c.id}">查看全部 ›</button></div>
-          <div class="group-list ${state.home.view==='list'?'list-mode':''}">
-            ${g.items.slice(0,state.home.view==='masonry'?2:1).map(m=>cardHTML(m,state.home.view)).join('')}
-          </div>
-        </section>`).join('');
-    }
+
+    box.innerHTML=`<div class="list-grid">${methods.map(m=>cardHTML(m,'list')).join('')}</div>`;
   }
 
   function currentMethodStatus(id){
@@ -3856,7 +6538,10 @@ svg{display:block}
 
   function renderMe(){
     const favs=state.methods.filter(m=>m.favorite).length;
-    document.getElementById('meStats').textContent=`已记录 ${state.methods.length} 个方法 · 收藏 ${favs} 个`;
+    const published=state.methods.filter(m=>m.communityStatus==='published').length;
+    document.getElementById('meStats').textContent=
+      `已记录 ${state.methods.length} 个方法 · 收藏 ${favs} 个${published?` · 社区 ${published} 个`:''}`;
+    renderAccountStatus();
   }
 
   function renderFavorites(){
@@ -3910,11 +6595,14 @@ svg{display:block}
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(`page-${tab}`).classList.add('active');
     document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
-    const fab = document.getElementById('addFab');
-    if(fab) fab.style.display = tab === 'home' ? 'grid' : 'none';
+    const fab=document.getElementById('addFab');
+    if(fab) fab.style.display=(tab==='home'&&state.homeScope==='mine')?'grid':'none';
     if(tab==='home') renderHome();
     if(tab==='trials') renderTrials();
-    if(tab==='me') renderMe();
+    if(tab==='me'){
+      renderMe();
+      if(state.authUser) refreshNotifications({silent:true});
+    }
   }
 
   const subpageHistory=[];
@@ -4123,6 +6811,51 @@ svg{display:block}
     });
   }
 
+  async function autoPublishAdminMethod(method){
+    if(!method || !state.authUser || !isAdmin()) return method;
+
+    try{
+      const {firestoreApi}=await loadFirebase();
+      const communityId=method.communityId||uid('community');
+      let createdAt=nowISO();
+
+      if(method.communityId){
+        const oldSnap=await firestoreApi.getDoc(
+          firestoreApi.doc(cloudDb,'communityMethods',communityId)
+        );
+        if(oldSnap.exists()) createdAt=oldSnap.data().createdAt||createdAt;
+      }
+
+      await firestoreApi.setDoc(
+        firestoreApi.doc(cloudDb,'communityMethods',communityId),
+        {
+          ownerUid:state.authUser.uid,
+          sourceMethodId:method.id,
+          title:method.title,
+          category:categoryName(method.categoryId),
+          content:method.content||'',
+          anonymous:true,
+          authorName:'',
+          status:'published',
+          createdAt,
+          updatedAt:nowISO()
+        }
+      );
+
+      method.communityId=communityId;
+      method.communityStatus='published';
+      method.communityAnonymous=true;
+      method.updatedAt=nowISO();
+      await put(STORE_METHODS,method);
+      const idx=state.methods.findIndex(m=>m.id===method.id);
+      if(idx>=0) state.methods[idx]=method;
+    }catch(error){
+      console.error('管理员内容自动同步社区失败',error);
+    }
+
+    return method;
+  }
+
   async function saveMethod(e){
     if(e) e.preventDefault();
     const id=document.getElementById('methodId').value;
@@ -4139,14 +6872,22 @@ svg{display:block}
       trialStatus:old?.trialStatus||null,
       createdAt:old?.createdAt||nowISO(),
       updatedAt:nowISO(),
-      lastTriedAt:old?.lastTriedAt||null
+      lastTriedAt:old?.lastTriedAt||null,
+      communityId:old?.communityId||null,
+      communityStatus:old?.communityStatus||null,
+      communityAnonymous:old?.communityAnonymous??true
     };
     await put(STORE_METHODS,item);
     const idx=state.methods.findIndex(m=>m.id===item.id);
     if(idx>=0) state.methods[idx]=item; else state.methods.push(item);
+
+    if(state.authUser && isAdmin()){
+      await autoPublishAdminMethod(item);
+    }
+
     closeSubById('sub-method-form');
     renderAll();
-    showToast(old?'已保存修改':'已添加方法',null);
+    showToast(old?(isAdmin()?'已保存并同步到社区':'已保存修改'):(isAdmin()?'已添加并同步到社区':'已添加方法'),null);
   }
 
   async function toggleFavorite(id){
@@ -4192,115 +6933,50 @@ svg{display:block}
   }
 
   async function setCardStatus(methodId,status){
-    const m = methodById(methodId);
+    const m=methodById(methodId);
     if(!m) return;
 
-    const previous = {
-      trialStatus:m.trialStatus || null,
-      lastTriedAt:m.lastTriedAt || null
-    };
-
-    m.trialStatus = status;
-    m.lastTriedAt = nowISO();
-    m.updatedAt = nowISO();
+    m.trialStatus=status;
+    m.lastTriedAt=nowISO();
+    m.updatedAt=nowISO();
     await put(STORE_METHODS,m);
 
     closeSheet();
     renderAll();
     if(state.detailMethodId===methodId) renderDetail(methodId);
-
-    const undo = async()=>{
-      const current = methodById(methodId);
-      if(!current) return;
-      current.trialStatus = previous.trialStatus;
-      current.lastTriedAt = previous.lastTriedAt;
-      current.updatedAt = nowISO();
-      await put(STORE_METHODS,current);
-      renderAll();
-      if(state.detailMethodId===methodId) renderDetail(methodId);
-    };
-
-    showToast(`已标记为${statusMeta[status].label}`,undo);
   }
 
   async function clearCardStatus(methodId){
-    const m = methodById(methodId);
+    const m=methodById(methodId);
     if(!m || !m.trialStatus) return;
 
-    const previous = {
-      trialStatus:m.trialStatus,
-      lastTriedAt:m.lastTriedAt || null
-    };
-
-    m.trialStatus = null;
-    m.lastTriedAt = null;
-    m.updatedAt = nowISO();
+    m.trialStatus=null;
+    m.lastTriedAt=null;
+    m.updatedAt=nowISO();
     await put(STORE_METHODS,m);
 
     closeSheet();
     renderAll();
     if(state.detailMethodId===methodId) renderDetail(methodId);
-
-    const undo = async()=>{
-      const current = methodById(methodId);
-      if(!current) return;
-      current.trialStatus = previous.trialStatus;
-      current.lastTriedAt = previous.lastTriedAt;
-      current.updatedAt = nowISO();
-      await put(STORE_METHODS,current);
-      renderAll();
-      if(state.detailMethodId===methodId) renderDetail(methodId);
-    };
-
-    showToast('已取消结果标记',undo);
   }
 
   async function quickMarkEffective(methodId){
-    const m = methodById(methodId);
+    const m=methodById(methodId);
     if(!m) return;
 
-    const previous = {
-      trialStatus: m.trialStatus || null,
-      lastTriedAt: m.lastTriedAt || null,
-      updatedAt: m.updatedAt
-    };
-
-    const currentStatus = m.trialStatus || null;
-    const currentLabel = currentStatus ? statusMeta[currentStatus].label : '';
-
-    if(currentStatus){
-      // 当前已有任意评价，再次点击首页状态按钮时取消评价
-      m.trialStatus = null;
-      m.lastTriedAt = null;
+    if(m.trialStatus){
+      m.trialStatus=null;
+      m.lastTriedAt=null;
     }else{
-      // 默认状态下，首页快捷入口标记为有效
-      m.trialStatus = 'effective';
-      m.lastTriedAt = nowISO();
+      m.trialStatus='effective';
+      m.lastTriedAt=nowISO();
     }
 
-    m.updatedAt = nowISO();
+    m.updatedAt=nowISO();
     await put(STORE_METHODS,m);
 
     renderAll();
-    if(state.detailMethodId === methodId) renderDetail(methodId);
-
-    const undo = async()=>{
-      const current = methodById(methodId);
-      if(!current) return;
-
-      current.trialStatus = previous.trialStatus;
-      current.lastTriedAt = previous.lastTriedAt;
-      current.updatedAt = nowISO();
-
-      await put(STORE_METHODS,current);
-      renderAll();
-      if(state.detailMethodId === methodId) renderDetail(methodId);
-    };
-
-    showToast(
-      currentStatus ? `已取消${currentLabel}标记` : '已标记为有效',
-      undo
-    );
+    if(state.detailMethodId===methodId) renderDetail(methodId);
   }
 
   function openQuickTrial(methodId,status=null){
@@ -4335,20 +7011,38 @@ svg{display:block}
     const status=sheet.dataset.status;
     const date=document.getElementById('quickDate').value||todayISO();
     const text=document.getElementById('quickNote').value.trim();
-    const m=methodById(methodId); if(!m) return;
-    m.trialStatus=status; m.lastTriedAt=nowISO(); m.updatedAt=nowISO();
+    const m=methodById(methodId);
+    if(!m) return;
+
+    m.trialStatus=status;
+    m.lastTriedAt=nowISO();
+    m.updatedAt=nowISO();
     await put(STORE_METHODS,m);
+
     if(text){
-      const note={id:uid('note'),methodId,date,text,createdAt:nowISO(),methodTitleSnapshot:m.title};
-      await put(STORE_NOTES,note); state.notes.push(note);
+      const note={
+        id:uid('note'),
+        methodId,
+        date,
+        text,
+        createdAt:nowISO(),
+        methodTitleSnapshot:m.title
+      };
+      await put(STORE_NOTES,note);
+      state.notes.push(note);
     }
+
     closeSheet();
     renderAll();
     if(state.detailMethodId===methodId) renderDetail(methodId);
-    showToast(text?'已保存试用记录':'已更新评价',null);
+
+    if(text) showToast('已保存试用记录',null);
   }
 
-  function closeSheet(){ document.getElementById('sheetBackdrop').classList.remove('show'); }
+  function closeSheet(){
+    document.getElementById('sheetBackdrop').classList.remove('show');
+    state.community.commentImage=null;
+  }
 
   function renderDetail(id){
     const m=methodById(id); if(!m) return;
@@ -4376,18 +7070,20 @@ svg{display:block}
 
       <div class="detail-body">
         <div class="detail-head">
-          <div>
+          <div class="detail-meta-row">
             <div class="category-tag detail-category">${esc(categoryName(m.categoryId))}</div>
-            <h2>${esc(m.title)}</h2>
+            <button class="fav-btn ${m.favorite?'on':''}"
+                    data-fav="${m.id}"
+                    aria-label="${m.favorite?'取消收藏':'收藏'}">
+              ${m.favorite?'★':'☆'}
+            </button>
           </div>
-          <button class="fav-btn ${m.favorite?'on':''}"
-                  data-fav="${m.id}"
-                  aria-label="${m.favorite?'取消收藏':'收藏'}">
-            ${m.favorite?'★':'☆'}
-          </button>
+          <h2>${esc(m.title)}</h2>
         </div>
 
         ${m.content?`<div class="detail-content">${esc(m.content)}</div>`:''}
+
+        ${communityPanelHTML(m)}
 
         <div class="status-panel refined-status-panel">
           <div class="status-panel-head">
@@ -4486,7 +7182,7 @@ svg{display:block}
         <img class="about-app-icon" src="data:image/png;base64,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7ksRi4FlhbVHVe08XTRIgLXIPHHLpJ4dyZBbXbxvhZA659dWVu4+de9Tzz5NBra2d372/T9z7x139n0vIuurK5/76pe/8ORXROQ3PvVrTzz2fmvs33z5i//zX3z6rttuvefUbbfddNPqdDpfLF4///aZt9586+LF7d1dz4wChGSMtdZaQ2SMCmLJHzUJyPbu9kP3P/I7v/oPTt1yarGYiXgsJEvEgXscVNzLjHqr+jT+MVFTGpCwOP7Vv/oXysYaAMSzqxgktVO+jlxXSWqiYkuVu7CWpUsoTt3a6up73vmeF1556c233zx54kTf930SUUpphHAyHl+4fP4nL71w3113b6xM57M924zOnzvrvbv1tnsl8MSQKGNbehIh6QZVbkxVISpD46+KOyPDOCqFqROSdQLHjx6/fP3Ky6+f3lzb/NVPfNIa9M4d2jj01ae+86ef++tl3/3Kh37mlz/6s+cuX/n0Z//yhz/+/jvvu/fQxtq1ne0z5946+/b5K9ev985ba1rbNMZibK5SFYWEpI1ABBGNNezdolt84mc++es//yutpa5bEqlEOVQ2ggkhTcUHFje8vJOr4G0wxmKGNggQwPyrf/kvkstewKCF8+KAQkKrw0aqXI/CTYcS8p6GdJifQPgJROQ8T6fTxx59/MXTL71y9syJY8eZvXMeFcEg7OjGtpevXf7+j56++cRNt5y4mUUunDvL3t98+30gHOnpWLsIFi/RyG7VCZpSpSXXN229IJSPi8rSDO+UiADbtt2bz3700nOPP/TI+9/5+Gy2v766/rXvfvuP/uYzpjEffc8HH3/oob/64hc+8x/+5tzlc8ePHrp47eprFy/s7M/FQ0O2aRoyhLmPYqlEunFxKCtewPlsvjJd/a2/9zs/854P9908RlrlQWvhGuEwMFbbnuGgklSxkMZGMjfFFWT+h3/5L/IKC4cSs8sWjILFQvOnbLayPnTEHmTPUhEAIarKZefddDR696PvPvvGG6+cOX382DHP3jmnrQxExDlvjNmfz5967mljm0fe8djVC2d77269/V4WxqhhxGRWnJCMghVmSZe6bCQfJ6IkPdGIO8U31T4MET9ODbwggBjb7M5mT7/wzIcef/8dt9w2Ho2//O1v/i9/9eftuDl59Ph0Mvn3n/3L50+fHrej9ZW1+bzreu+9n8/mXddZMsYYIsKK25tXRpGBhKZ8sVgu5ot3PvTOf/if/KO7T901X8xM4DVCxQqPW5OiBwJWO1kRi7Vnh/LSJGMxJsXEb7SZ6SM3OlQTv1OdHrXrUS09G7jJpXUDdcQ7ACF2fTcdj/673/vnv//pP3zq2aeOHD7SSLOYL+N2SBA2e982jaD85d999trO3skxIzgBC6UNkTr5RmFcQCXROE0N0+GWR0ai10EM9yr8CUqaU22x7oOh56Wrl7pueeqWU5OVzc/87V/8+d/+1erKKoq8+dYbb7391kP33Pf4Ox6+8/ZTm5tHrWm6Xnb3tl557ezzLz9/5vWze3v7tjVt2zaNMcYAh8oXicAYEgTx3PW9c47I3HHrnR//0Mceuvd+EJjPdqOPASJBHn4NO8cbFB6gQmhi2EwdVZ+4nDlfyOZsGRQUZQRczElKFpFyBs4fVbFvRJQq3ztRVAgUjSyTScmY3nlr7D/9z/6r8Wj0lW997fDm5qhtl12HEnxwGSMnFQya9bXN7/7oeyODD915qmkaQ7SYzyK/M1hVJd91zGYlzPnhSyCwaVP7G5gPisokD85qHjR0FJeTMLBzy+de+snNR2++6fgtv/+n//PXvvf1zc2N7e0dQ+aJR9718x/5xNH1ybgdNaNxYCGsr7Qnjh667657P/XRj124cvWl06+8eOalty+e39nf2dufsY8aGWOJLJJQY5rNtcN33nbqnQ+986F7HmhbO5/P0lgkd1DV8CwP1aDK2B46mOVEC9V5Zm1n8R0EEfTLfS32FJC+XwT3iZz3XAXbSnTugmjfgbUjZ6mJQLFXcQCvS5bLCCK2zejzX/nin/zVp421Kysr2V0vMHQx1p1gjAVCEH7ovnf88sc+eWJzY3dvx3smY7JXpLIQhjISqCtO7R6qkn3VEkjXXzWsTn/qmSej0RsXL/5f/vX/432PvXtvb/b8qy+OJ+Odrd2H73nwlz7+yQfuugNELl081zSjldVNQ0ZC9kV8J2Sbxhrrud/dm1+5fu3ytUtbO9u7+/vLzo1G7frq2qGNzcMbG0c2NzdWVhFl2fUIOHR40t52pXXNo5EB7XzgW5utziU3GMZO0oA/hUr7bgZ1QpfrFiJeShqgym6Jlu+6J1LxVjmurO6basprDNlOjoQSKE/Tyepzr7zw7/7kjy5fu3z8+DHPvFwug+gMBGJLQpHMNV/Mp6Ppz3/4Ix9813um48lyuXDeoYZ5dA8utRltQkxBR9NkF6nCi5Ta6VrKtmSZTFf+73/0+y+dOT1uW+edZ95Y3fj1T/3GzzzxHublfLYvILvXL5lmtLp62NgGwEd1B8X0wsA2NcYYJGMCWdMANTHeBJj7zvWdZ5fsrPObUoxiqa3NS3IB5cCAeNYlzzmpqsOSY4ZkbDMe5DKGxVHhxs4vxTvQiUVhETAjgFSU0lRTQDZa0+eE4oArDmN5fbXGZDKZ7uzt/8lf//l3fvjddtK2Tdt1fXCnTGkYFFY6EfWuny3mp26+7UNPvO+d992/vjLtlstl74jIkAG9BVK9hMW7qPIeHDj9Dk7hTLEWYeccEaxOVz/zH//D57/+5c2Njfn+fDabvf/x9/3ub/yjY8eOzff3OISHCG9du0DGrK4dtrZJQc/BJQABVCJdLIEJgolARPYYFcJSsup1grkUVKuq/qp8j7wJq3JSV4Ex65OsacYQ83Sjrgl9NysLSgAEPXfeLbPtXDaZRM1+VanNJUcgW2HXYj1IhNV0TpeMzGwRgYjM3trWNOMfPPvMZz7352+cf2ttZZUAGRiTl1TO2gzbbumW3bI/unHoiUceff+7Hjtx+EjvfO88Z1RXbais5alLo5ICQdHrTKAyeArQExLhuG2u72x99stf/sYPvzddme7u7RpsfvuX//7Pf+QjIOS9t7ZJq523rl9EhOl0jUwTfggRqmmGeva5YMMSXVizJgARWQbiel3IFTwjWsxg8WQWjT4dNMSH6MZpm3E80vO3++VsMDhhdr5fHDhRtfigpALGAoalUFMFdOohaGFLFRQPOQW4WEeDANB4ZX1vd/dP//rTT373G4792upa8LTAypsqGhOxh27ZLbrlxvraE4++832PPn7byZvbpnV9t+yXzAyAJk1witdQaIPLZ5YCXeOfAwt770TEWjseTdpmvLu/94Pnnv78k1+9cu1a09j5YvbAXQ/8k9/+z+685eT2zg6CMcZCFGwiAOzvbQFw246bZoTxVIiHnygNY0k/L9BV7ipqGLM0XNXi0M7WCBWVKXoV/5TFoba6EI2MbVJKSPoi380wmdpmb66+m2tnn8xzghi7XVV+uhaNpTJhcUAvK0F7AWe/AgHRWghAFGYxhG3TPPviC3/5hc+ffuPVprWT8YS9MPtwLHH24WIBAENGQJZ9P5lMbrvp5gfvvuf+U3edOHx0ZToVlmXXdf0iMLiStRQpWZjSCCcwiRAbQ4g477rzV66+cPbVZ1/6yYUrVwzhYn++Nl37+Ic/8nMf+DBBv7+3T8aE3Rf0QkQGyQTEbzQaG9ME2nvKP6+s/FCFyksxxB1AtqgMNCHXD3mxRJPaWrZWZh5S5SSDtoJPj8DaEYbSh9Xa8v1Mc75Cpeu6uWTD7cgvRw2m62C+KmOk1En6Ak8UgoppX1OEssF66DuZvXeTUdN7fO6V05//2hdeOftKY5vRqEUB5z2nPI5cahKRtUZAur7z7KfjybFDR07devtdt526+djxjem0tSGag6KzJ3sVxEPGWGssESHIsu+ube+8du7N06+/dvatNy5du+qEm5Hl3jVo3vfo4x989xMb0/He3i4zN7Yh21jThBEPIdnGtO0E0BhjjQlGI1ySlNSBDwcOhhJUHK/1rMmUMjdTl1FlgVpCwkTDu8pXFuqWtTwO20xCcmk1hlMFaflj3y889yW6G5UGG9X8DbJHS30X5qJTl0wiNfNIis4Vs3GASHHBFe+9QTNZ3fAs33/2mS9/84svvfpy79yobRtjsrVj0J0EXhkgEgkRCYDzvnMdM1tjj25sHj105Pjhw4c3Dq1NV0bjcdu0htCQESTn/Hwx35/Prm1vX7p6+cLlSxevXNmfz8Lj9d4z+/WVySP3vuPnPvSRm44e3d3d7rqFNZaMbdq2Ha227YSIyCCwh2C5HzxGjdFJupINu9LQR0H7uaFATaerzPcJVcal3mV40Gp6YDetCb6kOh1ACNK+sjIozXN8NwMdvBD1Qr3rF1Dip5UlAyb0UARu/B/McomIJGVGhUhJupZo/JkGuaiRqJQ+IYjIAkR2NBl3y8WzL/zk2z986tkXfrKze93aZjIdW2tS/I26V0OoE1EwCOm6frlc9s559pRGF8aQMcYYgwa9577zvevZeURqrB21DRnqfS8MNx2/6d0PPfLYgw+euvUOFun63hKJMGES1JiGyETmaTCFBPDeR85O0cAlEWNQq2Kkx6Z37nNIU/IiQJ3hgjgIeSm9YyWbrpEZVebljxnr6EgxpiXThMUHyrUbfTfLFbJAcJsUAXH9XJiz0ViyacnpGnJAIVMCkKlMhCtBFJYok0QbLsfjANJJ2beJxSbeA0LbtCJy4erVF06/8oPnnjnz5tn5YgYAloy1jTFGfYLFqi5b0yRJW+SfEhnTGGMREYXB9UFr0vd9b4w5cfzEIw8++u5HHr/7tttWJ433vmcwAagQFvYBwwvTHczXOWEwNvPegfigqvMCzNx3Xee63vUhlS00rkQGAW1jbdBtUWOMNdYSYoF0OVPjpQT/IKldp7JjZcgcLlnl0cyLiqmsCCA2dpKIkiVRB6uTgyXYDIYi1LkFe6ca/SzjLmnpcDCytqZVVABq1ulJadzUgD2dJlj6yrTGvSTbOWZGlKZpR6MpC52/cuHF0y+9dOaVN8+9dfn6la5bAgoQGiTUdBLEaMDCIOxzfh8RCQT6ofOOxcOoaU8cO3Hnbbc/8sDDjzzwyMaho+D75WKv7zuEQOOsMJBidpIiyYxtAGmxnO/sbe/v78yXi8x+D86jnn2cGyNRwPUAmH2YVJKx1jRtO26bpm2ath1Z24yahpDIGJN5pNGWC/LzqtiyGtHW6FjWQRVCjhBZY0egkNDUoCC6boaKlpGvMy/O90vMkQtJE6sZ/VqRXNWUtZlpAR4VshGHt2H3pJtYRAJUBGSSVJPF9ynJMQybKNfC1liwRrzbm80uXrn21vm3L1+9fP7S25euXNnZ297d2110QVYfOyn2nj2DAJIZjdvxaDQZT1ZX144fOX7yyLFbTt50/MjRk0ePrk4nhLTs2TMXKq4iE1LgnhHqOpLZE+HubO/itcvLxbzvexZBQktEZAgNICy7hfMeAYwxjbHGNsl7VEKjG+T/7IO3EAf+SFiT1ja2aRrbNE1jyAQGf2PbqGnISqJqhCRJl4R15mk5VYwNvGJAwsEcFf1yJkG/InWUGYLvFxIziqGK9RFRXhHZ3mPgOZcPeCmbN0qZCSFAyK53fdd1i37ZdctuuZwvF13fBxsdjn5RznkX5ZCGGtuORpNx245H49Fo1Daj1lpjm3E7wmYCYAE8+Plsf3++2N/ene3M9lnAOb+zvxts+hBxOpmuTKaTyXQ6ma5Ox601bWMNAgg7nzE0NGQg7NQIfHCx3kBAImXeLSJikPbn+6+89nKxEsgELcRgx7AyXZlOxm3TNLa1pjHGEmFyJKPcAwdCXvZF5WxylXvxVMVTsP6pHIoxU08OHuBZMRARECRjx8rlK4EXiCAxADBGKJVSMgKDVnz30zLisFIrCOY5ZhAsSaGdhjLLe79YzJfdct4tF8vlYjHb3d+dz2fLrnPsIDg3ggSqnLEWEYW9l7BOyp2VJPBAiKPxeNSMxuPxdLxijGltEw+DyXjUtrfddKJpW6AGqIVK+OlBPDCz771fslv65dIBIFlj2tFkQgDsfeK9YTAW5BQwjEjGNGQNILH3PsTHECJS07TW2vl8Fg2tyUhA/UG8dyvT9XvuvCe40IQM4uTSHE4nUqxbBXggWay4d9pRHgbSxAr2x+Fgtng6pMKdTOjt89BGk7rQdzMcpPUWxw5x/WJQYahUQTrYMyHibLGYLWez+X7veuecc67ve8/eebdcdszBmjhaHBqDAPEm54SLByFb7/q+6zrXe+c8+7CBCSn7R4bjNpisi7Bj750DASRqmqZtmulkZXW62jSjyXg0GU0b2zbtuGnalJwUQtSFxbmuDyul98yCznV93wGAcy5quiWeOs57a+yoDSKmycbK+urKGrMP7j8oMp/vXbl+ZWdvd7Gce/YAQGQCM1RY2radTlbWVtank5W2HRk0IM65oJkzQFRm4cI6UTCwv4eFXhW7jBWFWglXq4tEKh6YMWMi0mNpNbVFdMtZZc4CeYgXuBKdc1250lJNEuu7nKeGGR8PxXCIGwBOVT2iIFpjW4q9QTTSxUQegRLDEwsm75wLzYPrO+9c7+bL5f7+3mwxmy9mfd+Hsj+N9TGtFMzMvtCzchIOmcDpJhPeIzvXey95+yIEY51w1KfEWM5kn3CGkzExRwogWIwcOXT0gXsfJkBmJ8wEYKx17LvlbH8+my/my77ruq7vXec67xwQWts0tjHGtM1oc2390Oq6tVaA0FjUZCXUgXOI2R8vjeIK2oU127HOoFWeYqgYpoLY2GaU69qUbVR6bVvKA9S6jbgeiCxCMXBN3apKXlZxlKlS5iBUsQACBsBCSBeP5PpoP4nqBlTdVwQ4UNCSsS1B04adF0i3AiwCnqX3frmYL5az7Z3t2f7e3nxvsVgsukWwPUiHvzFkrLUJ30MG9s4HHlCcnvg4HyBCIotEUhKMmNkH/RQRmuCCzYGXE0o5ysBESppGQfDMCDAeTcftFDcFEBlgueyu71y7cPkCC1tjRLjv3Wyxf/X65VE7uvPWOw5tHMnWXiolPgv4Cte45tjrof0Ngv2UHilhSGkNmcYihkJfK+JzU5P4HFmWXyYsDAKCRN53vl9myr6i8RQgT2uGSAtWigeRplqUZYGDzCBdT4HWdGMe3CTLV2uiTSGLd56989z1/bLr9uf78/l8sZh3rlt0nU++/D7GijFlQ+jEf2gaa6xtm3Y8Gje2nU4m1hgA8L5nFh9VrAgCnn0QDBoyk8lkY21zfXWT2XnXSyJax/M0VNTBP8rYcOTs7O6+8tpLBZoQARDn/ahpHrj7oXE7kioom5QcMY5IBHUPmANOM4yZb6KqxkRFwAhPw5qRMa2IRGFLOC6CQ0a6B2xBJjDTA7EYVrAY04jvOVHTsCT3cbAwFjX/JsU6yhMZZbWj7DsE6qTFDLENcrGwZL/keFvxItL7aG3OHNzHaTKeTicrRw4fjThVck6K3l8x2cPF8WsI4YzVP0Uckyjb6UsAwkEICU2LZGO7z5wLcmZ2/VJ7dKrpVzCJLlJvQOsCr0M44ooAAti2LXvZn88m4zE7TlnbmMHo4gyhTpQEx1PRmkMxekzCN1QMloJYIBCZRrQVASdnWyJJsfc2B5drs6cUrBtGRERmxP28NhjEgcNFHQ2XqPKoGyiu3FD1rwNdfRc0M8v6yVhrWwD23jE79hw6P4rsGAg3VyRNkAFBCOUG+HQymwCaMmZGSOSvMACAd86VE5o5dJLJR0xAeoAui/wzaU+EoQiPKU15AAISR+RFfN8v+/lsd7k729ve2UpO2PGtmYDnWzMdT8UzFo29OlzK3aKl8qiBdEWkqeCGmhQeV0mgmMTWWFUpgNHKMPw6e4NbKsAenJmDQmTINMyuqJVViFdlh6rQsVBfa/9lUPBcpVJJLOdi6K+ILMZYL/DK66e3dq7t7e8xe+cdMJMha5pR2zbWjpqRZ987NxqNGtsS2Sa0lRQHKJSKyTAmJQLE+IeBbBEiGaLAOMZWEJJJ65mFBUgSCofpD1nIx9tUkJm7vu/7hfPc+94xd32/XC7mi3nfd6GAzSE1IWDKeTBIt958+3Sy4l1fmtSiJkvT8VLeSRUor0It8QZGTZDuu8zAMYaafNIRUPLYyL7YUd1oE9EmRI5AbucRUAeqWtv2PUv66yrZnKLfr9S6hTy1UywfRIiknRtEIqvCOOztGItk7He+9/VX3zg9apWlaQqfoMC8C7GzZJDybzcFfwsAU6hPjTXhyCE0xrTtaNSOrG0IScAH5DH4jwEgWduaJray3rFIWGCBVOBc771z3jnfsw95Do6j3VkMqyMygcVmjWGR3vfB6gwQyVBr29Xp6sljN6+vrve+B8TashjydAtS1gFAUgMXXWpFH4VSYKRShdSkDcnYcYwpIhyc++ngj8nRtgQKsip3EYCK+WDUyds2VKbxVAz3joi+DUR7xigOLGeMLsV9SzWw0yMkKfaJKX7p2JHjV65f7vpl3/cJeCRryRrTNG1rW2tt246ssSELIsxFQcR777xzrg9/Eu6g3jMAE5FJ6JwxtjEWEPdnW947QGybdjweN7aNNVO0/sFQnLLnvu/ZMwOHayG0PxH7MpaSvwlhJPlQ0whAOMJGtm1Ho+lkZTqZjtuxsPT9EqgSF4qSIWrT8yRYh0LcyCRRKQmZmhdeGlsB07ShrgLNMR2ozDM9kruZaJs1KfiWFIuKOGv2rvO+wxpQz4OfLLqTNKAr6LL2mipUlMoNIBhnoJLLZomAMc18Mduf7y+XCxFGQwTGGNM2jY1XBtko9cyUKp31FFJZmCLwjGlgkeboCevvnAsvi8gEbE7qBKQS0eS5WLaGkywTPxNTI85oY7lrUmpnSKnDnGGlhEUlzDhZ4RSmpWSWjlSUHKhMWIoTaA56TXItQdPYdhJDT6tE6iGaGr/P93NQtk8HuRlQW+C7bs4xPyAbqKckGCg+u4iol0+l0Swongb0tcMU6MwXBGSWMJLUbVAaaoS8k9IsCxRsDSl6rQ5n2VKbdiSyGyX6YCwLin6VSl0kCWajCjqMTsMpYUKTLyIpiaW8tiImKsyOOm4dK76dOow1Z0qdF1hPWJQqJda4xtiJimXSe1dimmctZkS/nCEhC+MNTxj9J5RE+H6ZW48MqQUPn9ykarl34SxifVooG+8I/gUPv2LrXYeGawueuoYnoESERS6NZZwCQTKvDQqNtAApX3VwIOS75ipk/CdBE3l7JVOhOp/moFWaRm5QH6E32sRY+ahoPKyo5rX3X92jgBwQNiMimGYcvfozJz8o14ijyWwS1OcGdqhbER0CRdFYPjtwp3E7e7fM71ZhqqURk+xGWbY76hFMDmDQyQ8IFcssMwQIcdDgD/V9WImlVTZRwZrrChiVB538FOng4AgUfRVKBSzXcRYgGZ6oWQpYxSNr95gc+KkIm/rdVgRc/YYGpjzaFE7hjtaMI3qSgTUs0tcolsku8By/0FYZiwrbxOx/K5kylAjiQMaMvFsqPB11VhQXrCza8CsWtX4rUsyB1JEgaqXm4RKWkM7yoVfiKRx6lNU+81C4zqDc0hAGhnoHZ5miqjuVepIZWQiaBwp1NJLo3j0fjkrxru9yrJGjxPdOl3YFIORyIpdXVcKWYvQYO4ryeUy+vFJN44QFCPSRCgwijH45S4RSqBQyktdZdOvCWoTPzGF9iJ4S68lMVW0UmUssuzJJvcg8i1ADi6ihftaZhi+1OgPVbpZS0+Q6qEyVsmpI1dUiojG7yE0ppAdkfVmkBA/lboWVm1SxeS2pRdm/RvUhqVrDkq2iYCzMA3BR/qZJmpCEynUqUrqpym+3dkyRIwLK9il/FENulmTP6zgHlmrinz8BQagPXdDgN6ExdgTZVKaejqiLnG90ow8U1VqZE8qIGB4GKEUor7zMQPuBgOqXRPt4VrKa4WV00II3/y9O8ZhSsgIGlw9WB4wcQKAKCioaUZaBHmEQV1IegvJGKlmgUmRdIVSOh+mwBWwUELTNJK6M9CJKhlVJlVIEL6qglqrmEJVXXL9PwbKQUUR7xrJzHWR7P7xBiK1i6ijqGNR4marJsXK/1UVroexFD0h1OYAq7bE6VkHdkzqURKl/UCmrVb2ZRj2isGeUg1EEUjln5TS1UpRJqVWz87QaP9wQEFdWYHG78XDgEMccWS6tcw/I2lGIvE9WkjI0GZQbofIKAY9a2RvvIsnmrcNGV5QMXUS865JJV6G9Drvhg7LfSn2lhjX6/pKsWhIdZXbgp9fqQM1ewvpElUGqhHL116+tOmwHtp4DkFoIaci50UZUNwi1EFGCFClvUr3ffEnqxQEARLrDilWMTusRATS2GWWNZbVvKB6NSsRStY+xrQ1vOC+OSp4khXiYmYuFbDCw7Ag21q733NUHnNSOtaBUlcUZIsficMJGpZaEK+8QOKAqr3961F8WmXZV1VczCy24R+Xwk/omJAWcsKr/hquzdhyDaoPKQa1RZltL5UeeRlIlsqD62eWqV6uvxMxKmWKiIUu2wRRhlm4o0cnU6Q4L2RAQRovx/qfSZlDpi1HF8RCAkl5GUw6qW1ZUnSQLmcbYcTSqFXWBVh8lZsBMqueGMXKuEGFTJGlKX8+KuFINZben1CtmTxqEYoeZuLmKDyAJ+ACpc2lUB1zkL5XEtDLVUiUSaHO8lPJzQ394ydEnKm8MBkpRgQM0lzBlTcSc0gWXSN0w4iDTxuFU8vCNJkACKMUTMpHbquALQIVjStDKcjltcvup8II0+UUVwxgckPV4LpN3/dJ7p5xSUsAhQRHdykAJhdp7mCh8R04qQ9SWleXK11hgboz1SHDQ/KsADsnuqcCpzlJ8FqwAhURdgcotvRYUlRajyMuxIm8WrEI3J1VFPYQhRRR36oCXtChwFIgaMg0ktZOw3KAEJG2Nnw2AOH3EaXNR3FWkXpHmNOuToQrzImVlgOpKzoCiMaOmGQcpRIU/cq2TUySjQfkZjwkcGBzFw6MwriVfQEPFv9qV2hoTsfIvE6nvvWT4i1VzIlJZn8gNLoqKyPLTOqCSowZVKqzyghzogGoKd+09rUBRQjJ2bOwI4xOFHFxevVAqIY3Zdrp8AqocLnvO9zNNtRne0KW+i9cyKvCvIrXKsNtldt73wD4QjESF3iZ+HyJWlp8Dm1ut39eSqyH0XlfheU+jpHtIE27reqaaqqFyw0ZUaIZy+0ZtkJ5NuETVnVLVQ5UEPp4PGt4bzEPhQDeXiVOBZFTqRxBEi8YSWv0xpIOTSrBX3JwYPaW049WgiCR1Lgnb8JTApPm7kodoJldhkh1sbTQZJeKvgX5qkYywY+9EPOZbvgB0olODS5JxAURVDIKS5uiiVeRAJ5D9rCt2YrKHLhMfFS6gcntyJJZCoIbpFFJ6zAOhNmHrxho3366VxSViKUqUB5WqZcsoTipdEkIw3yEkopbIRulzNTbAaokypKjHwDkticOANwB/Sj0jiL6bq+2RgnqqWaZoCwXlTadgQYZhMZeO8PjE2QWlaPoAVA+ZDzTMFgUlQiVPW8vGVKPfakoNEELpUGr9lnq0qqfQ1tFS7J6UdkiUJ2N0HhEYQgKVyQXqc0sRmOTgIO2A/eNwPnJggJc+fiIiS2jD544VnFYlCJdjQKJjtah3nly4UrGVggZU+QTolvOSKV2xfatsierEiI516a0qR8r8J5X+OzuRxphMl8KpE1R0AAUYnnvphA4GtlUIRPWcUnyyQuFvxHnQx6gMnhFKnaAw1H6AZjqrEXGt8MgrGTFp/KtZQhaRq0524FgA1QgDDZIJRwYUS0ftXqO+Q5ue54Mu77twzpMU+jDUt3Zy80bfzUtIKRbGQDQnJEy08+I3kxwOYsJgCHOAQucJ0tJIEZDkRAhFD5LCPENiG/v49bVjWL278syk2okHikIpsUB4wFBGnwc/hbSCgypEf9RSWb+qTYOS1KAKJpUDTqe6gS3hV1UogWZX5oAVjCxXDVcXOaqULBPM1i6oHFdiHYWqqFdpTVk8ImnPqShrdMsZ1lepsjLXaTR15ltO7cjMq3C8ceioNV0QE8CVutJygGO2XRCW3M8otQuqMW2F/xQTifKkMDN4yraWajKrrazlwK7N9QMBclUQC4KiPovAwRWKmnKRXSoOrkPtols6AcqBSYHFnv470cE5Ijd1UHDmAWaPJLnheVp7xA7rp+w6nGZZHP08EX0/E4ZBPloaPmV6XzqApXrmul3MRjSsihpEPEhlK4BsdaWgVPq/RIdDqAouLE1hxMw4ZAil7c1SJrWKM4KUQHXBiiI12AN6EKNILFhF9eCQ6811Q47K6Kr4SkZrlPDGCxaJ1emSHMUF6o8if2iAw4s0uE0nMVGxKY2lVFY9Ye4V0lbKviyAQIJCohmcCOi7/SBszmqS2LJi5j7V7izapIphEPsWUSxMm1iUTZQutorM7yD4UdCJbIskKlJJUa9rPBqKyTAkvXWh6RCoCNoByTtzJgf5VKlOTW5cygc8FBKS6QeYYd1U4SGqZ5nBQMjmfgW4SxSK9FLoAPktpwajSo+kfF9IJvmWxcRpkpIat/xA9Bgzp78KQf4WBAyWRXEqW/GaUp+cmSAqDCxRRYPzXCEeSq4FIakPCLPfSUZlFayhDhLJE3ZVMWoEJF1EVLGw6kK24mSkMUEZDOk+XFTolNrl8X0png0MOCVygzEaqkmUqKoj1mqoZu0K1ilgrAa6ynQDKlUADYGDNFJIx0qIjeZcWahTAUm5/kGJHc6tHMWvjA+ASl4wFRUTqvlo7r4VGp+SXzDrJVXNnJNqVXhFSXBSQHSeRAwwQBnK58KIR9LqjO8hvloVLgialIDaVVdHeaGyJ1MuI6AGE8pJtzDNa1IZKLZF1SdCcr9L38VywEFPh2unuPm8gTiVYTQoaNOxnBGEhKcj6VcquovFunnXK7vCwiHbsUp+vvGLCYTk/wcaN+mbquYEKgAAAABJRU5ErkJggg==" alt="养生笺应用图标">
         <h3>养生笺</h3>
         <p>一个用来收藏、试用和整理养生方法的轻量记录工具。</p>
-        <div class="about-version">本地数据版本</div>
+        <div class="about-version">Firebase 社区版 v37</div>
       </div>`;
     document.getElementById('sheetBackdrop').classList.add('show');
   }
@@ -4527,6 +7223,20 @@ svg{display:block}
     const m=methodById(id); if(!m) return;
     const related=notesForMethod(id);
     const snapshot={method:{...m},notes:related.map(n=>({...n})),mode};
+
+    if(m.communityId && state.authUser){
+      try{
+        const {firestoreApi}=await loadFirebase();
+        await firestoreApi.setDoc(
+          firestoreApi.doc(cloudDb,'communityMethods',m.communityId),
+          {status:'hidden',updatedAt:nowISO()},
+          {merge:true}
+        );
+      }catch(error){
+        console.warn('删除个人方法前隐藏社区版本失败',error);
+      }
+    }
+
     await del(STORE_METHODS,id);
     state.methods=state.methods.filter(x=>x.id!==id);
     if(mode==='all'){
@@ -4634,6 +7344,7 @@ svg{display:block}
     action.classList.toggle('hidden',!undoFn);
     state.undo=undoFn||null;
     const toast=document.getElementById('toast');
+    toast.classList.toggle('has-action',Boolean(undoFn));
     toast.classList.add('show');
     state.toastTimer=setTimeout(()=>{toast.classList.remove('show');state.undo=null;},4000);
   }
@@ -4783,6 +7494,50 @@ svg{display:block}
   function bindEvents(){
     document.addEventListener('click',async e=>{
       const tab=e.target.closest('[data-tab]'); if(tab){switchTab(tab.dataset.tab);return;}
+
+      const homeScope=e.target.closest('[data-home-scope]'); if(homeScope){switchHomeScope(homeScope.dataset.homeScope);return;}
+      const communityCat=e.target.closest('[data-community-cat]'); if(communityCat){state.community.category=communityCat.dataset.communityCat;renderCommunityHome();return;}
+      const communityOpen=e.target.closest('[data-open-community]'); if(communityOpen){await openCommunityDetail(communityOpen.dataset.openCommunity);return;}
+      const communityVote=e.target.closest('[data-community-vote]'); if(communityVote){await voteCommunity(communityVote.dataset.communityVote);return;}
+      const deleteCommunityCommentButton=e.target.closest('[data-delete-community-comment]'); if(deleteCommunityCommentButton){await deleteCommunityComment(deleteCommunityCommentButton.dataset.deleteCommunityComment);return;}
+      const replyCommunityCommentButton=e.target.closest('[data-reply-community-comment]'); if(replyCommunityCommentButton){openCommunityReplySheet(replyCommunityCommentButton.dataset.replyCommunityComment);return;}
+      const manageHideButton=e.target.closest('[data-manage-hide-community]'); if(manageHideButton){await manageHideCommunity(manageHideButton.dataset.manageHideCommunity);return;}
+      if(e.target.closest('#communityCommentFab')){openCommunityCommentSheet();return;}
+      if(e.target.closest('#removeCommunityCommentImage')){removeCommunityCommentImage();return;}
+      const communityTopAction=e.target.closest('#communityDetailAction');
+      if(communityTopAction && communityTopAction.dataset.methodId){
+        await manageHideCommunity(communityTopAction.dataset.methodId);
+        return;
+      }
+
+      if(e.target.closest('#openNotifications')){await openNotifications();return;}
+      if(e.target.closest('#markAllNotificationsRead')){await markAllNotificationsRead();return;}
+      const openNotificationButton=e.target.closest('[data-open-notification]'); if(openNotificationButton){await openNotificationItem(openNotificationButton.dataset.openNotification);return;}
+      if(e.target.closest('#openAccount')){openAccountSheet();return;}
+      if(e.target.closest('#loginAccount')){await loginAccount('login');return;}
+      if(e.target.closest('#registerAccount')){await loginAccount('register');return;}
+      if(e.target.closest('#resetAccountPassword')){await resetAccountPassword();return;}
+      if(e.target.closest('#logoutAccount')){await logoutAccount();return;}
+
+      const publishCommunityButton=e.target.closest('[data-publish-community],[data-update-community]');
+      if(publishCommunityButton){
+        openPublishCommunitySheet(
+          publishCommunityButton.dataset.publishCommunity||
+          publishCommunityButton.dataset.updateCommunity
+        );
+        return;
+      }
+      const hideCommunityButton=e.target.closest('[data-hide-community]');
+      if(hideCommunityButton){await setCommunityVisibility(hideCommunityButton.dataset.hideCommunity,'hidden');return;}
+      const republishCommunityButton=e.target.closest('[data-republish-community]');
+      if(republishCommunityButton){await setCommunityVisibility(republishCommunityButton.dataset.republishCommunity,'published');return;}
+      if(e.target.closest('#confirmPublishCommunity')){
+        await publishCommunityMethod(document.getElementById('dynamicSheet').dataset.methodId,'published');
+        return;
+      }
+      if(e.target.closest('#submitCommunityComment')){await submitCommunityComment();return;}
+      if(e.target.closest('#submitCommunityReply')){await submitCommunityReply();return;}
+
       if(e.target.closest('#addFab')||e.target.closest('[data-empty-add]')){openMethodForm();return;}
       const close=e.target.closest('[data-close-sub]'); if(close){closeSub(close);return;}
 
