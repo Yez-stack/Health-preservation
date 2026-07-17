@@ -2715,7 +2715,7 @@ svg{display:block}
   }
   #accountStatusText{
     color:#8B9189;
-    font-size:12px;
+    font-size:13px;
     white-space:nowrap;
   }
   .account-card{
@@ -3218,7 +3218,7 @@ svg{display:block}
 
   #notificationStatusText{
     color:#8B9189;
-    font-size:12px;
+    font-size:13px;
     white-space:nowrap;
   }
 
@@ -3887,6 +3887,21 @@ body.ysj-sheet-locked{
 
   body.ysj-boot-calibrating{
     background:var(--bg) !important;
+  }
+
+  /* 移动端登录 Sheet 键盘优化 */
+  @media (max-width: 768px) {
+    .account-card input {
+      font-size: 16px !important;
+      padding: 14px 16px !important;
+      min-height: 52px !important;
+    }
+    .sheet.show .account-card {
+      padding-bottom: 40px;
+    }
+    body.ysj-keyboard-visible .dynamic-sheet {
+      padding-bottom: 120px !important;
+    }
   }
 </style>
 
@@ -4807,39 +4822,50 @@ body.ysj-sheet-locked{
   }
 
   async function loginAccount(mode){
-    const email=document.getElementById('accountEmail')?.value.trim();
-    const password=document.getElementById('accountPassword')?.value||'';
+    const emailEl = document.getElementById('accountEmail');
+    const passEl = document.getElementById('accountPassword');
+    const email = emailEl?.value.trim();
+    const password = passEl?.value || '';
+
     if(!email || !password){
       showToast('请填写邮箱和密码',null);
       return;
     }
 
-    const buttons=[
+    // 移动端强力收起键盘 + 延迟处理
+    if(document.activeElement && document.activeElement.blur){
+      document.activeElement.blur();
+    }
+    // 强制刷新 viewport（防止键盘遮挡）
+    if(window.__ysjRefreshViewport) {
+      window.__ysjRefreshViewport(true);
+    }
+
+    const buttons = [
       document.getElementById('loginAccount'),
       document.getElementById('registerAccount')
     ].filter(Boolean);
-    buttons.forEach(button=>button.disabled=true);
+    buttons.forEach(b => { if(b) b.disabled = true; });
 
-    if(document.activeElement?.matches?.('input,textarea,select')){
-      document.activeElement.blur();
-    }
-    window.__ysjRefreshViewport?.(true);
+    // 额外延迟，确保键盘完全收起
+    await new Promise(r => setTimeout(r, 120));
 
     try{
-      const {authApi}=await loadFirebase();
-      if(mode==='register'){
-        await authApi.createUserWithEmailAndPassword(cloudAuth,email,password);
+      const {authApi} = await loadFirebase();
+      if(mode === 'register'){
+        await authApi.createUserWithEmailAndPassword(cloudAuth, email, password);
         closeSheet();
-        showToast('注册成功，正在同步',null);
+        showToast('注册成功，正在同步', null);
       }else{
-        await authApi.signInWithEmailAndPassword(cloudAuth,email,password);
+        await authApi.signInWithEmailAndPassword(cloudAuth, email, password);
         closeSheet();
-        showToast('登录成功，正在同步',null);
+        showToast('登录成功，正在同步', null);
       }
     }catch(error){
-      buttons.forEach(button=>button.disabled=false);
-      showToast(authErrorText(error),null);
-      window.__ysjRefreshViewport?.(true);
+      console.error('登录/注册失败', error);
+      buttons.forEach(b => { if(b) b.disabled = false; });
+      showToast(authErrorText(error), null);
+      if(window.__ysjRefreshViewport) window.__ysjRefreshViewport(true);
     }
   }
 
@@ -7534,11 +7560,11 @@ body.ysj-sheet-locked{
         var topLimit=metrics.top+12;
         var bottomLimit=metrics.top+metrics.height-14;
         if(rect.bottom>bottomLimit){
-          sheet.scrollTop += rect.bottom-bottomLimit;
+          sheet.scrollTop += rect.bottom-bottomLimit + 20;
         }else if(rect.top<topLimit){
-          sheet.scrollTop -= topLimit-rect.top;
+          sheet.scrollTop -= topLimit-rect.top + 10;
         }
-      },30);
+      },40);
     }
   }
 
