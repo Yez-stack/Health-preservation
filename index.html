@@ -8,7 +8,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <title>养生笺</title>
-<meta content="v66-note-delete-no-undo" name="app-version"/>
+<meta content="v67-unified-menu-chevron" name="app-version"/>
 <meta content="养生笺" name="application-name"/>
 <meta content="养生笺" name="apple-mobile-web-app-title"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -4315,6 +4315,99 @@ body.ysj-sheet-locked{
     line-height:1.2 !important;
   }
 </style>
+
+<style id="yangsheng-unified-menu-chevron-v67">
+  /* 我的页面及分组菜单：统一所有右侧“>”箭头的字号、占位和右边距 */
+  .menu-card .menu-item,
+  .grouped-menu-card .menu-item{
+    padding-right:16px !important;
+  }
+
+  .menu-item > .menu-arrow,
+  .menu-tail .menu-arrow,
+  #openAccount .menu-arrow{
+    flex:0 0 24px !important;
+    width:24px !important;
+    min-width:24px !important;
+    height:24px !important;
+    min-height:24px !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    color:#B8BDB5 !important;
+    font-size:22px !important;
+    font-weight:400 !important;
+    line-height:24px !important;
+    vertical-align:middle !important;
+    transform:none !important;
+  }
+
+  .menu-item > .menu-tail,
+  #openAccount .menu-tail{
+    margin-right:0 !important;
+    padding-right:0 !important;
+  }
+</style>
+
+<style id="yangsheng-standalone-overlay-fixed-nav-v68">
+  /* iPhone 主屏幕模式：底部导航直接固定到真实视口，不再受页面滚动容器影响。 */
+  .bottom-nav{
+    position:fixed !important;
+    left:max(0px,calc((100vw - 480px) / 2)) !important;
+    right:auto !important;
+    bottom:0 !important;
+    width:min(100vw,480px) !important;
+    transform:none !important;
+    -webkit-transform:none !important;
+    will-change:auto !important;
+  }
+
+  /* 弹窗遮罩使用独立的完整屏幕高度变量，覆盖状态栏、内容区和底部安全区。 */
+  .sheet-backdrop,
+  .modal-backdrop{
+    position:fixed !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:auto !important;
+    left:0 !important;
+    width:100vw !important;
+    height:var(--ysj-overlay-height,100vh) !important;
+    min-height:var(--ysj-overlay-height,100vh) !important;
+    max-height:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    transform:translateZ(0) !important;
+    -webkit-transform:translateZ(0) !important;
+  }
+
+  .sheet-backdrop.show,
+  .modal-backdrop.show{
+    top:0 !important;
+    right:0 !important;
+    bottom:auto !important;
+    left:0 !important;
+    height:var(--ysj-overlay-height,100vh) !important;
+    min-height:var(--ysj-overlay-height,100vh) !important;
+  }
+
+  body.ysj-overlay-open{
+    min-height:var(--ysj-overlay-height,100vh) !important;
+    height:var(--ysj-overlay-height,100vh) !important;
+  }
+
+  @supports (height:100lvh){
+    .sheet-backdrop,
+    .modal-backdrop,
+    .sheet-backdrop.show,
+    .modal-backdrop.show{
+      min-height:max(var(--ysj-overlay-height,100vh),100lvh) !important;
+    }
+  }
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -8081,8 +8174,30 @@ body.ysj-sheet-locked{
     };
   }
 
+  function fullOverlayHeight(){
+    var values=[
+      window.innerHeight||0,
+      document.documentElement.clientHeight||0
+    ];
+
+    if(window.visualViewport){
+      values.push((window.visualViewport.offsetTop||0)+(window.visualViewport.height||0));
+    }
+
+    var standalone=
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+      window.navigator.standalone===true;
+
+    if(standalone && window.screen){
+      values.push(window.screen.height||0,window.screen.availHeight||0);
+    }
+
+    return Math.max(1,Math.ceil(Math.max.apply(Math,values)));
+  }
+
   function syncAppViewport(){
     var metrics=visualMetrics();
+    var overlayHeight=fullOverlayHeight();
     var anyOverlay=isVisible(sheetBackdrop)||isVisible(modalBackdrop);
     var keyboardVisible=metrics.height < metrics.layoutHeight-100;
 
@@ -8092,6 +8207,16 @@ body.ysj-sheet-locked{
     root.style.setProperty('--ysj-visual-height',metrics.height+'px');
     root.style.setProperty('--ysj-visual-center',(metrics.top+metrics.height/2)+'px');
     root.style.setProperty('--ysj-sheet-bottom',(keyboardVisible?metrics.bottomInset:0)+'px');
+    root.style.setProperty('--ysj-overlay-height',overlayHeight+'px');
+
+    if(sheetBackdrop){
+      sheetBackdrop.style.height=overlayHeight+'px';
+      sheetBackdrop.style.minHeight=overlayHeight+'px';
+    }
+    if(modalBackdrop){
+      modalBackdrop.style.height=overlayHeight+'px';
+      modalBackdrop.style.minHeight=overlayHeight+'px';
+    }
 
     if(!keyboardVisible && metrics.height>320){
       root.style.setProperty('--ysj-app-height',Math.round(metrics.height)+'px');
@@ -8170,6 +8295,17 @@ body.ysj-sheet-locked{
     modalBackdrop=document.getElementById('modalBackdrop');
     sheet=document.getElementById('dynamicSheet');
     modal=document.getElementById('dynamicModal');
+
+    /* 将固定导航移出 .app 滚动上下文。iOS 主屏幕模式下，固定元素放在
+       可滚动容器内部可能会随页面一起移动。 */
+    var bottomNav=document.querySelector('.bottom-nav');
+    var addFab=document.getElementById('addFab');
+    if(bottomNav && bottomNav.parentElement!==document.body){
+      document.body.appendChild(bottomNav);
+    }
+    if(addFab && addFab.parentElement!==document.body){
+      document.body.appendChild(addFab);
+    }
 
     if(!sheetBackdrop || !modalBackdrop || !sheet || !modal) return;
 
