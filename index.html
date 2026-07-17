@@ -1007,6 +1007,11 @@ svg{display:block}
   display:none;background:rgba(34,40,32,.30);backdrop-filter:blur(2px);
 }
 .sheet-backdrop.show,.modal-backdrop.show{display:block}
+body.sheet-open, body.modal-open {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+}
 .sheet{
   position:absolute;left:50%;bottom:0;transform:translateX(-50%);
   width:min(100%,480px);
@@ -3876,11 +3881,11 @@ body.ysj-sheet-locked{
   max-width:calc(100% - 32px)!important;
   min-height:56px!important;
   margin:0!important;
-  padding:16px 20px!important;
+  padding:14px 16px 14px 16px!important;
   display:flex!important;
   align-items:center!important;
-  justify-content:center!important;
-  text-align:center!important;
+  justify-content:space-between!important;
+  text-align:left!important;
   box-sizing:border-box!important;
   transform:translate(-50%,18px)!important;
   border-radius:10px!important;
