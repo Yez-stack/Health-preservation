@@ -8,7 +8,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <title>养生笺</title>
-<meta content="v60-ios-viewport-and-subpage-stable" name="app-version"/>
+<meta content="v61-fixed-app-shell-bottom-tabs" name="app-version"/>
 <meta content="养生笺" name="application-name"/>
 <meta content="养生笺" name="apple-mobile-web-app-title"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -4126,6 +4126,203 @@ body.ysj-sheet-locked{
   }
 </style>
 
+
+<style id="yangsheng-fixed-shell-tabs-v61">
+  /*
+   * iPhone 主屏幕模式：
+   * 禁止 html/body 成为滚动容器，避免橡皮筋滚动把底部 Tab 一起拖动。
+   * App 外壳固定铺满屏幕，三个一级页面分别在外壳内部滚动。
+   */
+  html{
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    background:var(--bg) !important;
+  }
+
+  body,
+  body:not(.ysj-sheet-locked),
+  body.ysj-sheet-locked{
+    position:fixed !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    left:0 !important;
+    inset:0 !important;
+
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    touch-action:auto !important;
+    background:var(--bg) !important;
+  }
+
+  .app{
+    position:fixed !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    left:0 !important;
+    inset:0 !important;
+
+    width:min(100%,480px) !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+
+    margin:0 auto !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    transform:none !important;
+    background:var(--bg) !important;
+    box-sizing:border-box !important;
+  }
+
+  /*
+   * 一级页面是唯一滚动层。
+   * 底部预留 Tab 高度，最后一项可以完整滚到导航栏上方。
+   */
+  .page{
+    position:absolute !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    left:0 !important;
+    inset:0 !important;
+
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+
+    margin:0 !important;
+    padding-bottom:calc(112px + var(--safe-bottom)) !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior-y:contain !important;
+    touch-action:pan-y !important;
+    background:var(--bg) !important;
+    box-sizing:border-box !important;
+  }
+
+  .page:not(.active){
+    display:none !important;
+    pointer-events:none !important;
+  }
+
+  .page.active{
+    display:block !important;
+    pointer-events:auto !important;
+  }
+
+  /*
+   * 底部导航不再相对 body 固定，而是绝对固定在不可滚动的 App 外壳中。
+   * 即使内容发生橡皮筋滚动，也不会改变 Tab 的位置。
+   */
+  .bottom-nav{
+    position:absolute !important;
+    z-index:60 !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+
+    width:100% !important;
+    height:calc(80px + var(--safe-bottom)) !important;
+    margin:0 !important;
+    transform:none !important;
+
+    padding:7px max(12px,var(--safe-right))
+      max(var(--safe-bottom),6px)
+      max(12px,var(--safe-left)) !important;
+
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    touch-action:manipulation !important;
+    contain:layout paint !important;
+    will-change:transform !important;
+
+    border-top:1px solid var(--line) !important;
+    background:rgba(255,255,253,.985) !important;
+    backdrop-filter:blur(18px) !important;
+    -webkit-backdrop-filter:blur(18px) !important;
+    box-sizing:border-box !important;
+  }
+
+  .bottom-nav button{
+    touch-action:manipulation !important;
+  }
+
+  /*
+   * 悬浮新增按钮同样依附固定外壳，而不是依附滚动页面。
+   */
+  .fab{
+    position:absolute !important;
+    z-index:61 !important;
+    right:max(18px,var(--safe-right)) !important;
+    bottom:calc(92px + var(--safe-bottom)) !important;
+  }
+
+  /*
+   * 避免页面滑到顶部或底部时把手势继续传给系统页面。
+   */
+  .page::before{
+    content:"";
+    display:block;
+    width:1px;
+    height:1px;
+    margin-top:-1px;
+    pointer-events:none;
+  }
+
+  body.subpage-open .page.active{
+    overflow:hidden !important;
+  }
+
+  body.ysj-sheet-locked .page.active{
+    overflow:hidden !important;
+  }
+
+  @media(min-width:800px){
+    body,
+    body:not(.ysj-sheet-locked),
+    body.ysj-sheet-locked{
+      padding:0 !important;
+      background:#F0EFEA !important;
+    }
+
+    .app{
+      top:18px !important;
+      bottom:18px !important;
+      left:50% !important;
+      right:auto !important;
+      width:480px !important;
+      transform:translateX(-50%) !important;
+      border-radius:28px !important;
+      box-shadow:0 0 42px rgba(38,48,34,.12) !important;
+    }
+
+    .bottom-nav{
+      bottom:0 !important;
+      border-radius:0 0 28px 28px !important;
+    }
+
+    .fab{
+      right:18px !important;
+      bottom:93px !important;
+    }
+  }
+</style>
+
 </head>
 <body class="ysj-boot-calibrating">
 <div class="app">
@@ -6591,15 +6788,17 @@ body.ysj-sheet-locked{
     if(nav) void nav.offsetHeight;
     if(activePage) void activePage.offsetHeight;
 
-    window.scrollTo(0,0);
+    if(activePage) activePage.scrollTop=0;
 
     await nextLayoutFrame();
     body.classList.remove('ysj-boot-calibrating');
   }
 
   function switchTab(tab){
+    const target=document.getElementById(`page-${tab}`);
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.getElementById(`page-${tab}`).classList.add('active');
+    if(!target) return;
+    target.classList.add('active');
     document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
     const fab=document.getElementById('addFab');
     if(fab) fab.style.display=(tab==='home'&&state.homeScope==='mine')?'grid':'none';
@@ -6609,6 +6808,10 @@ body.ysj-sheet-locked{
       renderMe();
       if(state.authUser) refreshNotifications({silent:true});
     }
+    requestAnimationFrame(()=>{
+      target.scrollTop=0;
+      void target.offsetHeight;
+    });
   }
 
   const subpageHistory=[];
@@ -7785,11 +7988,15 @@ body.ysj-sheet-locked{
     }
   }
 
+  function activePageScroller(){
+    return document.querySelector('.page.active');
+  }
+
   function lockPage(){
     if(locked) return;
-    savedScrollY=window.scrollY||document.documentElement.scrollTop||0;
+    var page=activePageScroller();
+    savedScrollY=page ? page.scrollTop : 0;
     document.body.classList.add('ysj-sheet-locked');
-    document.body.style.top=(-savedScrollY)+'px';
     locked=true;
     updateVisualSheet();
   }
@@ -7806,8 +8013,8 @@ body.ysj-sheet-locked{
     document.documentElement.style.setProperty('--ysj-sheet-vv-height',window.innerHeight+'px');
     locked=false;
     requestAnimationFrame(function(){
-      window.scrollTo(0,savedScrollY);
-      setTimeout(function(){window.scrollTo(0,savedScrollY)},60);
+      var page=activePageScroller();
+      if(page) page.scrollTop=savedScrollY;
     });
   }
 
@@ -7853,7 +8060,6 @@ body.ysj-sheet-locked{
       if(backdrop && backdrop.classList.contains('show')) return;
       unlockPage();
       document.body.classList.remove('ysj-sheet-locked','ysj-keyboard-visible');
-      document.body.style.removeProperty('top');
     };
     syncBackdropState();
   }
