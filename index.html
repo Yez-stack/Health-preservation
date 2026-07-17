@@ -69,7 +69,11 @@ svg{display:block}
   padding-bottom:calc(92px + var(--safe-bottom));
 }
 .page.active{display:block}
-.content{padding:0 18px 28px}
+.content{
+  padding:0 18px 28px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
 
 /* Header */
 .topbar{
@@ -158,9 +162,11 @@ svg{display:block}
   background:transparent;
   color:#777D75;
   font-size:16px;
-  line-height:44px;
   font-weight:600;
   white-space:nowrap;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .home-mode-tabs button.active{color:var(--ink)}
 .home-mode-tabs button.active::after{
@@ -508,6 +514,9 @@ svg{display:block}
   background:transparent;
   color:#7A8078;
   font-size:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .trial-mode-tabs button.active{
   color:var(--green-dark);
@@ -769,7 +778,7 @@ svg{display:block}
 .field textarea{min-height:180px;padding:14px;resize:vertical;line-height:1.7}
 .field input:focus,.field textarea:focus,.field select:focus{
   border-color:#BFD0B4;
-  box-shadow:0 0 0 3px rgba(102,139,72,.075);
+  box-shadow:none;
 }
 .inline-field{
   display:grid;
@@ -962,13 +971,17 @@ svg{display:block}
   min-height:74px;
   margin-bottom:10px;
   padding:12px 13px;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
+  display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
   border:1px solid var(--line);
   border-radius:16px;
   background:#FFF;
+}
+
+.category-main{
+  flex:1;
+  min-width:0;
 }
 .category-row strong{font-size:16px}
 .category-row .meta{margin-top:4px;color:#999E96;font-size:13px}
@@ -998,7 +1011,7 @@ svg{display:block}
   position:absolute;left:50%;bottom:0;transform:translateX(-50%);
   width:min(100%,480px);
   max-height:88vh;overflow:auto;
-  padding:12px 18px calc(18px + var(--safe-bottom));
+  padding:16px 20px calc(28px + var(--safe-bottom));
   border-radius:24px 24px 0 0;background:#FFF;
 }
 .sheet-handle{
@@ -1025,10 +1038,17 @@ svg{display:block}
   left:50%;bottom:calc(91px + var(--safe-bottom));
   transform:translate(-50%,18px);
   min-width:210px;max-width:calc(100% - 32px);
-  padding:12px 14px;
-  display:flex;align-items:center;justify-content:space-between;gap:15px;
-  border-radius:13px;background:#354032;color:#FFF;
-  font-size:13px;opacity:0;pointer-events:none;transition:.2s;
+  padding:16px 20px;
+  display:flex;align-items:center;justify-content:center;gap:15px;
+  border-radius:10px;
+  background:rgba(0,0,0,0.82);
+  color:#FFF;
+  font-size:15px;
+  font-weight:500;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+  box-shadow:0 4px 20px rgba(0,0,0,0.25);
 }
 .toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 .toast button{border:0;background:transparent;color:#F7D984;font-weight:700}
@@ -1740,15 +1760,20 @@ svg{display:block}
     transform:translate(-50%,18px)!important;
     min-width:250px!important;
     max-width:calc(100% - 34px)!important;
-    min-height:58px!important;
-    padding:10px 12px 10px 16px!important;
+    min-height:56px!important;
+    padding:16px 20px!important;
     display:flex!important;
     align-items:center!important;
-    justify-content:space-between!important;
+    justify-content:center!important;
     gap:12px!important;
-    border:1px solid #E8E4DA!important;
-    border-radius:18px!important;
-    background:#FBFAF6!important;
+    border:none!important;
+    outline:none!important;
+    border-radius:10px!important;
+    background:rgba(0,0,0,0.82)!important;
+    color:#FFF!important;
+    font-size:15px!important;
+    font-weight:500!important;
+    box-shadow:0 4px 20px rgba(0,0,0,0.25)!important;
     box-shadow:0 14px 32px rgba(49,58,44,.10)!important;
     color:var(--ink)!important;
     font-size:14px!important;
@@ -2081,12 +2106,13 @@ svg{display:block}
     min-width:0!important;
     height:50px!important;
     margin:0!important;
-    padding:0 14px!important;
+    padding:0 14px 0 40px!important;
     box-sizing:border-box!important;
     overflow:hidden!important;
-    text-align:left!important;
+    text-align:center!important;
     color:var(--ink)!important;
-    background:#FFF!important;
+    background:#FFF url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23626A61%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><rect x=%223%22 y=%224%22 width=%2218%22 height=%2218%22 rx=%222%22 ry=%222%22></rect><line x1=%2216%22 y1=%222%22 x2=%2216%22 y2=%226%22></line><line x1=%228%22 y1=%222%22 x2=%228%22 y2=%226%22></line><line x1=%223%22 y1=%2210%22 x2=%2221%22 y2=%2210%22></line></svg>') no-repeat 12px center!important;
+    background-size:20px!important;
   }
 
   input[type="date"]::-webkit-date-and-time-value{
@@ -2094,6 +2120,12 @@ svg{display:block}
     margin:0!important;
     padding:0!important;
     text-align:left!important;
+  }
+
+  /* 隐藏原生日历图标，只保留我们自定义的左侧图标 */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 
   /* 遮罩必须覆盖整个动态视口，避免底部白色留白 */
@@ -2838,7 +2870,16 @@ svg{display:block}
     justify-content:center !important;
     text-align:center !important;
     box-sizing:border-box !important;
-    padding:12px 16px !important;
+    padding:16px 20px !important;
+    border:none !important;
+    outline:none !important;
+    border-radius:10px !important;
+    background:rgba(0,0,0,0.82) !important;
+    color:#FFF !important;
+    font-size:15px !important;
+    font-weight:500 !important;
+    min-height:56px !important;
+    box-shadow:0 4px 20px rgba(0,0,0,0.25) !important;
   }
 
   .toast.show{
@@ -3492,12 +3533,21 @@ svg{display:block}
 </style>
 <style id="yangsheng-toast-spacing-v46">
   .toast{
-    padding:10px !important;
+    padding:16px 20px !important;
     display:flex !important;
     align-items:center !important;
-    justify-content:flex-start !important;
+    justify-content:center !important;
     gap:10px !important;
-    text-align:left !important;
+    text-align:center !important;
+    border:none !important;
+    outline:none !important;
+    border-radius:10px !important;
+    background:rgba(0,0,0,0.82) !important;
+    color:#FFF !important;
+    font-size:15px !important;
+    font-weight:500 !important;
+    min-height:56px !important;
+    box-shadow:0 4px 20px rgba(0,0,0,0.25) !important;
   }
 
   #toastText{
@@ -3822,15 +3872,21 @@ body.ysj-sheet-locked{
   width:min(420px,calc(100% - 32px))!important;
   min-width:250px!important;
   max-width:calc(100% - 32px)!important;
-  min-height:52px!important;
+  min-height:56px!important;
   margin:0!important;
-  padding:10px 16px!important;
+  padding:16px 20px!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
   text-align:center!important;
   box-sizing:border-box!important;
   transform:translate(-50%,18px)!important;
+  border-radius:10px!important;
+  background:rgba(0,0,0,0.82)!important;
+  color:#FFF!important;
+  font-size:15px!important;
+  font-weight:500!important;
+  box-shadow:0 4px 20px rgba(0,0,0,0.25)!important;
 }
 .toast.show{transform:translate(-50%,0)!important}
 #toastText{
@@ -4807,7 +4863,15 @@ body.ysj-sheet-locked{
         <div class="sheet-sub">登录后同步个人文字记录，并可发布、评价和评论社区方法。</div>
         <div class="account-card">
           <input id="accountEmail" type="email" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="邮箱">
-          <input id="accountPassword" type="password" autocomplete="current-password" placeholder="密码（至少 6 位）">
+          <div class="password-wrapper" style="position:relative; width:100%;">
+            <input id="accountPassword" type="password" autocomplete="current-password" placeholder="密码（至少 6 位）" style="width:100%; padding-right:44px;">
+            <button type="button" id="togglePassword" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; padding:6px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; color:#8B9189; cursor:pointer;" aria-label="切换密码显示">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
           <div class="account-actions">
             <button class="primary-btn" id="loginAccount">登录</button>
             <button class="secondary-btn" id="registerAccount">注册</button>
@@ -4819,6 +4883,33 @@ body.ysj-sheet-locked{
 
     document.getElementById('sheetBackdrop').classList.add('show');
     window.__ysjRefreshViewport?.(false);
+
+    // 密码显示/隐藏切换
+    setTimeout(() => {
+      const toggleBtn = document.getElementById('togglePassword');
+      const passInput = document.getElementById('accountPassword');
+      if (toggleBtn && passInput) {
+        toggleBtn.onclick = () => {
+          if (passInput.type === 'password') {
+            passInput.type = 'text';
+            toggleBtn.innerHTML = `
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            `;
+          } else {
+            passInput.type = 'password';
+            toggleBtn.innerHTML = `
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            `;
+          }
+        };
+      }
+    }, 50);
   }
 
   async function loginAccount(mode){
@@ -6325,17 +6416,10 @@ body.ysj-sheet-locked{
   function renderCategories(){
     const box=document.getElementById('categoryContent');
     box.innerHTML=`
-      <div class="category-sort-hint">按住左侧图标拖动，可调整首页分类顺序</div>
+      <div class="category-sort-hint">按住分类卡片拖动，可调整首页分类顺序</div>
       ${sortedCategories().map(c=>{
         const count=state.methods.filter(m=>m.categoryId===c.id).length;
         return `<div class="category-row" data-category-id="${c.id}">
-          <button type="button" class="category-drag-handle" aria-label="拖动调整${esc(c.name)}的顺序">
-            <svg viewBox="0 0 20 24" aria-hidden="true">
-              <circle cx="6" cy="6" r="1.5"></circle><circle cx="14" cy="6" r="1.5"></circle>
-              <circle cx="6" cy="12" r="1.5"></circle><circle cx="14" cy="12" r="1.5"></circle>
-              <circle cx="6" cy="18" r="1.5"></circle><circle cx="14" cy="18" r="1.5"></circle>
-            </svg>
-          </button>
           <div class="category-main">
             <strong>${esc(c.name)}</strong>
             <div class="meta">${count} 个方法${c.id==='cat-other'?' · 保留分类':''}</div>
@@ -7114,24 +7198,26 @@ body.ysj-sheet-locked{
     if(!box || box.dataset.dragBound==='1') return;
     box.dataset.dragBound='1';
 
+    // 直接在整行上支持拖动（去掉左侧图标）
     box.addEventListener('pointerdown',e=>{
-      const handle=e.target.closest('.category-drag-handle');
-      if(!handle || (e.button!==undefined && e.button!==0)) return;
+      const row = e.target.closest('.category-row');
+      if(!row || (e.button!==undefined && e.button!==0)) return;
 
-      const row=handle.closest('.category-row');
-      if(!row) return;
+      // 如果点击的是按钮或操作区，就不启动拖动（让按钮正常响应点击）
+      if (e.target.closest('button') || e.target.closest('.actions')) {
+        return;
+      }
 
       e.preventDefault();
       categoryDragState={
         box,
         row,
-        handle,
         pointerId:e.pointerId,
         startY:e.clientY,
         moved:false
       };
 
-      try{handle.setPointerCapture(e.pointerId);}catch(_){}
+      try{row.setPointerCapture(e.pointerId);}catch(_){}
       row.classList.add('dragging');
       document.body.classList.add('category-drag-active');
     });
@@ -7165,7 +7251,7 @@ body.ysj-sheet-locked{
       const d=categoryDragState;
       if(!d || e.pointerId!==d.pointerId) return;
 
-      try{d.handle.releasePointerCapture(e.pointerId);}catch(_){}
+      try{d.row.releasePointerCapture(e.pointerId);}catch(_){}
       d.row.classList.remove('dragging');
       document.body.classList.remove('category-drag-active');
       categoryDragState=null;
