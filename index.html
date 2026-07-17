@@ -78,7 +78,7 @@ svg{display:block}
 /* Header */
 .topbar{
   height:82px;
-  padding:22px 20px 12px;
+  padding:12px 20px 12px;
   display:flex;
   align-items:flex-end;
   justify-content:flex-start;
@@ -809,8 +809,8 @@ svg{display:block}
 .form-actions,.sheet-actions{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:24px;
+  gap:14px;
+  margin-top:28px;
 }
 
 /* Square image upload */
@@ -1011,7 +1011,7 @@ svg{display:block}
   position:absolute;left:50%;bottom:0;transform:translateX(-50%);
   width:min(100%,480px);
   max-height:88vh;overflow:auto;
-  padding:16px 20px calc(28px + var(--safe-bottom));
+  padding:18px 22px calc(40px + var(--safe-bottom));
   border-radius:24px 24px 0 0;background:#FFF;
 }
 .sheet-handle{
@@ -2110,6 +2110,8 @@ svg{display:block}
     box-sizing:border-box!important;
     overflow:hidden!important;
     text-align:center!important;
+    line-height:50px!important;
+    vertical-align:middle!important;
     color:var(--ink)!important;
     background:#FFF url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23626A61%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><rect x=%223%22 y=%224%22 width=%2218%22 height=%2218%22 rx=%222%22 ry=%222%22></rect><line x1=%2216%22 y1=%222%22 x2=%2216%22 y2=%226%22></line><line x1=%228%22 y1=%222%22 x2=%228%22 y2=%226%22></line><line x1=%223%22 y1=%2210%22 x2=%2221%22 y2=%2210%22></line></svg>') no-repeat 12px center!important;
     background-size:20px!important;
@@ -2752,7 +2754,7 @@ svg{display:block}
   }
   .account-card{
     display:grid;
-    gap:11px;
+    gap:16px;
   }
   .account-card input{
     width:100%;
@@ -2768,7 +2770,7 @@ svg{display:block}
   .account-card .account-actions{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:9px;
+    gap:12px;
   }
   .account-user-box{
     padding:14px;
@@ -4154,7 +4156,7 @@ body.ysj-sheet-locked{
 <svg aria-hidden="true" viewbox="0 0 24 24">
 <path d="m15 5-7 7 7 7"></path>
 </svg>
-</button><h2>方法详情</h2><button id="editFromDetail">编辑</button>
+</button><h2>方法详情</h2><button data-edit-method>编辑</button>
 </header>
 <div class="detail-wrap" id="detailContent"></div>
 </section>
