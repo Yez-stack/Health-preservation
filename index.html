@@ -4337,69 +4337,51 @@ body.ysj-sheet-locked{
 
 
 <style id="yangsheng-standalone-tab-height-v62">
-  :root{
-    --ysj-tab-bottom-inset: var(--safe-bottom);
+  /* ========== iOS 独立模式（保存到主屏幕）底部导航彻底修复 v63 ========== */
+  :root {
+    --ysj-nav-height: 80px;
+    --ysj-content-bottom-pad: 95px;   /* 内容底部留白，刚好让最后一行卡片不被导航遮挡 */
+    --ysj-fab-bottom: 95px;
   }
 
-  /* iOS 保存到主屏幕 (standalone) 下彻底禁用底部安全区重复计算 */
-  html.ysj-ios-standalone{
-    --ysj-tab-bottom-inset: 0px;
+  /* 强制 standalone 模式下安全区为 0，避免任何重复计算 */
+  html.ysj-ios-standalone {
+    --safe-bottom: 0px !important;
   }
 
-  .bottom-nav{
-    height: calc(80px + var(--ysj-tab-bottom-inset)) !important;
-    padding:
-      7px
-      max(12px, var(--safe-right))
-      max(6px, var(--ysj-tab-bottom-inset))
-      max(12px, var(--safe-left)) !important;
+  /* 底部导航：固定 80px 高 + 紧贴屏幕最底部 */
+  html.ysj-ios-standalone .bottom-nav {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: min(100%, 480px) !important;
+    height: var(--ysj-nav-height) !important;
+    padding: 8px 12px 8px !important;   /* 上下各留一点呼吸空间 */
     box-sizing: border-box !important;
+    z-index: 25 !important;
   }
 
-  .page{
-    padding-bottom: calc(112px + var(--ysj-tab-bottom-inset)) !important;
+  /* 页面内容底部 padding：比导航稍高一点（95px），内容自然停在导航上方 */
+  html.ysj-ios-standalone .page {
+    padding-bottom: var(--ysj-content-bottom-pad) !important;
   }
 
-  .fab{
-    bottom: calc(92px + var(--ysj-tab-bottom-inset)) !important;
+  /* 悬浮新增按钮位置 */
+  html.ysj-ios-standalone .fab {
+    bottom: var(--ysj-fab-bottom) !important;
   }
 
-  /* subpage（我的、收藏等）也同步修正 */
-  .subpage{
-    padding-bottom: calc(28px + var(--ysj-tab-bottom-inset)) !important;
+  /* 二级页面（我的、收藏、分类管理等） */
+  html.ysj-ios-standalone .subpage {
+    padding-bottom: 32px !important;
   }
 
-  /*
-   * standalone 下导航总高固定为 80px，
-   * 按钮紧贴屏幕底部，不再出现多余留白。
-   */
-  html.ysj-ios-standalone .bottom-nav{
-    height: 80px !important;
-    padding-bottom: 6px !important;
-  }
-
-  html.ysj-ios-standalone .page{
-    padding-bottom: 112px !important;
-  }
-
-  html.ysj-ios-standalone .fab{
-    bottom: 92px !important;
-  }
-
-  html.ysj-ios-standalone .subpage{
-    padding-bottom: 28px !important;
-  }
-    padding-bottom:112px !important;
-  }
-
-  html.ysj-ios-standalone .fab{
-    bottom:92px !important;
-  }
-
-  @media(min-width:800px){
-    html.ysj-ios-standalone .bottom-nav{
-      height:80px !important;
-      padding-bottom:6px !important;
+  /* 桌面端预览保持不变 */
+  @media (min-width: 800px) {
+    html.ysj-ios-standalone .bottom-nav {
+      height: 80px !important;
+      padding-bottom: 8px !important;
     }
   }
 </style>
