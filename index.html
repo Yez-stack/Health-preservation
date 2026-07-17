@@ -6948,7 +6948,7 @@ body.ysj-sheet-locked{
     document.getElementById(`page-${tab}`).classList.add('active');
     document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
     const fab=document.getElementById('addFab');
-    if(fab) fab.style.display=(tab==='home'&&state.homeScope==='mine')?'grid':'none';
+    if(fab) fab.style.display = (tab === 'home') ? 'grid' : 'none';
     if(tab==='home') renderHome();
     if(tab==='trials') renderTrials();
     if(tab==='me'){
