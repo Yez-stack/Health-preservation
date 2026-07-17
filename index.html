@@ -7,10 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>养生笺</title>
-  <meta name="app-version" content="v53-admin-auto-community" />
-  <meta name="app-version" content="v52-standalone-real-viewport" />
-  <meta name="app-version" content="v51-stable-subpage" />
-  <meta name="app-version" content="v49-ios-login-cloud-sync" />
+  <meta name="app-version" content="v54-mobile-stable-cloud-merge" />
 
   <meta name="application-name" content="养生笺" />
   <meta name="apple-mobile-web-app-title" content="养生笺" />
@@ -2362,670 +2359,6 @@ svg{display:block}
     }
   }
 </style>
-
-
-<style id="yangsheng-scroll-layout-fix-v30">
-  :root{
-    --app-height:100dvh;
-  }
-
-  /* 根页面永远不滚动，避免 iPhone 把整个 App 和底部导航一起拖动 */
-  html,
-  body{
-    width:100%!important;
-    height:100%!important;
-    min-height:100%!important;
-    margin:0!important;
-    padding:0!important;
-    overflow:hidden!important;
-    overscroll-behavior:none!important;
-    background:var(--bg)!important;
-  }
-
-  body{
-    position:fixed!important;
-    inset:0!important;
-  }
-
-  .app{
-    position:relative!important;
-    width:min(100%,480px)!important;
-    height:var(--app-height)!important;
-    min-height:var(--app-height)!important;
-    max-height:var(--app-height)!important;
-    margin:0 auto!important;
-    padding:0!important;
-    overflow:hidden!important;
-    overscroll-behavior:none!important;
-    background:var(--bg)!important;
-  }
-
-  /* 一级页面在 App 内独立滚动，底部导航不参与滚动 */
-  .page{
-    width:100%!important;
-    height:100%!important;
-    min-height:0!important;
-    max-height:100%!important;
-    padding-bottom:calc(102px + var(--safe-bottom))!important;
-    overflow-x:hidden!important;
-    overflow-y:auto!important;
-    overscroll-behavior-y:none!important;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none!important;
-  }
-
-  .page::-webkit-scrollbar{
-    display:none!important;
-    width:0!important;
-    height:0!important;
-  }
-
-  .page:not(.active){
-    display:none!important;
-  }
-
-  .page.active{
-    display:block!important;
-  }
-
-  /* 底部导航固定在 App 容器中，不再使用页面级 fixed */
-  .bottom-nav{
-    position:absolute!important;
-    z-index:60!important;
-    left:0!important;
-    right:0!important;
-    bottom:0!important;
-    transform:none!important;
-    width:100%!important;
-    max-width:none!important;
-    margin:0!important;
-  }
-
-  /* 新增按钮同样固定在 App 容器中 */
-  .fab{
-    position:absolute!important;
-    z-index:61!important;
-    right:18px!important;
-    bottom:calc(92px + var(--safe-bottom))!important;
-  }
-
-  /* 二级页面本身不滚动，只允许内部内容区域按需滚动 */
-  .subpage{
-    display:flex!important;
-    flex-direction:column!important;
-    width:min(100%,480px)!important;
-    height:var(--app-height)!important;
-    min-height:0!important;
-    max-height:var(--app-height)!important;
-    padding:0!important;
-    overflow:hidden!important;
-    overscroll-behavior:none!important;
-  }
-
-  .sub-topbar{
-    position:relative!important;
-    top:auto!important;
-    flex:0 0 auto!important;
-    width:100%!important;
-  }
-
-  .subpage > .content,
-  .subpage > .form,
-  .subpage > .detail-wrap{
-    flex:1 1 auto!important;
-    min-height:0!important;
-    max-height:none!important;
-    overflow-x:hidden!important;
-    overflow-y:auto!important;
-    overscroll-behavior-y:none!important;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none!important;
-  }
-
-  .subpage > .content::-webkit-scrollbar,
-  .subpage > .form::-webkit-scrollbar,
-  .subpage > .detail-wrap::-webkit-scrollbar{
-    display:none!important;
-    width:0!important;
-    height:0!important;
-  }
-
-  /* 表单底部保留安全距离，但不制造额外页面高度 */
-  #sub-method-form > .form{
-    padding-bottom:calc(28px + var(--safe-bottom))!important;
-  }
-
-  #sub-detail > .detail-wrap,
-  #sub-favorites > .content,
-  #sub-categories > .content,
-  #sub-backup > .content{
-    padding-bottom:calc(28px + var(--safe-bottom))!important;
-  }
-
-  /* 防止滚动传播到后面的首页 */
-  .subpage.open{
-    touch-action:pan-y!important;
-  }
-
-  /* 桌面预览也保持固定视口，不使用旧的 18px 偏移 */
-  @media(min-width:800px){
-    body{
-      position:static!important;
-      display:grid!important;
-      place-items:center!important;
-      padding:18px 0!important;
-      overflow:hidden!important;
-    }
-
-    .app{
-      height:calc(100dvh - 36px)!important;
-      min-height:calc(100dvh - 36px)!important;
-      max-height:calc(100dvh - 36px)!important;
-      border-radius:28px!important;
-    }
-
-    .subpage{
-      height:100%!important;
-      max-height:100%!important;
-      border-radius:28px!important;
-    }
-
-    .bottom-nav{
-      bottom:0!important;
-      border-radius:0 0 28px 28px!important;
-    }
-
-    .fab{
-      bottom:93px!important;
-    }
-  }
-
-  @supports not (height:100dvh){
-    :root{
-      --app-height:100vh;
-    }
-
-    .app,
-    .subpage{
-      height:100vh!important;
-      min-height:100vh!important;
-      max-height:100vh!important;
-    }
-  }
-</style>
-
-
-<style id="yangsheng-ios-bottom-nav-fix-v31">
-  :root{
-    /* iPhone 底部只保留必要避让，不再使用完整安全区高度 */
-    --nav-safe:clamp(6px,calc(var(--safe-bottom) * .35),12px);
-    --nav-height:calc(78px + var(--nav-safe));
-  }
-
-  .bottom-nav{
-    height:var(--nav-height)!important;
-    padding:5px 10px var(--nav-safe)!important;
-    align-items:center!important;
-    box-sizing:border-box!important;
-  }
-
-  .bottom-nav button{
-    height:62px!important;
-    padding:5px 2px!important;
-    grid-template-rows:28px 20px!important;
-    gap:3px!important;
-    border-radius:18px!important;
-  }
-
-  /* 页面内容只避让真实导航高度 */
-  .page{
-    padding-bottom:calc(var(--nav-height) + 12px)!important;
-  }
-
-  /* 新增按钮紧贴导航栏上方 */
-  .fab{
-    bottom:calc(var(--nav-height) + 12px)!important;
-  }
-
-  @media(max-width:370px){
-    .bottom-nav{
-      padding-left:7px!important;
-      padding-right:7px!important;
-    }
-
-    .bottom-nav button{
-      height:60px!important;
-    }
-  }
-
-  @media(min-width:800px){
-    .bottom-nav{
-      height:78px!important;
-      padding-bottom:6px!important;
-    }
-
-    .fab{
-      bottom:90px!important;
-    }
-  }
-</style>
-
-
-<script id="yangsheng-viewport-keyboard-fix-v49">
-(function(){
-  var root=document.documentElement;
-  var stableHeight=0;
-  var keyboardOpen=false;
-  var refreshTimer=0;
-
-  function px(value){ return Math.max(0,Math.round(Number(value)||0))+'px'; }
-  function editable(el){
-    return !!el && (el.matches?.('input,textarea,select,[contenteditable="true"]'));
-  }
-  function currentBaseHeight(){
-    return Math.max(
-      Number(window.innerHeight)||0,
-      Number(document.documentElement.clientHeight)||0,
-      Number(document.body?.clientHeight)||0
-    );
-  }
-  function updateViewport(forceStable){
-    var vv=window.visualViewport;
-    var visibleHeight=vv ? Number(vv.height)||0 : currentBaseHeight();
-    var offsetTop=vv ? Number(vv.offsetTop)||0 : 0;
-    var base=currentBaseHeight();
-    var active=editable(document.activeElement);
-
-    if(!stableHeight) stableHeight=base||visibleHeight||window.screen?.height||800;
-
-    var possibleInset=Math.max(0,stableHeight-(visibleHeight+offsetTop));
-    keyboardOpen=active && possibleInset>110;
-
-    if(forceStable || !keyboardOpen){
-      if(base>0) stableHeight=base;
-      possibleInset=0;
-    }
-
-    var keyboardInset=keyboardOpen ? Math.max(0,stableHeight-(visibleHeight+offsetTop)) : 0;
-    root.style.setProperty('--app-height',px(stableHeight));
-    root.style.setProperty('--visual-height',px(visibleHeight||stableHeight));
-    root.style.setProperty('--keyboard-inset',px(keyboardInset));
-    root.style.setProperty('--visual-offset-top',px(offsetTop));
-    root.style.setProperty('--toast-offset',keyboardOpen?px(keyboardInset):'var(--bottom-nav-height)');
-    document.body?.classList.toggle('keyboard-open',keyboardOpen);
-  }
-
-  function schedule(forceStable,delay){
-    clearTimeout(refreshTimer);
-    refreshTimer=setTimeout(function(){updateViewport(!!forceStable);},delay||0);
-  }
-
-  window.__ysjRefreshViewport=function(forceStable){
-    updateViewport(!!forceStable);
-    schedule(!!forceStable,80);
-    schedule(!!forceStable,260);
-  };
-
-  document.addEventListener('focusin',function(e){
-    if(editable(e.target)) schedule(false,40);
-  },true);
-  document.addEventListener('focusout',function(){ schedule(true,180); },true);
-  window.addEventListener('resize',function(){schedule(false,30);},{passive:true});
-  window.addEventListener('orientationchange',function(){
-    schedule(true,120);
-    schedule(true,420);
-  },{passive:true});
-  window.addEventListener('pageshow',function(){schedule(true,40);},{passive:true});
-  document.addEventListener('visibilitychange',function(){
-    if(!document.hidden) schedule(true,60);
-  });
-  if(window.visualViewport){
-    window.visualViewport.addEventListener('resize',function(){schedule(false,20);},{passive:true});
-    window.visualViewport.addEventListener('scroll',function(){schedule(false,20);},{passive:true});
-  }
-
-  document.addEventListener('DOMContentLoaded',function(){
-    updateViewport(true);
-    var backdrop=document.getElementById('sheetBackdrop');
-    if(backdrop){
-      new MutationObserver(function(){
-        var shown=backdrop.classList.contains('show');
-        document.body.classList.toggle('sheet-open',shown);
-        if(!shown){
-          if(editable(document.activeElement)) document.activeElement.blur();
-          schedule(true,100);
-          schedule(true,320);
-        }else{
-          schedule(false,20);
-        }
-      }).observe(backdrop,{attributes:true,attributeFilter:['class']});
-    }
-  });
-})();
-</script>
-
-
-<style id="yangsheng-font-and-pwa-bottom-fix-v32">
-  /* 正文、按钮和输入内容使用 iOS 苹方，保持清楚易读 */
-  body,
-  button,
-  input,
-  textarea,
-  select{
-    font-family:
-      -apple-system,
-      BlinkMacSystemFont,
-      "PingFang SC",
-      "Helvetica Neue",
-      "Noto Sans CJK SC",
-      "Microsoft YaHei",
-      sans-serif !important;
-  }
-
-  /* 产品名称和页面标题使用宋体，保留养生笺的东方气质 */
-  .brand h1,
-  .me-hero h2,
-  .sub-topbar h2,
-  .empty-ink{
-    font-family:
-      "Songti SC",
-      "STSong",
-      "Noto Serif CJK SC",
-      serif !important;
-  }
-
-  .sub-topbar h2{
-    font-weight:700 !important;
-    letter-spacing:.02em;
-  }
-
-  :root{
-    /* 由脚本写入实际可视高度，100vh 只作为加载前兜底 */
-    --app-height:100vh;
-
-    /* iPhone 主屏幕模式只保留少量底部安全距离 */
-    --nav-safe:clamp(6px,var(--safe-bottom),10px);
-    --nav-content-height:68px;
-    --nav-height:calc(var(--nav-content-height) + var(--nav-safe));
-  }
-
-  html,
-  body{
-    width:100% !important;
-    height:var(--app-height) !important;
-    min-height:var(--app-height) !important;
-    max-height:var(--app-height) !important;
-    overflow:hidden !important;
-    background:var(--bg) !important;
-  }
-
-  body{
-    position:fixed !important;
-    inset:0 !important;
-  }
-
-  .app{
-    position:relative !important;
-    width:min(100%,480px) !important;
-    height:var(--app-height) !important;
-    min-height:var(--app-height) !important;
-    max-height:var(--app-height) !important;
-    margin:0 auto !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    background:var(--bg) !important;
-  }
-
-  /* 底部导航固定在真实可视区域底部 */
-  .bottom-nav{
-    position:absolute !important;
-    z-index:60 !important;
-    left:0 !important;
-    right:0 !important;
-    bottom:0 !important;
-    transform:none !important;
-    width:100% !important;
-    height:var(--nav-height) !important;
-    margin:0 !important;
-    padding:4px 10px var(--nav-safe) !important;
-    box-sizing:border-box !important;
-    align-items:center !important;
-  }
-
-  .bottom-nav button{
-    height:60px !important;
-    padding:4px 2px !important;
-    grid-template-rows:28px 19px !important;
-    align-content:center !important;
-    gap:3px !important;
-    border-radius:18px !important;
-  }
-
-  .bottom-nav button>span:last-child{
-    line-height:19px !important;
-  }
-
-  /* 内容只避让导航本身，不再额外制造大块白色区域 */
-  .page{
-    width:100% !important;
-    height:100% !important;
-    min-height:0 !important;
-    max-height:100% !important;
-    padding-bottom:calc(var(--nav-height) + 8px) !important;
-    overflow-x:hidden !important;
-    overflow-y:auto !important;
-    overscroll-behavior-y:none !important;
-    -webkit-overflow-scrolling:touch;
-  }
-
-  .fab{
-    position:absolute !important;
-    right:18px !important;
-    bottom:calc(var(--nav-height) + 10px) !important;
-  }
-
-  /* 二级页面也使用同一个真实可视高度 */
-  .subpage{
-    height:var(--app-height) !important;
-    min-height:var(--app-height) !important;
-    max-height:var(--app-height) !important;
-  }
-
-  /* Safari 普通浏览模式和主屏幕模式都不再出现页面外留白 */
-  @media(max-width:799px){
-    body{
-      padding:0 !important;
-    }
-
-    .app{
-      border-radius:0 !important;
-      box-shadow:none !important;
-    }
-  }
-
-  @media(max-width:370px){
-    .bottom-nav{
-      padding-left:7px !important;
-      padding-right:7px !important;
-    }
-
-    .bottom-nav button{
-      height:58px !important;
-    }
-  }
-
-  @media(min-width:800px){
-    body{
-      position:static !important;
-      height:100vh !important;
-      min-height:100vh !important;
-      max-height:100vh !important;
-      display:grid !important;
-      place-items:center !important;
-      padding:18px 0 !important;
-    }
-
-    .app{
-      height:calc(100vh - 36px) !important;
-      min-height:calc(100vh - 36px) !important;
-      max-height:calc(100vh - 36px) !important;
-      border-radius:28px !important;
-    }
-
-    .subpage{
-      height:100% !important;
-      min-height:100% !important;
-      max-height:100% !important;
-    }
-  }
-</style>
-
-
-<style id="yangsheng-standalone-fullscreen-fix-v33">
-  :root{
-    --app-height:100dvh;
-  }
-
-  html,
-  body{
-    width:100%!important;
-    height:var(--app-height)!important;
-    min-height:var(--app-height)!important;
-    max-height:var(--app-height)!important;
-    margin:0!important;
-    padding:0!important;
-    overflow:hidden!important;
-    background:var(--bg)!important;
-  }
-
-  body{
-    position:fixed!important;
-    inset:0!important;
-  }
-
-  .app{
-    position:absolute!important;
-    inset:0!important;
-    width:min(100%,480px)!important;
-    height:var(--app-height)!important;
-    min-height:var(--app-height)!important;
-    max-height:var(--app-height)!important;
-    margin:0 auto!important;
-    overflow:hidden!important;
-    background:var(--bg)!important;
-  }
-
-  .page{
-    height:100%!important;
-    min-height:0!important;
-    max-height:100%!important;
-  }
-
-  .subpage{
-    height:var(--app-height)!important;
-    min-height:var(--app-height)!important;
-    max-height:var(--app-height)!important;
-  }
-
-  .bottom-nav{
-    bottom:0!important;
-  }
-
-  @media(display-mode:standalone){
-    html,
-    body,
-    .app,
-    .subpage{
-      height:var(--app-height)!important;
-      min-height:var(--app-height)!important;
-      max-height:var(--app-height)!important;
-    }
-  }
-
-  @supports not (height:100dvh){
-    :root{
-      --app-height:100vh;
-    }
-  }
-</style>
-
-
-<style id="yangsheng-iphone-home-indicator-fix-v34">
-  :root{
-    --iphone-bottom-safe:env(safe-area-inset-bottom,0px);
-    --bottom-nav-content-height:68px;
-    --bottom-nav-height:calc(
-      var(--bottom-nav-content-height) + var(--iphone-bottom-safe)
-    );
-  }
-
-  .bottom-nav{
-    height:var(--bottom-nav-height)!important;
-    padding:4px 10px var(--iphone-bottom-safe)!important;
-    box-sizing:border-box!important;
-    align-items:center!important;
-  }
-
-  .bottom-nav button{
-    height:60px!important;
-    min-height:60px!important;
-    padding:4px 2px!important;
-    grid-template-rows:28px 19px!important;
-    align-content:center!important;
-    gap:3px!important;
-  }
-
-  .page{
-    padding-bottom:calc(var(--bottom-nav-height) + 8px)!important;
-  }
-
-  .fab{
-    bottom:calc(var(--bottom-nav-height) + 10px)!important;
-  }
-
-  @supports(padding:max(0px)){
-    .bottom-nav{
-      padding-bottom:max(6px,var(--iphone-bottom-safe))!important;
-    }
-
-    :root{
-      --bottom-nav-height:calc(
-        var(--bottom-nav-content-height)
-        + max(6px,var(--iphone-bottom-safe))
-      );
-    }
-  }
-
-  @media(max-width:370px){
-    .bottom-nav{
-      padding-left:7px!important;
-      padding-right:7px!important;
-    }
-
-    .bottom-nav button{
-      height:58px!important;
-      min-height:58px!important;
-    }
-  }
-
-  @media(min-width:800px){
-    :root{
-      --iphone-bottom-safe:0px;
-      --bottom-nav-height:78px;
-    }
-
-    .bottom-nav{
-      height:78px!important;
-      padding-bottom:6px!important;
-    }
-
-    .fab{
-      bottom:90px!important;
-    }
-  }
-</style>
-
-
 <style id="yangsheng-subpage-and-filter-fix-v35">
   /* 二级页面应覆盖首页底部导航和悬浮新增按钮 */
   .subpage{
@@ -4347,383 +3680,6 @@ svg{display:block}
     line-height:1.45 !important;
   }
 </style>
-
-
-<style id="yangsheng-ios-login-layout-fix-v49">
-  :root{
-    --visual-height:var(--app-height);
-    --keyboard-inset:0px;
-    --visual-offset-top:0px;
-    --toast-offset:var(--bottom-nav-height);
-  }
-
-  html,
-  body{
-    width:100%!important;
-    height:var(--app-height)!important;
-    min-height:var(--app-height)!important;
-    max-height:var(--app-height)!important;
-    overflow:hidden!important;
-    margin:0!important;
-    padding:0!important;
-    background:var(--bg)!important;
-  }
-
-  body{
-    position:fixed!important;
-    inset:0!important;
-  }
-
-  .app{
-    position:fixed!important;
-    top:0!important;
-    bottom:auto!important;
-    left:50%!important;
-    right:auto!important;
-    width:min(100%,480px)!important;
-    height:var(--app-height)!important;
-    min-height:var(--app-height)!important;
-    max-height:var(--app-height)!important;
-    margin:0!important;
-    transform:translateX(-50%)!important;
-    overflow:hidden!important;
-  }
-
-  .page,
-  .subpage{
-    height:var(--app-height)!important;
-    min-height:0!important;
-    max-height:var(--app-height)!important;
-  }
-
-  .bottom-nav{
-    position:absolute!important;
-    left:0!important;
-    right:0!important;
-    bottom:0!important;
-    width:100%!important;
-    transform:none!important;
-  }
-
-  .sheet-backdrop,
-  .modal-backdrop{
-    position:fixed!important;
-    inset:0!important;
-    width:100%!important;
-    height:var(--app-height)!important;
-    min-height:var(--app-height)!important;
-    max-height:var(--app-height)!important;
-  }
-
-  .sheet{
-    position:fixed!important;
-    left:50%!important;
-    right:auto!important;
-    bottom:var(--keyboard-inset)!important;
-    width:min(100%,480px)!important;
-    max-width:100%!important;
-    max-height:calc(var(--visual-height) - var(--safe-top) - 8px)!important;
-    transform:translateX(-50%)!important;
-    overflow-x:hidden!important;
-    overflow-y:auto!important;
-    overscroll-behavior:contain!important;
-    -webkit-overflow-scrolling:touch!important;
-    padding:
-      12px
-      max(18px,var(--safe-right))
-      calc(18px + env(safe-area-inset-bottom,0px))
-      max(18px,var(--safe-left))!important;
-    box-sizing:border-box!important;
-  }
-
-  body.keyboard-open .sheet{
-    padding-bottom:18px!important;
-  }
-
-  body.sheet-open .page,
-  body.sheet-open .subpage,
-  body.sheet-open .bottom-nav,
-  body.sheet-open .fab{
-    pointer-events:none!important;
-  }
-
-  .toast{
-    position:fixed!important;
-    z-index:180!important;
-    left:50%!important;
-    right:auto!important;
-    bottom:calc(var(--toast-offset) + 12px)!important;
-    width:auto!important;
-    min-width:min(250px,calc(100vw - 32px))!important;
-    max-width:min(420px,calc(100vw - 32px))!important;
-    min-height:52px!important;
-    padding:10px 16px!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    box-sizing:border-box!important;
-    transform:translate(-50%,18px)!important;
-    text-align:center!important;
-  }
-
-  .toast.show{
-    transform:translate(-50%,0)!important;
-  }
-
-  #toastText{
-    display:block!important;
-    width:100%!important;
-    min-width:0!important;
-    margin:0!important;
-    padding:0!important;
-    text-align:center!important;
-    line-height:1.5!important;
-    white-space:normal!important;
-    overflow-wrap:anywhere!important;
-  }
-
-  .toast.has-action{
-    padding-left:64px!important;
-    padding-right:64px!important;
-  }
-
-  .toast.has-action #toastText{
-    padding:0!important;
-    text-align:center!important;
-  }
-
-  #toastAction{
-    position:absolute!important;
-    top:50%!important;
-    right:10px!important;
-    left:auto!important;
-    margin:0!important;
-    transform:translateY(-50%)!important;
-  }
-
-  @media(display-mode:standalone){
-    html,body,.app,.page,.subpage{
-      height:var(--app-height)!important;
-      min-height:var(--app-height)!important;
-      max-height:var(--app-height)!important;
-    }
-  }
-</style>
-
-
-<style id="yangsheng-subpage-stable-overlay-v51">
-  /*
-   * 二级页面采用显示/隐藏切换，不再依赖横向 transform。
-   * 关闭时完全不参与渲染，打开时严格覆盖 App 的完整宽高。
-   */
-  .app{
-    isolation:isolate !important;
-  }
-
-  .subpage{
-    position:absolute !important;
-    inset:0 !important;
-    top:0 !important;
-    right:0 !important;
-    bottom:0 !important;
-    left:0 !important;
-    width:100% !important;
-    min-width:100% !important;
-    max-width:100% !important;
-    height:100% !important;
-    min-height:0 !important;
-    max-height:100% !important;
-    margin:0 !important;
-    padding:0 !important;
-    display:none !important;
-    flex-direction:column !important;
-    overflow:hidden !important;
-    box-sizing:border-box !important;
-    transform:none !important;
-    transition:none !important;
-    opacity:1 !important;
-    visibility:visible !important;
-    pointer-events:auto !important;
-    background:var(--bg) !important;
-    z-index:70 !important;
-  }
-
-  .subpage.open{
-    display:flex !important;
-    transform:none !important;
-  }
-
-  .subpage.open.swiping-back{
-    transform:none !important;
-  }
-
-  body.subpage-open .page,
-  body.subpage-open .bottom-nav,
-  body.subpage-open .fab{
-    visibility:hidden !important;
-    pointer-events:none !important;
-  }
-
-  .subpage > .sub-topbar{
-    width:100% !important;
-    flex:0 0 auto !important;
-  }
-
-  .subpage > .content,
-  .subpage > .form,
-  .subpage > .detail-wrap{
-    width:100% !important;
-    flex:1 1 auto !important;
-    min-height:0 !important;
-    box-sizing:border-box !important;
-  }
-
-  @media(min-width:800px){
-    .subpage{
-      border-radius:inherit !important;
-    }
-  }
-</style>
-
-
-<style id="yangsheng-standalone-real-viewport-v52">
-  /*
-   * iPhone Safari / 添加到主屏幕后：
-   * 主页面不再使用 JS 计算的 --app-height，
-   * 直接使用 fixed + inset:0 覆盖系统真实视口。
-   */
-  @media (max-width:799px){
-    html{
-      width:100% !important;
-      height:100% !important;
-      min-height:100% !important;
-      max-height:100% !important;
-      margin:0 !important;
-      padding:0 !important;
-      overflow:hidden !important;
-      background:var(--bg) !important;
-    }
-
-    body{
-      position:fixed !important;
-      inset:0 !important;
-      width:100% !important;
-      height:auto !important;
-      min-height:0 !important;
-      max-height:none !important;
-      margin:0 !important;
-      padding:0 !important;
-      overflow:hidden !important;
-      background:var(--bg) !important;
-    }
-
-    .app{
-      position:fixed !important;
-      inset:0 !important;
-      top:0 !important;
-      right:0 !important;
-      bottom:0 !important;
-      left:0 !important;
-      width:100% !important;
-      height:auto !important;
-      min-height:0 !important;
-      max-height:none !important;
-      margin:0 !important;
-      padding:0 !important;
-      transform:none !important;
-      overflow:hidden !important;
-      border-radius:0 !important;
-      box-shadow:none !important;
-      background:var(--bg) !important;
-    }
-
-    .page{
-      position:absolute !important;
-      inset:0 !important;
-      width:100% !important;
-      height:auto !important;
-      min-height:0 !important;
-      max-height:none !important;
-      margin:0 !important;
-      padding-bottom:calc(var(--bottom-nav-height) + 8px) !important;
-      overflow-x:hidden !important;
-      overflow-y:auto !important;
-      overscroll-behavior-y:none !important;
-      -webkit-overflow-scrolling:touch !important;
-    }
-
-    .page:not(.active){
-      display:none !important;
-    }
-
-    .page.active{
-      display:block !important;
-    }
-
-    .bottom-nav{
-      position:absolute !important;
-      left:0 !important;
-      right:0 !important;
-      bottom:0 !important;
-      width:100% !important;
-      height:var(--bottom-nav-height) !important;
-      margin:0 !important;
-      transform:none !important;
-    }
-
-    .fab{
-      position:absolute !important;
-      right:18px !important;
-      bottom:calc(var(--bottom-nav-height) + 10px) !important;
-    }
-
-    .subpage{
-      position:absolute !important;
-      inset:0 !important;
-      width:100% !important;
-      height:auto !important;
-      min-height:0 !important;
-      max-height:none !important;
-    }
-
-    .sheet-backdrop,
-    .modal-backdrop{
-      position:fixed !important;
-      inset:0 !important;
-      width:100% !important;
-      height:auto !important;
-      min-height:0 !important;
-      max-height:none !important;
-    }
-
-    .sheet{
-      max-height:calc(
-        100% - var(--safe-top) - var(--keyboard-inset) - 8px
-      ) !important;
-    }
-  }
-
-  @media (display-mode:standalone){
-    html,
-    body,
-    .app{
-      position:fixed !important;
-      inset:0 !important;
-      width:100% !important;
-      height:auto !important;
-      min-height:0 !important;
-      max-height:none !important;
-      overflow:hidden !important;
-      background:var(--bg) !important;
-    }
-
-    .bottom-nav{
-      bottom:0 !important;
-    }
-  }
-</style>
-
-
 <style id="yangsheng-admin-community-v53">
   .admin-community-note{
     margin-top:9px;
@@ -4732,6 +3688,320 @@ svg{display:block}
     color:#668052;
     font-size:12px;
     line-height:1.55;
+  }
+</style>
+
+
+<style id="yangsheng-mobile-stable-layout-v54">
+  :root{
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-right:env(safe-area-inset-right,0px);
+    --safe-bottom:env(safe-area-inset-bottom,0px);
+    --safe-left:env(safe-area-inset-left,0px);
+    --nav-content-height:68px;
+    --nav-safe-bottom:max(6px,var(--safe-bottom));
+    --bottom-nav-height:calc(var(--nav-content-height) + var(--nav-safe-bottom));
+    --keyboard-offset:0px;
+  }
+
+  html,
+  body{
+    width:100% !important;
+    height:100% !important;
+    min-height:100% !important;
+    max-height:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    background:var(--bg) !important;
+  }
+
+  body{
+    position:fixed !important;
+    inset:0 !important;
+    display:grid !important;
+    place-items:center !important;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Noto Sans CJK SC","Microsoft YaHei",sans-serif !important;
+  }
+
+  button,
+  input,
+  textarea,
+  select{
+    font-family:inherit !important;
+  }
+
+  .brand h1,
+  .me-hero h2,
+  .sub-topbar h2,
+  .empty-ink{
+    font-family:"Songti SC","STSong","Noto Serif CJK SC",serif !important;
+  }
+
+  .app{
+    position:relative !important;
+    inset:auto !important;
+    width:min(100%,480px) !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    transform:none !important;
+    background:var(--bg) !important;
+    isolation:isolate !important;
+  }
+
+  .page{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    margin:0 !important;
+    padding-bottom:calc(var(--bottom-nav-height) + 10px) !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    overscroll-behavior-y:contain !important;
+    -webkit-overflow-scrolling:touch !important;
+    background:var(--bg) !important;
+    box-sizing:border-box !important;
+  }
+
+  .page:not(.active){
+    display:none !important;
+  }
+
+  .page.active{
+    display:block !important;
+  }
+
+  .topbar{
+    min-height:calc(82px + var(--safe-top)) !important;
+    height:calc(82px + var(--safe-top)) !important;
+    padding:calc(22px + var(--safe-top)) max(20px,var(--safe-right)) 12px max(20px,var(--safe-left)) !important;
+    box-sizing:border-box !important;
+  }
+
+  .bottom-nav{
+    position:absolute !important;
+    z-index:60 !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    width:100% !important;
+    height:var(--bottom-nav-height) !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:4px max(10px,var(--safe-right)) var(--nav-safe-bottom) max(10px,var(--safe-left)) !important;
+    box-sizing:border-box !important;
+    transform:none !important;
+    align-items:center !important;
+    background:#FFF !important;
+  }
+
+  .bottom-nav button{
+    height:60px !important;
+    min-height:60px !important;
+    padding:4px 2px !important;
+    grid-template-rows:28px 19px !important;
+    align-content:center !important;
+    gap:3px !important;
+    border-radius:18px !important;
+  }
+
+  .bottom-nav button>span:last-child{
+    line-height:19px !important;
+  }
+
+  .fab{
+    position:absolute !important;
+    z-index:61 !important;
+    right:max(18px,var(--safe-right)) !important;
+    bottom:calc(var(--bottom-nav-height) + 10px) !important;
+  }
+
+  .subpage{
+    position:absolute !important;
+    z-index:70 !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:none !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+    transform:none !important;
+    transition:none !important;
+    background:var(--bg) !important;
+    box-sizing:border-box !important;
+  }
+
+  .subpage.open{
+    display:flex !important;
+    transform:none !important;
+  }
+
+  .sub-topbar{
+    position:relative !important;
+    top:auto !important;
+    flex:0 0 auto !important;
+    width:100% !important;
+    height:calc(68px + var(--safe-top)) !important;
+    min-height:calc(68px + var(--safe-top)) !important;
+    padding:var(--safe-top) max(12px,var(--safe-right)) 0 max(12px,var(--safe-left)) !important;
+    box-sizing:border-box !important;
+    background:rgba(248,247,242,.98) !important;
+  }
+
+  .subpage > .content,
+  .subpage > .form,
+  .subpage > .detail-wrap{
+    width:100% !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    overscroll-behavior-y:contain !important;
+    -webkit-overflow-scrolling:touch !important;
+    padding-bottom:calc(28px + var(--safe-bottom)) !important;
+    box-sizing:border-box !important;
+  }
+
+  body.subpage-open .bottom-nav,
+  body.subpage-open .fab{
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+
+  .sheet-backdrop,
+  .modal-backdrop{
+    position:absolute !important;
+    z-index:100 !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:100% !important;
+  }
+
+  .sheet{
+    position:absolute !important;
+    z-index:101 !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:var(--keyboard-offset) !important;
+    width:100% !important;
+    max-width:none !important;
+    max-height:calc(100% - var(--keyboard-offset) - var(--safe-top) - 8px) !important;
+    margin:0 !important;
+    padding:12px max(18px,var(--safe-right)) calc(18px + var(--safe-bottom)) max(18px,var(--safe-left)) !important;
+    box-sizing:border-box !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    overscroll-behavior:contain !important;
+    -webkit-overflow-scrolling:touch !important;
+    transform:none !important;
+  }
+
+  body.keyboard-open .sheet{
+    padding-bottom:18px !important;
+  }
+
+  body.sheet-open .page.active,
+  body.sheet-open .subpage.open{
+    overflow:hidden !important;
+  }
+
+  .modal-card{
+    max-height:calc(100% - var(--safe-top) - var(--safe-bottom) - 32px) !important;
+  }
+
+  .toast{
+    position:absolute !important;
+    z-index:180 !important;
+    left:50% !important;
+    right:auto !important;
+    bottom:calc(var(--keyboard-offset) + var(--bottom-nav-height) + 12px) !important;
+    width:min(420px,calc(100% - 32px)) !important;
+    min-width:250px !important;
+    max-width:calc(100% - 32px) !important;
+    min-height:52px !important;
+    margin:0 !important;
+    padding:10px 16px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    box-sizing:border-box !important;
+    transform:translate(-50%,18px) !important;
+  }
+
+  .toast.show{
+    transform:translate(-50%,0) !important;
+  }
+
+  #toastText{
+    display:block !important;
+    width:100% !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    text-align:center !important;
+    line-height:1.5 !important;
+    overflow-wrap:anywhere !important;
+  }
+
+  .toast.has-action{
+    padding-left:64px !important;
+    padding-right:64px !important;
+  }
+
+  #toastAction{
+    position:absolute !important;
+    top:50% !important;
+    right:10px !important;
+    left:auto !important;
+    margin:0 !important;
+    transform:translateY(-50%) !important;
+  }
+
+  @media(max-width:370px){
+    .bottom-nav{
+      padding-left:7px !important;
+      padding-right:7px !important;
+    }
+    .bottom-nav button{
+      height:58px !important;
+      min-height:58px !important;
+    }
+  }
+
+  @media(min-width:800px){
+    body{
+      padding:18px 0 !important;
+      background:#F0EFEA !important;
+    }
+    .app{
+      width:480px !important;
+      height:calc(100% - 36px) !important;
+      max-height:calc(100% - 36px) !important;
+      border-radius:28px !important;
+      box-shadow:0 0 42px rgba(38,48,34,.08) !important;
+    }
+    .subpage{
+      border-radius:28px !important;
+    }
+    .bottom-nav{
+      --nav-safe-bottom:6px;
+    }
   }
 </style>
 
@@ -5092,6 +4362,7 @@ svg{display:block}
     pendingImport:null,
     authUser:null,
     syncStatus:'local',
+    cloudHydrating:false,
     homeScope:'mine',
     community:{
       methods:[],
@@ -5264,59 +4535,67 @@ svg{display:block}
     const {firestoreApi}=await loadFirebase();
     const collectionName=cloudStoreName(store);
     const ref=firestoreApi.collection(cloudDb,'users',user.uid,collectionName);
-    const remoteSnap=await firestoreApi.getDocs(ref);
+    const getRemote=firestoreApi.getDocsFromServer||firestoreApi.getDocs;
+    const remoteSnap=await getRemote(ref);
     const remoteItems=remoteSnap.docs.map(d=>({id:d.id,...d.data()}));
     const remoteMap=new Map(remoteItems.map(item=>[item.id,item]));
-    const localMap=new Map((items||[]).map(item=>[item.id,item]));
-    const importLocal=Boolean(options.importLocal);
+    const localItems=Array.isArray(items)?items:[];
+    const localMap=new Map(localItems.map(item=>[item.id,item]));
 
     applyingRemote=true;
     try{
       for(const remote of remoteItems){
         const local=localMap.get(remote.id);
+
         if(!local){
-          if(store===STORE_METHODS) remote.images=[];
-          await localPut(store,remote);
+          const downloaded={...remote};
+          if(store===STORE_METHODS) downloaded.images=[];
+          await localPut(store,downloaded);
           continue;
         }
 
         if(store===STORE_CATEGORIES){
-          await localPut(store,{...remote});
+          const mergedCategory={...local,...remote};
+          await localPut(store,mergedCategory);
           continue;
         }
 
         const localTime=cloudDateValue(local);
         const remoteTime=cloudDateValue(remote);
-        if(localTime && remoteTime && localTime>remoteTime){
+
+        if(localTime && (!remoteTime || localTime>remoteTime)){
           await firestoreApi.setDoc(
             firestoreApi.doc(cloudDb,'users',user.uid,collectionName,local.id),
             cleanCloudValue(store,local)
           );
         }else{
-          const merged={...remote};
+          const downloaded={...remote};
           if(store===STORE_METHODS){
-            merged.images=Array.isArray(local.images)?local.images:[];
+            downloaded.images=Array.isArray(local.images)?local.images:[];
           }
-          await localPut(store,merged);
+          await localPut(store,downloaded);
         }
       }
 
-      for(const local of (items||[])){
+      /*
+       * 本机独有的数据始终上传，不再因“云端暂时为空”而删除。
+       * 这能保护电脑里已有、但以前没有成功写入 Firebase 的历史记录。
+       */
+      for(const local of localItems){
         if(remoteMap.has(local.id)) continue;
-        if(importLocal){
-          await firestoreApi.setDoc(
-            firestoreApi.doc(cloudDb,'users',user.uid,collectionName,local.id),
-            cleanCloudValue(store,local)
-          );
-        }else{
-          await localDelete(store,local.id);
-        }
+        await firestoreApi.setDoc(
+          firestoreApi.doc(cloudDb,'users',user.uid,collectionName,local.id),
+          cleanCloudValue(store,local)
+        );
       }
     }finally{
       applyingRemote=false;
     }
 
-    return {remoteCount:remoteItems.length};
+    return {
+      remoteCount:remoteItems.length,
+      localCount:localItems.length
+    };
   }
 
   async function seedDefaultCategoriesLocal(){
@@ -5376,15 +4655,16 @@ svg{display:block}
   }
 
   async function recoverAdminMethodsFromCommunity(user){
-    if(!user || user.uid!==FIREBASE_ADMIN_UID) return 0;
+    if(!user || !isAdmin(user)) return 0;
 
     const {firestoreApi}=await loadFirebase();
     const queryRef=firestoreApi.query(
       firestoreApi.collection(cloudDb,'communityMethods'),
       firestoreApi.where('ownerUid','==',user.uid),
-      firestoreApi.limit(200)
+      firestoreApi.limit(300)
     );
-    const snap=await firestoreApi.getDocs(queryRef);
+    const getRemote=firestoreApi.getDocsFromServer||firestoreApi.getDocs;
+    const snap=await getRemote(queryRef);
     if(snap.empty) return 0;
 
     const existing=await getAll(STORE_METHODS);
@@ -5505,20 +4785,24 @@ svg{display:block}
     applyingRemote=true;
     try{
       const remoteDocs=snapshot.docs.map(d=>({id:d.id,...d.data()}));
-      const remoteIds=new Set(remoteDocs.map(x=>x.id));
       const localItems=await getAll(store);
-      const localById=new Map(localItems.map(x=>[x.id,x]));
+      const localById=new Map(localItems.map(item=>[item.id,item]));
 
-      for(const local of localItems){
-        if(!remoteIds.has(local.id)) await localDelete(store,local.id);
-      }
-
+      /*
+       * 实时快照只负责新增和更新，不再根据“缺失”清空本机数据。
+       * 删除仍会在当前设备立即生效并写入云端；优先避免历史记录被误删。
+       */
       for(const remote of remoteDocs){
+        const local=localById.get(remote.id);
+        const merged={...remote};
+
         if(store===STORE_METHODS){
-          const existing=localById.get(remote.id);
-          remote.images=Array.isArray(existing?.images)?existing.images:[];
+          merged.images=Array.isArray(local?.images)?local.images:[];
         }
-        await localPut(store,remote);
+
+        if(!local || cloudDateValue(remote)>=cloudDateValue(local)){
+          await localPut(store,merged);
+        }
       }
     }finally{
       applyingRemote=false;
@@ -5574,7 +4858,9 @@ svg{display:block}
     }
 
     try{
+      state.cloudHydrating=true;
       setSyncStatus('connecting');
+      renderHome();
       const accountState=await prepareLocalAccount(user);
       await migrateLocalToCloud(user,{importLocal:accountState.importLocal});
       await recoverAdminMethodsFromCommunity(user);
@@ -5584,10 +4870,12 @@ svg{display:block}
       await loadNotificationSeenAt();
       setSyncStatus('synced');
       refreshNotifications({silent:true});
+      state.cloudHydrating=false;
       renderAll();
       window.__ysjRefreshViewport?.(true);
     }catch(error){
       console.error('Firebase 初始化失败',error);
+      state.cloudHydrating=false;
       setSyncStatus('error');
       showToast('云同步连接失败，本地记录仍可使用',null);
       window.__ysjRefreshViewport?.(true);
@@ -7001,6 +6289,11 @@ svg{display:block}
     const methods=getFilteredMethods('home');
     const box=document.getElementById('homeContent');
 
+    if(state.cloudHydrating && state.authUser && !state.methods.length){
+      box.innerHTML=`<div class="empty"><div><div class="empty-ink">云</div><h3>正在同步历史数据</h3><p>正在读取这个账号在其他设备保存的内容…</p></div></div>`;
+      return;
+    }
+
     if(!state.methods.length){
       box.innerHTML=`<div class="empty"><div><div class="empty-ink">笺</div><h3>还没有养生方法</h3><p>看到值得尝试的内容，就把它记在这里。</p><button class="primary-btn" data-empty-add>记录第一个方法</button></div></div>`;
       return;
@@ -7196,7 +6489,6 @@ svg{display:block}
     sub.classList.remove('swiping-back');
     sub.style.removeProperty('--swipe-back-x');
     sub.style.removeProperty('transform');
-
     sub.classList.add('open');
     sub.dataset.openSeq=String(++subpageOpenSeq);
     sub.style.zIndex=String(70+subpageOpenSeq);
@@ -7204,7 +6496,6 @@ svg{display:block}
     const oldIndex=subpageHistory.indexOf(id);
     if(oldIndex>=0) subpageHistory.splice(oldIndex,1);
     subpageHistory.push(id);
-
     syncSubpageOpenState();
 
     requestAnimationFrame(()=>{
@@ -7224,7 +6515,6 @@ svg{display:block}
 
     const index=subpageHistory.lastIndexOf(id);
     if(index>=0) subpageHistory.splice(index,1);
-
     syncSubpageOpenState();
   }
 
@@ -7302,43 +6592,26 @@ svg{display:block}
 
       const sub=topOpenSubpage();
       if(!sub) return;
-
-      swipe={
-        sub,
-        startX:touch.clientX,
-        startY:touch.clientY,
-        dx:0,
-        dy:0
-      };
+      swipe={sub,startX:touch.clientX,startY:touch.clientY,dx:0,dy:0};
     },{passive:true});
 
     document.addEventListener('touchmove',e=>{
-      if(!swipe || e.touches.length!==1) return;
-
+      if(!swipe||e.touches.length!==1) return;
       const touch=e.touches[0];
       swipe.dx=Math.max(0,touch.clientX-swipe.startX);
       swipe.dy=touch.clientY-swipe.startY;
-
-      if(swipe.dx>16 && swipe.dx>Math.abs(swipe.dy)*1.15){
-        e.preventDefault();
-      }
+      if(swipe.dx>16&&swipe.dx>Math.abs(swipe.dy)*1.15) e.preventDefault();
     },{passive:false});
 
-    const finishSwipe=()=>{
+    document.addEventListener('touchend',()=>{
       if(!swipe) return;
       const current=swipe;
       swipe=null;
-
-      const shouldClose=
-        current.dx>72 &&
-        current.dx>Math.abs(current.dy)*1.2;
-
-      if(shouldClose){
+      if(current.dx>72&&current.dx>Math.abs(current.dy)*1.2){
         closeSubById(current.sub.id);
       }
-    };
+    },{passive:true});
 
-    document.addEventListener('touchend',finishSwipe,{passive:true});
     document.addEventListener('touchcancel',()=>{swipe=null;},{passive:true});
   }
 
@@ -8315,79 +7588,68 @@ svg{display:block}
 })();
 </script>
 
-<script id="yangsheng-subpage-cleanup-v51">
+<script id="yangsheng-keyboard-only-v54">
 (function(){
-  function normalizeSubpages(){
-    document.querySelectorAll('.subpage').forEach(function(sub){
-      sub.classList.remove('swiping-back');
-      sub.style.removeProperty('--swipe-back-x');
-      sub.style.removeProperty('transform');
-    });
+  var root=document.documentElement;
+  var timer=0;
 
-    if(typeof syncSubpageOpenState==='function'){
-      syncSubpageOpenState();
-    }
+  function isEditable(el){
+    return !!el && !!el.matches && el.matches('input,textarea,select,[contenteditable="true"]');
   }
 
-  window.addEventListener('pageshow',normalizeSubpages);
-  window.addEventListener('orientationchange',function(){
-    setTimeout(normalizeSubpages,80);
-  });
-  document.addEventListener('visibilitychange',function(){
-    if(!document.hidden) normalizeSubpages();
-  });
-})();
-</script>
+  function updateKeyboardOffset(){
+    var vv=window.visualViewport;
+    var layoutHeight=Math.max(Number(window.innerHeight)||0, Number(document.documentElement.clientHeight)||0);
+    var visibleHeight=vv ? Number(vv.height)||layoutHeight : layoutHeight;
+    var offsetTop=vv ? Number(vv.offsetTop)||0 : 0;
+    var inset=Math.max(0,layoutHeight-visibleHeight-offsetTop);
+    var open=isEditable(document.activeElement) && inset>100;
 
-
-<script id="yangsheng-standalone-layout-refresh-v52">
-(function(){
-  function refreshStandaloneLayout(){
-    var app=document.querySelector('.app');
-    if(app){
-      app.style.removeProperty('height');
-      app.style.removeProperty('min-height');
-      app.style.removeProperty('max-height');
-    }
-
-    document.documentElement.style.setProperty(
-      '--standalone-layout-tick',
-      String(Date.now())
-    );
-
-    if(typeof window.__ysjRefreshViewport==='function'){
-      window.__ysjRefreshViewport(true);
-    }
+    root.style.setProperty('--keyboard-offset',open?Math.round(inset)+'px':'0px');
+    document.body.classList.toggle('keyboard-open',open);
   }
 
-  window.addEventListener('pageshow',function(){
-    requestAnimationFrame(refreshStandaloneLayout);
-    setTimeout(refreshStandaloneLayout,120);
-  });
+  function schedule(delay){
+    clearTimeout(timer);
+    timer=setTimeout(updateKeyboardOffset,delay||0);
+  }
 
-  window.addEventListener('orientationchange',function(){
-    setTimeout(refreshStandaloneLayout,120);
-    setTimeout(refreshStandaloneLayout,420);
-  });
+  window.__ysjRefreshViewport=function(){
+    updateKeyboardOffset();
+    schedule(80);
+    schedule(260);
+  };
 
-  document.addEventListener('visibilitychange',function(){
-    if(!document.hidden) setTimeout(refreshStandaloneLayout,80);
-  });
+  document.addEventListener('focusin',function(e){
+    if(isEditable(e.target)) schedule(30);
+  },true);
+  document.addEventListener('focusout',function(){schedule(120);},true);
+  window.addEventListener('resize',function(){schedule(20);},{passive:true});
+  window.addEventListener('orientationchange',function(){schedule(120);schedule(420);},{passive:true});
+  window.addEventListener('pageshow',function(){schedule(30);},{passive:true});
+  document.addEventListener('visibilitychange',function(){if(!document.hidden) schedule(50);});
+
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',function(){schedule(20);},{passive:true});
+    window.visualViewport.addEventListener('scroll',function(){schedule(20);},{passive:true});
+  }
 
   document.addEventListener('DOMContentLoaded',function(){
-    refreshStandaloneLayout();
-
+    updateKeyboardOffset();
     var backdrop=document.getElementById('sheetBackdrop');
     if(backdrop){
       new MutationObserver(function(){
-        if(!backdrop.classList.contains('show')){
-          setTimeout(refreshStandaloneLayout,120);
-          setTimeout(refreshStandaloneLayout,320);
+        var shown=backdrop.classList.contains('show');
+        document.body.classList.toggle('sheet-open',shown);
+        if(!shown){
+          if(isEditable(document.activeElement)) document.activeElement.blur();
+          root.style.setProperty('--keyboard-offset','0px');
+          document.body.classList.remove('keyboard-open');
+          schedule(100);
+        }else{
+          schedule(20);
         }
-      }).observe(backdrop,{
-        attributes:true,
-        attributeFilter:['class']
-      });
+      }).observe(backdrop,{attributes:true,attributeFilter:['class']});
     }
   });
 })();
