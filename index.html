@@ -424,15 +424,15 @@ svg{display:block}
 
 /* Floating add */
 .fab{
-  position:fixed;
-  z-index:30;
-  right:max(18px,calc((100vw - 480px)/2 + 18px));
-  bottom:calc(92px + var(--safe-bottom));
-  width:60px;height:60px;
-  padding:0;
-  display:grid;
-  place-items:center;
-  border:5px solid var(--bg);
+  position:fixed !important;
+  z-index:60 !important;
+  right:max(18px,calc((100vw - 480px)/2 + 18px)) !important;
+  bottom:calc(92px + var(--safe-bottom)) !important;
+  width:60px;height:60px !important;
+  padding:0 !important;
+  display:grid !important;
+  place-items:center !important;
+  border:5px solid var(--bg) !important;
   border-radius:50%;
   background:linear-gradient(145deg,#7C9F58,#628743);
   color:#FFF;
@@ -443,20 +443,21 @@ svg{display:block}
 
 /* Bottom nav */
 .bottom-nav{
-  position:fixed;
-  z-index:25;
-  left:50%;bottom:0;
-  transform:translateX(-50%);
-  width:min(100%,480px);
-  height:calc(80px + var(--safe-bottom));
-  padding:7px 12px var(--safe-bottom);
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  align-items:center;
-  gap:8px;
-  border-top:1px solid var(--line);
-  background:rgba(255,255,253,.98);
-  backdrop-filter:blur(18px);
+  position:fixed !important;
+  z-index:50 !important;
+  left:50% !important;
+  bottom:0 !important;
+  transform:translateX(-50%) !important;
+  width:min(100%,480px) !important;
+  height:calc(80px + var(--safe-bottom)) !important;
+  padding:7px 12px var(--safe-bottom) !important;
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  align-items:center !important;
+  gap:8px !important;
+  border-top:1px solid var(--line) !important;
+  background:rgba(255,255,253,.98) !important;
+  backdrop-filter:blur(18px) !important;
 }
 .bottom-nav button{
   width:100%;
@@ -970,7 +971,7 @@ svg{display:block}
 .category-row{
   min-height:74px;
   margin-bottom:10px;
-  padding:12px 13px;
+  padding:12px 16px;
   display:flex;
   align-items:center;
   gap:12px;
@@ -1038,13 +1039,14 @@ svg{display:block}
   left:50%;bottom:calc(91px + var(--safe-bottom));
   transform:translate(-50%,18px);
   min-width:210px;max-width:calc(100% - 32px);
-  padding:16px 20px;
-  display:flex;align-items:center;justify-content:center;gap:15px;
+  padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
   border-radius:10px;
   background:rgba(0,0,0,0.82);
   color:#FFF;
   font-size:15px;
   font-weight:500;
+  min-height:52px;
   opacity:0;
   pointer-events:none;
   transition:.2s;
