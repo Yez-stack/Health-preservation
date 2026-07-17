@@ -6013,9 +6013,15 @@ body.ysj-sheet-locked{
   }
 
   async function setCommunityVisibility(methodId,status){
-    if(!requireLogin()) return;
+    if(!requireLogin()){
+      showToast('请先登录后再操作',null);
+      return;
+    }
     const method=methodById(methodId);
-    if(!method?.communityId) return;
+    if(!method?.communityId){
+      showToast('该方法尚未发布到社区',null);
+      return;
+    }
 
     try{
       const {firestoreApi}=await loadFirebase();
@@ -7076,15 +7082,17 @@ body.ysj-sheet-locked{
 
   function renderFormImages(){
     const box=document.getElementById('imageList');
-    box.innerHTML=state.formImages.map((src,i)=>`
-      <div class="image-item" data-img-index="${i}">
-        <img src="${src}" alt="图片 ${i+1}">
-        ${i===0?`<span class="cover-badge">封面</span>`:''}
-        <div class="img-tools">
-          ${i>0?`<button type="button" data-img-cover="${i}">设封面</button>`:''}
-          <button type="button" data-img-remove="${i}">删除</button>
-        </div>
-      </div>`).join('');
+    if(state.formImages.length === 0){
+      box.innerHTML = '';
+      return;
+    }
+    const src = state.formImages[0];
+    box.innerHTML = `
+      <div class="image-preview-single">
+        <img src="${src}" alt="方法图片">
+        <button type="button" class="img-remove-x" data-img-remove="0">×</button>
+      </div>
+    `;
   }
 
   async function compressImage(file,max=1400,quality=.82){
@@ -7614,7 +7622,7 @@ body.ysj-sheet-locked{
       await reloadData();
     };
     renderAll();
-    showToast('已删除',state.undo);
+    showToast('已删除');
   }
 
   async function deleteNoteNow(id){
@@ -7780,22 +7788,21 @@ body.ysj-sheet-locked{
     });
   }
 
-  function showToast(text,undoFn){
+  function showToast(text){
     clearTimeout(state.toastTimer);
     const toast=document.getElementById('toast');
     const textEl=document.getElementById('toastText');
     const action=document.getElementById('toastAction');
 
     textEl.textContent=text;
-    action.classList.toggle('hidden',!undoFn);
-    toast.classList.toggle('has-action',Boolean(undoFn));
-    state.undo=undoFn||null;
+    action.classList.add('hidden');
+    toast.classList.remove('has-action');
+    state.undo=null;
     toast.classList.add('show');
 
     state.toastTimer=setTimeout(()=>{
       toast.classList.remove('show','has-action');
       action.classList.add('hidden');
-      state.undo=null;
     },4000);
   }
 
@@ -7886,7 +7893,7 @@ body.ysj-sheet-locked{
       for(const m of affected) await put(STORE_METHODS,m);
       await reloadData();
     };
-    closeModal();renderAll();showToast('已删除分类',state.undo);
+    closeModal();renderAll();showToast('已删除分类');
   }
 
   function closeModal(){document.getElementById('modalBackdrop').classList.remove('show');}
@@ -8061,7 +8068,12 @@ body.ysj-sheet-locked{
       const morem=e.target.closest('[data-more-method]');if(morem){openMethodMoreSheet(morem.dataset.moreMethod);return;}
       const moreEdit=e.target.closest('[data-more-edit]');if(moreEdit){closeSheet();openMethodForm(methodById(moreEdit.dataset.moreEdit));return;}
       const moreDelete=e.target.closest('[data-more-delete]');if(moreDelete){closeSheet();openDeleteMethodSheet(moreDelete.dataset.moreDelete);return;}
-      const editm=e.target.closest('[data-edit-method]');if(editm){openMethodMoreSheet(editm.dataset.editMethod||state.detailMethodId);return;}
+      const editm=e.target.closest('[data-edit-method]');if(editm){
+        const id = editm.dataset.editMethod || state.detailMethodId;
+        closeSubById('sub-detail');
+        setTimeout(() => openMethodForm(methodById(id)), 50);
+        return;
+      }
       const delm=e.target.closest('[data-delete-method]');if(delm){openDeleteMethodSheet(delm.dataset.deleteMethod);return;}
       const editn=e.target.closest('[data-edit-note]');if(editn){const n=state.notes.find(x=>x.id===editn.dataset.editNote);if(n)openNoteSheet(n.methodId,n);return;}
       const deln=e.target.closest('[data-delete-note]');if(deln){await deleteNoteNow(deln.dataset.deleteNote);return;}
@@ -8103,9 +8115,14 @@ body.ysj-sheet-locked{
     document.getElementById('methodForm').addEventListener('submit',saveMethod);
     document.getElementById('methodImages').addEventListener('change',async e=>{
       const files=[...e.target.files];
-      for(const file of files){
-        try{state.formImages.push(await compressImage(file));renderFormImages();}
-        catch(err){showToast('有图片处理失败',null);}
+      if(files.length > 0){
+        try{
+          // 只保留最后一张（单图模式）
+          state.formImages = [await compressImage(files[files.length-1])];
+          renderFormImages();
+        }catch(err){
+          showToast('图片处理失败',null);
+        }
       }
       e.target.value='';
     });
