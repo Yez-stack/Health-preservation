@@ -8,7 +8,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <title>养生笺</title>
-<meta content="v57-stable-layout-popup-login" name="app-version"/>
+<meta content="v58-initial-layout-calibration" name="app-version"/>
 <meta content="养生笺" name="application-name"/>
 <meta content="养生笺" name="apple-mobile-web-app-title"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -3875,8 +3875,23 @@ body.ysj-sheet-locked{
   .fab{bottom:111px!important}
   .subpage{top:18px!important;bottom:18px!important;height:auto!important;max-height:none!important;border-radius:28px!important}
 }
-</style></head>
-<body>
+</style>
+<style id="yangsheng-initial-tab-calibration-v58">
+  /*
+   * iPhone 主屏幕首次启动时，系统有时会先给出偏小的布局视口。
+   * 手动切换 Tab 后会恢复，因此启动阶段先隐藏 App，自动完成同样的布局校准。
+   */
+  body.ysj-boot-calibrating .app{
+    visibility:hidden !important;
+  }
+
+  body.ysj-boot-calibrating{
+    background:var(--bg) !important;
+  }
+</style>
+
+</head>
+<body class="ysj-boot-calibrating">
 <div class="app">
 <section class="page active" id="page-home">
 <header class="topbar">
@@ -4972,9 +4987,12 @@ body.ysj-sheet-locked{
     bindSwipeBack();
     renderAll();
     renderNotifications();
+
+    const fab=document.getElementById('addFab');
+    if(fab) fab.style.display='grid';
+
+    await calibrateInitialTabLayout();
     initFirebaseBridge();
-    const fab = document.getElementById('addFab');
-    if(fab) fab.style.display = 'grid';
     if(new URLSearchParams(location.search).get('screen') === 'add'){
       setTimeout(()=>openMethodForm(),120);
     }
@@ -6308,6 +6326,41 @@ body.ysj-sheet-locked{
     bindCategoryDragEvents();
   }
 
+
+  function nextLayoutFrame(){
+    return new Promise(resolve=>requestAnimationFrame(resolve));
+  }
+
+  async function calibrateInitialTabLayout(){
+    const body=document.body;
+    const activeButton=document.querySelector('.bottom-nav button.active[data-tab]');
+    const initialTab=activeButton?.dataset.tab||'home';
+    const alternateTab=initialTab==='me'?'home':'me';
+
+    body.classList.add('ysj-boot-calibrating');
+
+    /*
+     * 用户手动切换“我的”再回首页后布局会恢复。
+     * 这里在不可见状态下自动完成同样的过程。
+     */
+    await nextLayoutFrame();
+    switchTab(alternateTab);
+    void document.documentElement.offsetHeight;
+
+    await nextLayoutFrame();
+    switchTab(initialTab);
+
+    const nav=document.querySelector('.bottom-nav');
+    const activePage=document.querySelector('.page.active');
+    if(nav) void nav.offsetHeight;
+    if(activePage) void activePage.offsetHeight;
+
+    window.scrollTo(0,0);
+
+    await nextLayoutFrame();
+    body.classList.remove('ysj-boot-calibrating');
+  }
+
   function switchTab(tab){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(`page-${tab}`).classList.add('active');
@@ -7429,8 +7482,15 @@ body.ysj-sheet-locked{
     
   }
 
+
+    window.addEventListener('pageshow',event=>{
+      if(!event.persisted) return;
+      calibrateInitialTabLayout().catch(console.error);
+    });
+
   bootstrap().catch(err=>{
     console.error(err);
+    document.body.classList.remove('ysj-boot-calibrating');
     document.getElementById('homeContent').innerHTML=`<div class="empty"><div><h3>初始化失败</h3><p>请尝试使用最新版浏览器重新打开。</p></div></div>`;
   });
 })();
@@ -7552,5 +7612,16 @@ body.ysj-sheet-locked{
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
   else init();
 })();
-</script></body>
+</script>
+<script id="yangsheng-boot-visibility-fallback-v58">
+(function(){
+  setTimeout(function(){
+    if(document.body){
+      document.body.classList.remove('ysj-boot-calibrating');
+    }
+  },1800);
+})();
+</script>
+
+</body>
 </html>
