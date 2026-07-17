@@ -8,7 +8,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <title>养生笺</title>
-<meta content="v61-fixed-app-shell-bottom-tabs" name="app-version"/>
+<meta content="v62-standalone-tab-height-correction" name="app-version"/>
 <meta content="养生笺" name="application-name"/>
 <meta content="养生笺" name="apple-mobile-web-app-title"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -4323,6 +4323,75 @@ body.ysj-sheet-locked{
   }
 </style>
 
+
+<script id="yangsheng-standalone-detector-v62">
+(function(){
+  var standalone =
+    window.navigator.standalone === true ||
+    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  if(standalone){
+    document.documentElement.classList.add('ysj-ios-standalone');
+  }
+})();
+</script>
+
+
+<style id="yangsheng-standalone-tab-height-v62">
+  :root{
+    --ysj-tab-bottom-inset:var(--safe-bottom);
+  }
+
+  /*
+   * iPhone 保存到主屏幕后，当前视口已经避开底部系统控件区域。
+   * 旧代码又把 safe-area-inset-bottom 加进导航高度和内边距，
+   * 导致底部出现一段重复留白。
+   */
+  html.ysj-ios-standalone{
+    --ysj-tab-bottom-inset:0px;
+  }
+
+  .bottom-nav{
+    height:calc(80px + var(--ysj-tab-bottom-inset)) !important;
+    padding:
+      7px
+      max(12px,var(--safe-right))
+      max(6px,var(--ysj-tab-bottom-inset))
+      max(12px,var(--safe-left)) !important;
+  }
+
+  .page{
+    padding-bottom:calc(112px + var(--ysj-tab-bottom-inset)) !important;
+  }
+
+  .fab{
+    bottom:calc(92px + var(--ysj-tab-bottom-inset)) !important;
+  }
+
+  /*
+   * standalone 下导航总高固定为 80px，
+   * 按钮向真正的屏幕底部靠齐，不再多留一层 34px 左右的空白。
+   */
+  html.ysj-ios-standalone .bottom-nav{
+    height:80px !important;
+    padding-bottom:6px !important;
+  }
+
+  html.ysj-ios-standalone .page{
+    padding-bottom:112px !important;
+  }
+
+  html.ysj-ios-standalone .fab{
+    bottom:92px !important;
+  }
+
+  @media(min-width:800px){
+    html.ysj-ios-standalone .bottom-nav{
+      height:80px !important;
+      padding-bottom:6px !important;
+    }
+  }
+</style>
+
 </head>
 <body class="ysj-boot-calibrating">
 <div class="app">
@@ -8116,6 +8185,25 @@ body.ysj-sheet-locked{
   }else{
     init();
   }
+})();
+</script>
+
+
+<script id="yangsheng-standalone-runtime-v62">
+(function(){
+  function syncStandaloneMode(){
+    var standalone =
+      window.navigator.standalone === true ||
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+    document.documentElement.classList.toggle('ysj-ios-standalone',standalone);
+  }
+
+  window.addEventListener('pageshow',syncStandaloneMode);
+  window.addEventListener('resize',syncStandaloneMode);
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden) syncStandaloneMode();
+  });
+  syncStandaloneMode();
 })();
 </script>
 
