@@ -4338,45 +4338,57 @@ body.ysj-sheet-locked{
 
 <style id="yangsheng-standalone-tab-height-v62">
   :root{
-    --ysj-tab-bottom-inset:var(--safe-bottom);
+    --ysj-tab-bottom-inset: var(--safe-bottom);
   }
 
-  /*
-   * iPhone 保存到主屏幕后，当前视口已经避开底部系统控件区域。
-   * 旧代码又把 safe-area-inset-bottom 加进导航高度和内边距，
-   * 导致底部出现一段重复留白。
-   */
+  /* iOS 保存到主屏幕 (standalone) 下彻底禁用底部安全区重复计算 */
   html.ysj-ios-standalone{
-    --ysj-tab-bottom-inset:0px;
+    --ysj-tab-bottom-inset: 0px;
   }
 
   .bottom-nav{
-    height:calc(80px + var(--ysj-tab-bottom-inset)) !important;
+    height: calc(80px + var(--ysj-tab-bottom-inset)) !important;
     padding:
       7px
-      max(12px,var(--safe-right))
-      max(6px,var(--ysj-tab-bottom-inset))
-      max(12px,var(--safe-left)) !important;
+      max(12px, var(--safe-right))
+      max(6px, var(--ysj-tab-bottom-inset))
+      max(12px, var(--safe-left)) !important;
+    box-sizing: border-box !important;
   }
 
   .page{
-    padding-bottom:calc(112px + var(--ysj-tab-bottom-inset)) !important;
+    padding-bottom: calc(112px + var(--ysj-tab-bottom-inset)) !important;
   }
 
   .fab{
-    bottom:calc(92px + var(--ysj-tab-bottom-inset)) !important;
+    bottom: calc(92px + var(--ysj-tab-bottom-inset)) !important;
+  }
+
+  /* subpage（我的、收藏等）也同步修正 */
+  .subpage{
+    padding-bottom: calc(28px + var(--ysj-tab-bottom-inset)) !important;
   }
 
   /*
    * standalone 下导航总高固定为 80px，
-   * 按钮向真正的屏幕底部靠齐，不再多留一层 34px 左右的空白。
+   * 按钮紧贴屏幕底部，不再出现多余留白。
    */
   html.ysj-ios-standalone .bottom-nav{
-    height:80px !important;
-    padding-bottom:6px !important;
+    height: 80px !important;
+    padding-bottom: 6px !important;
   }
 
   html.ysj-ios-standalone .page{
+    padding-bottom: 112px !important;
+  }
+
+  html.ysj-ios-standalone .fab{
+    bottom: 92px !important;
+  }
+
+  html.ysj-ios-standalone .subpage{
+    padding-bottom: 28px !important;
+  }
     padding-bottom:112px !important;
   }
 
